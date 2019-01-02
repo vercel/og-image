@@ -1,0 +1,16 @@
+{
+  "name": "og-image",
+  "version": "1.0.0",
+  "description": "Generate an open graph image for twitter/facebook/etc",
+  "main": "card.js",
+  "scripts": {
+    "dev": "node dev.js"
+  },
+  "author": "styfle",
+  "repository": "github:styfle/og-image",
+  "license": "MIT",
+  "dependencies": {
+    "chrome-aws-lambda": "1.11.1",
+    "puppeteer-core": "1.11.0"
+  }
+}
