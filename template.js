@@ -2,6 +2,12 @@
 const logo = 'https://assets.zeit.co/image/upload/front/assets/design/now-black.svg';
 
 const css = `
+@import url('https://rsms.me/inter/inter-ui.css');
+html { font-family: 'Inter UI', sans-serif; }
+@supports (font-variation-settings: normal) {
+  html { font-family: 'Inter UI var alt', sans-serif; }
+}
+
 body {
     background: white;
     background-image: radial-gradient(lightgray 5%, transparent 0);
