@@ -29,7 +29,6 @@ body {
 }
   
 .heading {
-    font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
     font-size: 75px;
     font-weight: bold;
 }`;
