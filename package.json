@@ -12,5 +12,9 @@
   "dependencies": {
     "chrome-aws-lambda": "1.11.1",
     "puppeteer-core": "1.11.0"
+  },
+  "devDependencies": {
+    "@types/puppeteer-core": "^1.9.0",
+    "typescript": "^3.2.4"
   }
 }
