@@ -4,7 +4,9 @@
   "description": "Generate an open graph image for twitter/facebook/etc",
   "main": "card.js",
   "scripts": {
-    "start": "node card.js"
+    "start": "node card.js",
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "author": "styfle",
   "repository": "github:styfle/og-image",
