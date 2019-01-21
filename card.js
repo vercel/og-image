@@ -3,11 +3,16 @@ const { getScreenshot } = require('./chromium');
 const { getHtml } = require('./template');
 const { writeTempFile, pathToFileURL } = require('./file');
 
-module.exports = async function (req, res) {
+async function handler(req, res) {
     try {
-        let { type = 'png', text = 'Hello' } = parseRequest(req);
+        let {
+            type = 'png',
+            text = 'Hello',
+            fontWeight = 'bold',
+            image = 'now-black',
+        } = parseRequest(req);
         const name = decodeURIComponent(text);
-        const html = getHtml(name);
+        const html = getHtml(name, fontWeight, image);
         const filePath = await writeTempFile(name, html);
         const fileUrl = pathToFileURL(filePath);
         const file = await getScreenshot(fileUrl, type);
@@ -23,3 +28,12 @@ module.exports = async function (req, res) {
     }
 };
 
+
+if (!process.env.NOW_REGION) {
+    const { createServer } = require('http');
+    const PORT = process.env.PORT || 3000;
+    const listen = () => console.log(`Listening on ${PORT}...`);
+    createServer(handler).listen(PORT, listen);
+}
+
+module.exports = handler;
