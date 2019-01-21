@@ -25,7 +25,7 @@ export function parseRequest(req: IncomingMessage) {
     const parsedRequest: ParsedRequest = {
         type: type as ScreenshotType,
         text: decodeURIComponent(text),
-        fontWeight: fontWeight as FontWeight,
+        fontWeight: fontWeight as FontWeight || 'bold',
         fontSize: fontSize || '75px',
         images: Array.isArray(images) && images.length > 0
             ? images
