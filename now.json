@@ -3,6 +3,7 @@
     "alias": "og-image.now.sh",
     "version": 2,
     "builds": [
+        { "src": "fonts/**", "use": "@now/static" },
         { "src": "card.js", "use": "@now/node", "config": { "maxLambdaSize": "40mb" } }
     ],
     "routes": [

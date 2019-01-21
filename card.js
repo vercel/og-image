@@ -5,9 +5,14 @@ const { writeTempFile, pathToFileURL } = require('./file');
 
 module.exports = async function (req, res) {
     try {
-        let { type = 'png', text = 'Hello' } = parseRequest(req);
+        let {
+            type = 'png',
+            text = 'Hello',
+            fontWeight = 'bold',
+            image = 'now-black',
+        } = parseRequest(req);
         const name = decodeURIComponent(text);
-        const html = getHtml(name);
+        const html = getHtml(name, fontWeight, image);
         const filePath = await writeTempFile(name, html);
         const fileUrl = pathToFileURL(filePath);
         const file = await getScreenshot(fileUrl, type);
