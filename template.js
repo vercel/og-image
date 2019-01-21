@@ -6,8 +6,9 @@ const { readFileSync } = require('fs');
  * @param {'bold' | 'normal'} fontWeight 
  */
 function getCss(fontWeight) {
-    const filename = `${__dirname}/fonts/Inter-UI-${fontWeight === 'bold' ? 'Bold' : 'Regular'}.woff2`;
-    const buffer = readFileSync(filename);
+    const regular = `${__dirname}/fonts/Inter-UI-Regular.woff2`;
+    const bold = `${__dirname}/fonts/Inter-UI-Bold.woff2`;
+    const buffer = readFileSync(fontWeight === 'bold' ? bold : regular);
     const base64 = buffer.toString('base64');
     return `
     @font-face {
