@@ -1,7 +1,7 @@
 
 import { readFileSync } from 'fs';
 
-function getCss(fontWeight: FontWeight) {
+function getCss(fontWeight: FontWeight, fontSize: string) {
     const regular = `${__dirname}/fonts/Inter-UI-Regular.woff2`;
     const bold = `${__dirname}/fonts/Inter-UI-Bold.woff2`;
     const buffer = readFileSync(fontWeight === 'normal' ? regular : bold);
@@ -36,16 +36,16 @@ function getCss(fontWeight: FontWeight) {
     
     .heading {
         font-family: 'Inter UI', sans-serif;
-        font-size: 75px;
+        font-size: ${fontSize};
         font-style: normal;
         font-weight: ${fontWeight};
     }`;
 }
 
-export function getHtml(text: string, fontWeight: FontWeight, images: string[]) {
+export function getHtml(text: string, fontWeight: FontWeight, fontSize: string, images: string[]) {
     return `<html>
     <style>
-        ${getCss(fontWeight)}
+        ${getCss(fontWeight, fontSize)}
     </style>
     <body>
         <div>
