@@ -44,6 +44,9 @@ function getCss(fontWeight: FontWeight, fontSize: string) {
 
 export function getHtml(text: string, fontWeight: FontWeight, fontSize: string, images: string[]) {
     return `<html>
+    <meta charset="utf-8">
+    <title>Generated Image</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         ${getCss(fontWeight, fontSize)}
     </style>
