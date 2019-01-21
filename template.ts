@@ -1,14 +1,10 @@
 
-const { readFileSync } = require('fs');
+import { readFileSync } from 'fs';
 
-/**
- * 
- * @param {'bold' | 'normal'} fontWeight 
- */
-function getCss(fontWeight) {
+function getCss(fontWeight: FontWeight, fontSize: string) {
     const regular = `${__dirname}/fonts/Inter-UI-Regular.woff2`;
     const bold = `${__dirname}/fonts/Inter-UI-Bold.woff2`;
-    const buffer = readFileSync(fontWeight === 'bold' ? bold : regular);
+    const buffer = readFileSync(fontWeight === 'normal' ? regular : bold);
     const base64 = buffer.toString('base64');
     return `
     @font-face {
@@ -40,33 +36,24 @@ function getCss(fontWeight) {
     
     .heading {
         font-family: 'Inter UI', sans-serif;
-        font-size: 75px;
+        font-size: ${fontSize};
         font-style: normal;
         font-weight: ${fontWeight};
     }`;
 }
 
-/**
- * 
- * @param {string} text 
- * @param {'bold' | 'normal'} fontWeight 
- * @param {'now-black' | 'now-white' | 'zeit-black-triangle' | 'zeit-white-triangle'} image 
- */
-function getHtml(text, fontWeight, image) {
-    const logo = `https://assets.zeit.co/image/upload/front/assets/design/${image}.svg`;
+export function getHtml(text: string, fontWeight: FontWeight, fontSize: string, images: string[]) {
     return `<html>
     <style>
-        ${getCss(fontWeight)}
+        ${getCss(fontWeight, fontSize)}
     </style>
     <body>
         <div>
             <div class="spacer">
-            <img class="logo" src="${logo}" />
+            <img class="logo" src="${images[0]}" />
             <div class="spacer">
             <div class="heading">${text}</div>
         </div>
     </body>
 </html>`;
 }
-
-module.exports = { getHtml }

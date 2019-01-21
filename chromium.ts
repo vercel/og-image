@@ -1,8 +1,9 @@
-const chrome = require('chrome-aws-lambda');
-const puppeteer = require('puppeteer-core');
+import * as chromeAwsLambda from 'chrome-aws-lambda';
+import { launch } from 'puppeteer-core';
+const chrome = chromeAwsLambda as any;
 
-async function getScreenshot(url, type) {
-    const browser = await puppeteer.launch({
+export async function getScreenshot(url: string, type: ScreenshotType) {
+    const browser = await launch({
         args: chrome.args,
         executablePath: await chrome.executablePath,
         headless: chrome.headless,
@@ -15,5 +16,3 @@ async function getScreenshot(url, type) {
     await browser.close();
     return file;
 }
-
-module.exports = { getScreenshot };

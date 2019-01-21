@@ -1,19 +1,14 @@
-const { parseRequest } = require('./parser'); 
-const { getScreenshot } = require('./chromium');
-const { getHtml } = require('./template');
-const { writeTempFile, pathToFileURL } = require('./file');
+import { IncomingMessage, ServerResponse } from 'http';
+import { parseRequest } from './parser';
+import { getScreenshot } from './chromium';
+import { getHtml } from './template';
+import { writeTempFile, pathToFileURL } from './file';
 
-async function handler(req, res) {
+async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
-        let {
-            type = 'png',
-            text = 'Hello',
-            fontWeight = 'bold',
-            image = 'now-black',
-        } = parseRequest(req);
-        const name = decodeURIComponent(text);
-        const html = getHtml(name, fontWeight, image);
-        const filePath = await writeTempFile(name, html);
+        const { type, text, fontWeight, fontSize, images } = parseRequest(req);
+        const html = getHtml(text, fontWeight, fontSize, images);
+        const filePath = await writeTempFile(text, html);
         const fileUrl = pathToFileURL(filePath);
         const file = await getScreenshot(fileUrl, type);
         res.statusCode = 200;
