@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 function getCss(fontWeight: FontWeight) {
     const regular = `${__dirname}/fonts/Inter-UI-Regular.woff2`;
     const bold = `${__dirname}/fonts/Inter-UI-Bold.woff2`;
-    const buffer = readFileSync(fontWeight === 'bold' ? bold : regular);
+    const buffer = readFileSync(fontWeight === 'normal' ? regular : bold);
     const base64 = buffer.toString('base64');
     return `
     @font-face {
