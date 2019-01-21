@@ -3,7 +3,7 @@ const { getScreenshot } = require('./chromium');
 const { getHtml } = require('./template');
 const { writeTempFile, pathToFileURL } = require('./file');
 
-module.exports = async function (req, res) {
+async function handler(req, res) {
     try {
         let {
             type = 'png',
@@ -28,3 +28,12 @@ module.exports = async function (req, res) {
     }
 };
 
+
+if (!process.env.NOW_REGION) {
+    const { createServer } = require('http');
+    const PORT = process.env.PORT || 3000;
+    const listen = () => console.log(`Listening on ${PORT}...`);
+    createServer(handler).listen(PORT, listen);
+}
+
+module.exports = handler;
