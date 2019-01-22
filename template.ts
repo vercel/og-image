@@ -25,9 +25,23 @@ function getCss(fontWeight: FontWeight, fontSize: string) {
         justify-content: center;
     }
 
+    .img-wrapper {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: space-evenly;
+        justify-items: center;
+    }
+
     .logo {
         width: 225px;
         height: 225px;
+    }
+
+    .plus {
+        color: #BBB;
+        font-family: Times New Roman, Verdana;
+        font-size: 100px;
     }
 
     .spacer {
@@ -53,7 +67,12 @@ export function getHtml(text: string, fontWeight: FontWeight, fontSize: string, 
     <body>
         <div>
             <div class="spacer">
-            <img class="logo" src="${images[0]}" />
+            <div class="img-wrapper">
+                <img class="logo" src="${images[0]}" />
+                ${images.slice(1).map(img => {
+                    return `<div class="plus">+</div><img class="logo" src="${img}" />`;
+                })}
+            </div>
             <div class="spacer">
             <div class="heading">${text}</div>
         </div>
