@@ -1,17 +1,24 @@
 
 import { readFileSync } from 'fs';
+import * as marked from 'marked';
+import { sanitizeHtml } from './sanitizer';
 
-function getCss(fontWeight: FontWeight, fontSize: string) {
-    const regular = `${__dirname}/fonts/Inter-UI-Regular.woff2`;
-    const bold = `${__dirname}/fonts/Inter-UI-Bold.woff2`;
-    const buffer = readFileSync(fontWeight === 'normal' ? regular : bold);
-    const base64 = buffer.toString('base64');
+function getCss(fontSize: string) {
+    const regular = readFileSync(`${__dirname}/fonts/Inter-UI-Regular.woff2`).toString('base64');
+    const bold = readFileSync(`${__dirname}/fonts/Inter-UI-Bold.woff2`).toString('base64');
     return `
     @font-face {
         font-family: 'Inter UI';
         font-style:  normal;
-        font-weight: ${fontWeight};
-        src: url(data:font/woff2;charset=utf-8;base64,${base64}) format('woff2');
+        font-weight: normal;
+        src: url(data:font/woff2;charset=utf-8;base64,${regular}) format('woff2');
+    }
+
+    @font-face {
+        font-family: 'Inter UI';
+        font-style:  normal;
+        font-weight: bold;
+        src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
     }
 
     body {
@@ -50,31 +57,34 @@ function getCss(fontWeight: FontWeight, fontSize: string) {
     
     .heading {
         font-family: 'Inter UI', sans-serif;
-        font-size: ${fontSize};
+        font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
-        font-weight: ${fontWeight};
     }`;
 }
 
-export function getHtml(text: string, fontWeight: FontWeight, fontSize: string, images: string[]) {
+export function getHtml(parsedReq: ParsedRequest) {
+    const { text, md, fontSize, images } = parsedReq;
     return `<html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(fontWeight, fontSize)}
+        ${getCss(fontSize)}
     </style>
     <body>
         <div>
             <div class="spacer">
             <div class="img-wrapper">
-                <img class="logo" src="${images[0]}" />
+                <img class="logo" src="${sanitizeHtml(images[0])}" />
                 ${images.slice(1).map(img => {
-                    return `<div class="plus">+</div><img class="logo" src="${img}" />`;
+                    return `<div class="plus">+</div><img class="logo" src="${sanitizeHtml(img)}" />`;
                 })}
             </div>
             <div class="spacer">
-            <div class="heading">${text}</div>
+            <div class="heading">${md
+                ? marked(text)
+                : sanitizeHtml(text)}
+            </div>
         </div>
     </body>
 </html>`;
