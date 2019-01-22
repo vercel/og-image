@@ -1,2 +1,2 @@
 type FontWeight = 'normal' | 'bold';
-type ScreenshotType = 'png' | 'jpeg' | undefined;
+type ScreenshotType = 'png' | 'jpeg';
