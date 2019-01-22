@@ -2,9 +2,9 @@
   "name": "og-image",
   "version": "1.0.0",
   "description": "Generate an open graph image for twitter/facebook/etc",
-  "main": "card.js",
+  "main": "dist/card.js",
   "scripts": {
-    "start": "node card.js",
+    "start": "node dist/card.js",
     "build": "tsc",
     "watch": "tsc --watch"
   },

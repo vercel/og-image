@@ -4,11 +4,11 @@
     "version": 2,
     "builds": [
         { "src": "public/*", "use": "@now/static" },
-        { "src": "card.ts", "use": "@now/node@canary", "config": { "maxLambdaSize": "40mb" } }
+        { "src": "src/card.ts", "use": "@now/node@canary", "config": { "maxLambdaSize": "40mb" } }
     ],
     "routes": [
         { "src": "/", "dest": "/public/index.html" },
         { "src": "/favicon.ico", "dest": "/public/favicon.ico" },
-        { "src": "/(.+)", "dest": "/card.ts" }
+        { "src": "/(.+)", "dest": "/src/card.ts" }
     ]
 }

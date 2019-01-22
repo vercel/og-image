@@ -4,8 +4,8 @@ import * as marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
 
 function getCss(fontSize: string) {
-    const regular = readFileSync(`${__dirname}/fonts/Inter-UI-Regular.woff2`).toString('base64');
-    const bold = readFileSync(`${__dirname}/fonts/Inter-UI-Bold.woff2`).toString('base64');
+    const regular = readFileSync(`${__dirname}/../fonts/Inter-UI-Regular.woff2`).toString('base64');
+    const bold = readFileSync(`${__dirname}/../fonts/Inter-UI-Bold.woff2`).toString('base64');
     return `
     @font-face {
         font-family: 'Inter UI';
