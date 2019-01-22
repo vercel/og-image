@@ -10,7 +10,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     try {
         const { type, text, fontWeight, fontSize, images } = parseRequest(req);
         const html = getHtml(text, fontWeight, fontSize, images);
-        const filePath = await writeTempFile(text, html);
         
         if (isDev) {
             res.setHeader('Content-Type', 'text/html');
@@ -18,6 +17,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
             return;
         }
 
+        const filePath = await writeTempFile(text, html);
         const fileUrl = pathToFileURL(filePath);
         const file = await getScreenshot(fileUrl, type);
         res.statusCode = 200;
