@@ -29,7 +29,7 @@ function getCss(fontWeight: FontWeight, fontSize: string) {
         display: flex;
         align-items: center;
         align-content: center;
-        justify-content: space-around;
+        justify-content: space-evenly;
         justify-items: center;
     }
 
