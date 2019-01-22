@@ -20,10 +20,19 @@ export function parseRequest(req: IncomingMessage) {
         throw new Error('Expected a single fontSize');
     }
     const arr = pathname.slice(1).split('.');
-    const type = arr.pop();
-    const text = arr.join('.');
+    let extension = '';
+    let text = '';
+    if (arr.length === 0) {
+        text = '';
+    } else if (arr.length === 1) {
+        text = arr[0];
+    } else {
+        extension = arr.pop() as string;
+        text = arr.join('.');
+    }
+    
     const parsedRequest: ParsedRequest = {
-        type: type as ScreenshotType,
+        type: extension === 'jpeg' ? extension : 'png',
         text: decodeURIComponent(text),
         fontWeight: fontWeight as FontWeight || 'bold',
         fontSize: fontSize || '75px',
