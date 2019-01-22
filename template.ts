@@ -39,7 +39,8 @@ function getCss(fontWeight: FontWeight, fontSize: string) {
     }
 
     .plus {
-        color: lightgray;
+        color: #b1b1b1;
+        font-family: Verdana;
         font-size: 100px;
     }
 
