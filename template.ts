@@ -24,7 +24,7 @@ function getCss(fontSize: string) {
     body {
         background: white;
         background-image: radial-gradient(lightgray 5%, transparent 0);
-        background-size: 100px 100px;
+        background-size: 60px 60px;
         height: 100vh;
         display: flex;
         text-align: center;
