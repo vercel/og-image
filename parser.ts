@@ -1,21 +1,10 @@
 import { IncomingMessage } from 'http';
 import { parse } from 'url';
 
-interface ParsedRequest {
-    type: ScreenshotType;
-    text: string;
-    fontWeight: FontWeight;
-    fontSize: string;
-    images: string[];
-};
-
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
     const { pathname = '/', query = {} } = parse(req.url || '', true);
-    const { fontWeight, fontSize, images } = query;
-    if (Array.isArray(fontWeight)) {
-        throw new Error('Expected a single fontWeight');
-    }
+    const { fontSize, images, md } = query;
     if (Array.isArray(fontSize)) {
         throw new Error('Expected a single fontSize');
     }
@@ -34,7 +23,7 @@ export function parseRequest(req: IncomingMessage) {
     const parsedRequest: ParsedRequest = {
         type: extension === 'jpeg' ? extension : 'png',
         text: decodeURIComponent(text),
-        fontWeight: fontWeight as FontWeight || 'bold',
+        md: md === '1' || md === 'true',
         fontSize: fontSize || '75px',
         images: Array.isArray(images) && images.length > 0
             ? images
