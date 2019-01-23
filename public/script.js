@@ -3,7 +3,7 @@ const ImagePreview = ({ src, width, height, onclick }) => {
     return H('a',
         { href: src, onclick },
         H('img',
-            { src, width, height }
+            { src }
         )
     );
 }
@@ -94,54 +94,59 @@ const App = (props, state, setState) => {
         url.searchParams.append('images', img);
     }
     return H('div',
-        H(Toast, {
-            message: 'Copied image URL to clipboard',
-            show: showToast,
-        }),
-        H(Field, {
-            label: 'File Type',
-            input: H(Dropdown, { options: fileTypeOptions, value: fileType, onchange: val => setState({fileType: val}) })
-        }),
-        H(Field, {
-            label: 'Font Size',
-            input: H(Dropdown, { options: fontSizeOptions, value: fontSize, onchange: val => setState({fontSize: val}) })
-        }),
-        H(Field, {
-            label: 'Text Type',
-            input: H(Dropdown, { options: markdownOptions, value: md, onchange: val => setState({ md: val }) })
-        }),
-        H(Field, {
-            label: 'Text Input',
-            input: H(TextInput, { value: text, onchange: val => setState({ text: val }) })
-        }),
-        ...images.map((image, i) => H(Field, {
-            label: `Image ${i + 1}`,
-            input: H(TextInput, { value: image, onchange: val => { let clone = [...images]; clone[i] = val; setState({ images: clone }) } })
-        })),
-        H(Field, {
-            label: `Image ${images.length + 1}`,
-            input: H(Button, {
-                label: `Add Image ${images.length + 1}`,
-                onclick: () => { setState({ images: [...images, ''] }) }
+        { className: 'split' },
+        H('div',
+            H(Toast, {
+                message: 'Copied image URL to clipboard',
+                show: showToast,
             }),
-        }),
-        H(ImagePreview, {
-            src: url.href,
-            width: 405,
-            height: 217,
-            onclick: e => {
-                e.preventDefault();
-                const success = copee.toClipboard(url.href);
-                if (success) {
-                    setState({ showToast: true });
-                    setTimeout(() => setState({ showToast: false }), 3000);
-                } else {
-                    window.open(url.href, '_blank');
+            H(Field, {
+                label: 'File Type',
+                input: H(Dropdown, { options: fileTypeOptions, value: fileType, onchange: val => setState({fileType: val}) })
+            }),
+            H(Field, {
+                label: 'Font Size',
+                input: H(Dropdown, { options: fontSizeOptions, value: fontSize, onchange: val => setState({fontSize: val}) })
+            }),
+            H(Field, {
+                label: 'Text Type',
+                input: H(Dropdown, { options: markdownOptions, value: md, onchange: val => setState({ md: val }) })
+            }),
+            H(Field, {
+                label: 'Text Input',
+                input: H(TextInput, { value: text, onchange: val => setState({ text: val }) })
+            }),
+            ...images.map((image, i) => H(Field, {
+                label: `Image ${i + 1}`,
+                input: H(TextInput, { value: image, onchange: val => { let clone = [...images]; clone[i] = val; setState({ images: clone }) } })
+            })),
+            H(Field, {
+                label: `Image ${images.length + 1}`,
+                input: H(Button, {
+                    label: `Add Image ${images.length + 1}`,
+                    onclick: () => { setState({ images: [...images, ''] }) }
+                }),
+            }),
+        ),
+        H('div',
+            H(ImagePreview, {
+                src: url.href,
+                width: 405,
+                height: 217,
+                onclick: e => {
+                    e.preventDefault();
+                    const success = copee.toClipboard(url.href);
+                    if (success) {
+                        setState({ showToast: true });
+                        setTimeout(() => setState({ showToast: false }), 3000);
+                    } else {
+                        window.open(url.href, '_blank');
+                    }
+                    return false;
                 }
-                return false;
-            }
-        })
-    )
+            })
+        )
+    );
 };
 
 R(H(App), document.getElementById('generated'));

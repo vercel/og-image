@@ -3,10 +3,24 @@ body {
     margin: 20px;
 }
 
+h1 {
+    text-align: center;
+}
+
 .container {
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.split {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.split > div {
+    min-width: 50%;
 }
 
 a {
@@ -240,6 +254,6 @@ img {
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.12);
     border-radius: 5px;
     margin-bottom: 50px;
-    padding: 10px 30px;
     transition: all 0.2s ease;
+    max-width: 100%;
 }
