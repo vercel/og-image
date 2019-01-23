@@ -21,9 +21,15 @@ const Dropdown = ({ options, value, onchange }) => {
     );
 }
 
-const TextInput = ({ value }) => {
-    const style = { width: '120px' };
-    return H('input', { type: 'text', value, style });
+const TextInput = ({ value, onchange }) => {
+    const style = { width: '200px' };
+    return H('input',
+        { type: 'text', value, style, onchange: e => onchange(e.target.value) }
+    );
+}
+
+const Button = ({ label, onclick }) => {
+    return H('button', { onclick }, label);
 }
 
 const Field = ({ label, input }) => {
@@ -55,8 +61,20 @@ const markdownOptions = [
 ];
 
 const App = (props, state, setState) => {
-    const { fileType = 'png', fontSize = '75px', md = '0', text = 'Hello World' } = state;
-    const url = `https://og-image.now.sh/${text}.${fileType}?md=${md}&fontSize=${fontSize}`;
+    const { fileType = 'png', fontSize = '75px', md = '0', text = 'Hello World', images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'] } = state;
+    const url = new URL('https://og-image.now.sh/')
+    url.pathname = `${text}.${fileType}`;
+    url.searchParams.append('md', md);
+    url.searchParams.append('fontSize', fontSize);
+    for (let img of images) {
+        url.searchParams.append('images', img);
+    }
+    /*
+    let url = `https://og-image.now.sh/${text}.${fileType}?md=${md}&fontSize=${fontSize}`;
+    for (let img of images) {
+        url += '&images=' + img;
+    }
+    */
     return H('div',
         H(Field, {
             label: 'File Type',
@@ -68,18 +86,34 @@ const App = (props, state, setState) => {
         }),
         H(Field, {
             label: 'Text Type',
-            input: H(Dropdown, { options: markdownOptions, value: md, onchange: val => setState({md: val}) })
+            input: H(Dropdown, { options: markdownOptions, value: md, onchange: val => setState({ md: val }) })
         }),
         H(Field, {
             label: 'Text Input',
-            input: H(TextInput, { value: text })
+            input: H(TextInput, { value: text, onchange: val => setState({ text: val }) })
         }),
-        H(ImagePreview, { src: url, width: 405, height: 217, }),
+        ...images.map((image, i) => H(Field, {
+            label: `Image ${i + 1}`,
+            input: H(TextInput, { value: image, onchange: val => { let clone = [...images]; clone[i] = val; setState({ images: clone }) } })
+        })),
+        
+        H(Field, {
+            label: `Image ${images.length + 1}`,
+            input: H(Button, {
+                label: `Add Image ${images.length + 1}`,
+                onclick: () => { setState({ images: [...images, ''] }) }
+            }),
+        }),
+        H(ImagePreview, {
+            src: url.href,
+            width: 405,
+            height: 217
+        }),
         H(Field, {
             label: 'URL',
-            input: H(TextInput, { value: url })
+            input: H(TextInput, { value: url.href, onchange: val => { console.log(val) }})
         }),
     )
 };
-// Render the entry point to the document body
+
 R(H(App), el);

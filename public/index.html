@@ -48,13 +48,54 @@
         margin-left: -15px;
         transition: color 0.2s ease;
     }
+
+    button {
+        appearance: none;
+        align-items: center;
+        color: #fff;
+        background: #000;
+        display: inline-flex;
+        width: 100px;
+        height: 40px;
+        padding: 0 25px;
+        outline: none;
+        border: 1px solid #000;
+        font-size: 12px;
+        justify-content: center;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-align: center;
+        user-select: none;
+        font-weight: 100;
+        position: relative;
+        overflow: hidden;
+        transition: border 0.2s,background 0.2s,color 0.2s ease-out;
+        border-radius: 5px;
+        white-space: nowrap;
+        text-decoration: none;
+        line-height: 0;
+
+        height: 24px;
+        width: 100px;
+        padding: 0 10px;
+        font-size: 12px;
+        background: #fff;
+        border: 1px solid #eaeaea;
+        color: #666;
+    }
+
+    button:hover {
+        color: #000;
+        border-color: #000;
+        background: #fff;
+    }
 </style>
 
 <body>
     <div class="container">
         <div class="wrapper">
             <h1>Open Graph Image as a service</h1>
-            <p>Please provide text content and optional images or choose one of the following:</p>
+            <!--
             <ul>
                 <li><a href="/hello world.png">/hello world.png</a></li>
                 <li><a href="/hello world.jpeg">/hello world.jpeg</a></li>
@@ -63,6 +104,7 @@
                 <li><a href="/TypeScript on Now.png?images=https://assets.zeit.co/image/upload/front/assets/design/now-black.svg&images=https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg">TypeScript on Now</a></li>
                 <li><a href="/ZEIT and Hyper.png?images=https://assets.zeit.co/image/upload/front/assets/design/zeit-black-triangle.svg&images=https://assets.zeit.co/image/upload/front/assets/design/hyper-color-logo.svg">ZEIT and Hyper</a></li>
             </ul>
+            -->
             <div id="generated"></div>
         </div>
     </div>
