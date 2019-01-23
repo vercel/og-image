@@ -23,6 +23,12 @@ h1 {
     min-width: 50%;
 }
 
+@media (max-width: 900px) {
+    .split {
+      flex-wrap: wrap; 
+    }
+  }
+
 a {
     cursor: pointer;
     color: #0076FF;
