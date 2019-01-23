@@ -1,11 +1,11 @@
 
-const ImagePreview = ({ src, width, height }) => {
-    const style = {
-        border: '1px solid #ccc',
-        borderRadius: '3px',
-        boxShadow: '0 4px 4px rgba(0, 0, 0, 0.12)'
-    };
-    return H('img', { src, width, height, style });
+const ImagePreview = ({ src, width, height, onclick }) => {
+    return H('a',
+        { href: src, onclick },
+        H('img',
+            { src, width, height }
+        )
+    );
 }
 
 const Dropdown = ({ options, value, onchange }) => {
@@ -51,7 +51,22 @@ const Field = ({ label, input }) => {
     );
 }
 
-const el = document.getElementById('generated');
+const Toast = ({ show, message }) => {
+    const style = { transform:  show ? 'translate3d(0,-0px,-0px) scale(1)' : '' };
+    return H('div',
+        { className: 'toast-area' },
+        H('div',
+            { className: 'toast-outer', style },
+            H('div',
+                { className: 'toast-inner' },
+                H('div',
+                    { className: 'toast-message'},
+                    message
+                )
+            )
+        ),
+    );
+}
 
 const fileTypeOptions = [
     { text: 'PNG', value: 'png' },
@@ -70,21 +85,19 @@ const markdownOptions = [
 ];
 
 const App = (props, state, setState) => {
-    const { fileType = 'png', fontSize = '75px', md = '0', text = 'Hello World', images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'] } = state;
-    const url = new URL('https://og-image.now.sh/')
+    const { fileType = 'png', fontSize = '75px', md = '0', text = 'Hello World', images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'], showToast = false } = state;
+    const url = new URL('https://og-image.now.sh/'); // TODO: change to './'
     url.pathname = `${text}.${fileType}`;
     url.searchParams.append('md', md);
     url.searchParams.append('fontSize', fontSize);
     for (let img of images) {
         url.searchParams.append('images', img);
     }
-    /*
-    let url = `https://og-image.now.sh/${text}.${fileType}?md=${md}&fontSize=${fontSize}`;
-    for (let img of images) {
-        url += '&images=' + img;
-    }
-    */
     return H('div',
+        H(Toast, {
+            message: 'Copied image URL to clipboard',
+            show: showToast,
+        }),
         H(Field, {
             label: 'File Type',
             input: H(Dropdown, { options: fileTypeOptions, value: fileType, onchange: val => setState({fileType: val}) })
@@ -105,7 +118,6 @@ const App = (props, state, setState) => {
             label: `Image ${i + 1}`,
             input: H(TextInput, { value: image, onchange: val => { let clone = [...images]; clone[i] = val; setState({ images: clone }) } })
         })),
-        
         H(Field, {
             label: `Image ${images.length + 1}`,
             input: H(Button, {
@@ -116,13 +128,20 @@ const App = (props, state, setState) => {
         H(ImagePreview, {
             src: url.href,
             width: 405,
-            height: 217
-        }),
-        H(Field, {
-            label: 'URL',
-            input: H(TextInput, { value: url.href, onchange: val => { console.log(val) }})
-        }),
+            height: 217,
+            onclick: e => {
+                e.preventDefault();
+                const success = copee.toClipboard(url.href);
+                if (success) {
+                    setState({ showToast: true });
+                    setTimeout(() => setState({ showToast: false }), 3000);
+                } else {
+                    window.open(url.href, '_blank');
+                }
+                return false;
+            }
+        })
     )
 };
 
-R(H(App), el);
+R(H(App), document.getElementById('generated'));

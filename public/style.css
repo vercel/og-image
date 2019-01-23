@@ -189,3 +189,57 @@ select {
     width: 300px;
     display: inline-block;
 }
+
+.toast-area {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    max-width: 420px;
+    z-index: 2000;
+    transition: transform 0.4s ease;
+}
+
+.toast-outer {
+    width: 420px;
+    height: 72px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transition: all 0.4s ease;
+    transform: translate3d(0,130%,0px) scale(1);
+    animation: show-jsx-1861505484 0.4s ease forwards;
+    opacity: 1;
+}
+
+.toast-inner {
+    width: 420px;
+    background: black;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    
+    box-shadow: 0 4px 9px rgba(0,0,0,0.12);
+    font-size: 14px;
+    display: flex;
+}
+
+.toast-message {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    margin-top: -1px;
+    margin-left: 20px;
+}
+
+img {
+    background: #fff;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.12);
+    border-radius: 5px;
+    margin-bottom: 50px;
+    padding: 10px 30px;
+    transition: all 0.2s ease;
+}
