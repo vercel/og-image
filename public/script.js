@@ -1,3 +1,4 @@
+import { toClipboard } from 'https://cdn.jsdelivr.net/npm/copee@1.0.6/dist/copee.mjs';
 
 const ImagePreview = ({ src, onclick }) => {
     return H('a',
@@ -133,7 +134,7 @@ const App = (props, state, setState) => {
                 src: url.href,
                 onclick: e => {
                     e.preventDefault();
-                    const success = copee.toClipboard(url.href);
+                    const success = toClipboard(url.href);
                     if (success) {
                         setState({ showToast: true });
                         setTimeout(() => setState({ showToast: false }), 3000);
