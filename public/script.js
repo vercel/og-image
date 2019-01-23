@@ -1,7 +1,7 @@
 
-const ImagePreview = ({ src, width, height, onclick }) => {
+const ImagePreview = ({ src, onclick }) => {
     return H('a',
-        { href: src, onclick },
+        { className: 'image-wrapper', href: src, onclick },
         H('img',
             { src }
         )
@@ -131,8 +131,6 @@ const App = (props, state, setState) => {
         H('div',
             H(ImagePreview, {
                 src: url.href,
-                width: 405,
-                height: 217,
                 onclick: e => {
                     e.preventDefault();
                     const success = copee.toClipboard(url.href);

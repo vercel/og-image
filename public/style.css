@@ -25,40 +25,10 @@ h1 {
 
 @media (max-width: 900px) {
     .split {
-      flex-wrap: wrap; 
+        flex-wrap: wrap; 
     }
-  }
-
-a {
-    cursor: pointer;
-    color: #0076FF;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    border-bottom: 1px solid white;
 }
 
-a:hover {
-    border-bottom: 1px solid #0076FF;
-}
-
-ul {
-    padding: 0;
-    list-style-type: none;
-    margin-left: 15px;
-}
-
-li {
-    margin-bottom: 10px;
-}
-
-li:before {
-    content: '–';
-    display: inline-block;
-    color: #999;
-    position: absolute;
-    margin-left: -15px;
-    transition: color 0.2s ease;
-}
 
 button {
     appearance: none;
@@ -256,10 +226,22 @@ select {
 }
 
 img {
+    max-width: 100%;
+}
+
+.image-wrapper {
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
     background: #fff;
-    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.12);
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.12);
     border-radius: 5px;
     margin-bottom: 50px;
     transition: all 0.2s ease;
     max-width: 100%;
+}
+
+.image-wrapper:hover {
+    box-shadow: 0 1px 16px rgba(0,0,0,0.1);
+    border-color: #ddd;
 }
