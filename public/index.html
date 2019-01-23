@@ -1,60 +1,19 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Screenshot as a service</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="og:image" content="https://og-image.now.sh/Open%20Graph%20Image%20as%20a%20Service.png" />
+    <title>Open Graph Image as a Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
 </head>
-<style>
-    body {
-        font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-        margin: 20px;
-    }
-
-    .container {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-    }
-
-    a {
-        cursor: pointer;
-        color: #0076FF;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        border-bottom: 1px solid white;
-    }
-
-    a:hover {
-        border-bottom: 1px solid #0076FF;
-    }
-
-    ul {
-        padding: 0;
-        list-style-type: none;
-        margin-left: 15px;
-    }
-
-    li {
-        margin-bottom: 10px;
-    }
-
-    li:before {
-        content: '–';
-        display: inline-block;
-        color: #999;
-        position: absolute;
-        margin-left: -15px;
-        transition: color 0.2s ease;
-    }
-</style>
-
 <body>
     <div class="container">
         <div class="wrapper">
-            <h1>Open Graph Image as a service</h1>
-            <p>Please provide text content and optional images or choose one of the following:</p>
+            <h1>Open Graph Image as a Service</h1>
+            <!--
             <ul>
                 <li><a href="/hello world.png">/hello world.png</a></li>
                 <li><a href="/hello world.jpeg">/hello world.jpeg</a></li>
@@ -63,8 +22,12 @@
                 <li><a href="/TypeScript on Now.png?images=https://assets.zeit.co/image/upload/front/assets/design/now-black.svg&images=https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg">TypeScript on Now</a></li>
                 <li><a href="/ZEIT and Hyper.png?images=https://assets.zeit.co/image/upload/front/assets/design/zeit-black-triangle.svg&images=https://assets.zeit.co/image/upload/front/assets/design/hyper-color-logo.svg">ZEIT and Hyper</a></li>
             </ul>
+            -->
+            <div id="generated"></div>
         </div>
     </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/dot-dom@0.3.0/dotdom.min.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>

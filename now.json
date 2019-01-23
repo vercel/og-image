@@ -9,6 +9,8 @@
     "routes": [
         { "src": "/", "dest": "/public/index.html" },
         { "src": "/favicon.ico", "dest": "/public/favicon.ico" },
+        { "src": "/style.css", "dest": "/public/style.css" },
+        { "src": "/script.js", "dest": "/public/script.js" },
         { "src": "/(.+)", "dest": "/src/card.ts" }
     ]
 }
