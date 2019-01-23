@@ -87,12 +87,12 @@ const markdownOptions = [
 
 const App = (props, state, setState) => {
     const { fileType = 'png', fontSize = '75px', md = '0', text = 'Hello World', images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'], showToast = false } = state;
-    const url = new URL('https://og-image.now.sh/'); // TODO: change to './'
+    const url = new URL(window.location.origin);
     url.pathname = `${text}.${fileType}`;
     url.searchParams.append('md', md);
     url.searchParams.append('fontSize', fontSize);
-    for (let img of images) {
-        url.searchParams.append('images', img);
+    for (let image of images) {
+        url.searchParams.append('images', image);
     }
     return H('div',
         { className: 'split' },
