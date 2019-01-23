@@ -86,7 +86,7 @@ const markdownOptions = [
 ];
 
 const App = (props, state, setState) => {
-    const { fileType = 'png', fontSize = '75px', md = '0', text = 'Hello World', images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'], showToast = false } = state;
+    const { fileType = 'png', fontSize = '75px', md = '1', text = '**Hello** World', images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'], showToast = false } = state;
     const url = new URL(window.location.origin);
     url.pathname = `${text}.${fileType}`;
     url.searchParams.append('md', md);
