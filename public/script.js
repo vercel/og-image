@@ -9,22 +9,33 @@ const ImagePreview = ({ src, width, height }) => {
 }
 
 const Dropdown = ({ options, value, onchange }) => {
-    const style = { width: '120px' };
-    return H('select',
-        { style, onchange: e => onchange(e.target.value) },
-        options.map(o =>
-            H('option',
-                { value: o.value, selected: value === o.value },
-                o.text
+    return H('div',
+        { className: 'select-wrapper'},
+        H('select',
+            { onchange: e => onchange(e.target.value) },
+            options.map(o =>
+                H('option',
+                    { value: o.value, selected: value === o.value },
+                    o.text
+                )
             )
+        ),
+        H('div',
+            { className: 'select-arrow' },
+            '▼'
         )
     );
 }
 
 const TextInput = ({ value, onchange }) => {
-    const style = { width: '200px' };
-    return H('input',
-        { type: 'text', value, style, onchange: e => onchange(e.target.value) }
+    return H('div',
+        { className: 'input-outer-wrapper' },
+        H('div',
+            { className: 'input-inner-wrapper' },
+            H('input',
+                { type: 'text', value, onchange: e => onchange(e.target.value) }
+            )
+        )
     );
 }
 
@@ -33,12 +44,10 @@ const Button = ({ label, onclick }) => {
 }
 
 const Field = ({ label, input }) => {
-    const styleDiv =  { margin: '20px 0px' };
-    const styleLabel = { width: '100px', marginRight: '20px' };
     return H('div',
-        { style: styleDiv },
-        H('label', { style: styleLabel }, label),
-        input
+        { className: 'field' },
+        H('label', { className: 'field-label' }, label),
+        H('div', { className: 'field-value' }, input),
     );
 }
 
