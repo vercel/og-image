@@ -64,7 +64,8 @@ function getCss(fontSize: string) {
 
 export function getHtml(parsedReq: ParsedRequest) {
     const { text, md, fontSize, images } = parsedReq;
-    return `<html>
+    return `<!DOCTYPE html>
+<html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
