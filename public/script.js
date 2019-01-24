@@ -13,7 +13,7 @@ function debounce(func, wait) {
 	};
 };
 
-const ImagePreview = ({ src, onclick, onload, loading }) => {
+const ImagePreview = ({ src, onclick, onload, onerror, loading }) => {
     const style = {
         filter: loading ? 'blur(5px)' : '',
         opacity: loading ? 0.1 : 1,
@@ -21,7 +21,7 @@ const ImagePreview = ({ src, onclick, onload, loading }) => {
     return H('a',
         { className: 'image-wrapper', href: src, onclick },
         H('img',
-            { src, onload, style }
+            { src, onload, onerror, style }
         )
     );
 }
@@ -104,7 +104,16 @@ const markdownOptions = [
 
 const App = (props, state, setState) => {
     const setLoadingState = (newState) => setState({ ...newState, loading: true });
-    const { fileType = 'png', fontSize = '75px', md = '1', text = '**Hello** World', images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'], showToast = false, loading = true } = state;
+    const {
+        fileType = 'png',
+        fontSize = '75px',
+        md = '1',
+        text = '**Hello** World',
+        images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'],
+        showToast = false,
+        messageToast = '',
+        loading = true
+    } = state;
     const url = new URL(window.location.hostname === 'localhost' ? 'https://og-image.now.sh' : window.location.origin);
     url.pathname = `${text}.${fileType}`;
     url.searchParams.append('md', md);
@@ -165,11 +174,15 @@ const App = (props, state, setState) => {
                 src: url.href,
                 loading: loading,
                 onload: e => setState({ loading: false }),
+                onerror: e => {
+                    setState({ showToast: true, messageToast: 'Oops, an error occurred' });
+                    setTimeout(() => setState({ showToast: false }), 2000);
+                },
                 onclick: e => {
                     e.preventDefault();
                     const success = toClipboard(url.href);
                     if (success) {
-                        setState({ showToast: true });
+                        setState({ showToast: true, messageToast: 'Copied image URL to clipboard' });
                         setTimeout(() => setState({ showToast: false }), 3000);
                     } else {
                         window.open(url.href, '_blank');
@@ -179,7 +192,7 @@ const App = (props, state, setState) => {
             })
         ),
         H(Toast, {
-            message: 'Copied image URL to clipboard',
+            message: messageToast,
             show: showToast,
         })
     );
