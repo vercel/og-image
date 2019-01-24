@@ -1,4 +1,6 @@
 import { toClipboard } from 'https://cdn.jsdelivr.net/npm/copee@1.0.6/dist/copee.mjs';
+const nowBlack = 'https://assets.zeit.co/image/upload/front/assets/design/now-black.svg';
+const nowWhite = 'https://assets.zeit.co/image/upload/front/assets/design/now-white.svg';
 
 function debounce(func, wait) {
 	var timeout;
@@ -86,6 +88,11 @@ const Toast = ({ show, message }) => {
     );
 }
 
+const themeOptions = [
+    { text: 'Light', value: 'light' },
+    { text: 'Dark', value: 'dark' },
+];
+
 const fileTypeOptions = [
     { text: 'PNG', value: 'png' },
     { text: 'JPEG', value: 'jpeg' },
@@ -103,19 +110,24 @@ const markdownOptions = [
 ];
 
 const App = (props, state, setState) => {
-    const setLoadingState = (newState) => setState({ ...newState, loading: true });
+    const setLoadingState = (newState) => {
+        
+        setState({ ...newState, loading: true });
+    };
     const {
         fileType = 'png',
         fontSize = '75px',
+        theme = 'light',
         md = '1',
         text = '**Hello** World',
-        images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'],
+        images=[nowBlack],
         showToast = false,
         messageToast = '',
         loading = true
     } = state;
     const url = new URL(window.location.hostname === 'localhost' ? 'https://og-image.now.sh' : window.location.origin);
     url.pathname = `${encodeURIComponent(text)}.${fileType}`;
+    url.searchParams.append('theme', theme);
     url.searchParams.append('md', md);
     url.searchParams.append('fontSize', fontSize);
     for (let image of images) {
@@ -127,6 +139,21 @@ const App = (props, state, setState) => {
         H('div',
             { className: 'pull-left' },
             H('div',
+                H(Field, {
+                    label: 'Theme',
+                    input: H(Dropdown, {
+                        options: themeOptions,
+                        value: theme,
+                        onchange: val => {
+                            if (images[0] === nowBlack && val === 'dark') {
+                                images[0] = nowWhite;
+                            } else if (images[0] === nowWhite && val === 'light') {
+                                images[0] = nowBlack;
+                            }
+                            setLoadingState({ theme: val, images: [...images] });
+                        }
+                    })
+                }),
                 H(Field, {
                     label: 'File Type',
                     input: H(Dropdown, { options: fileTypeOptions, value: fileType, onchange: val => setLoadingState({fileType: val}) })

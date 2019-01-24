@@ -3,9 +3,15 @@ import { readFileSync } from 'fs';
 import * as marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
 
-function getCss(fontSize: string) {
+function getCss(theme: string, fontSize: string) {
     const regular = readFileSync(`${__dirname}/../fonts/Inter-UI-Regular.woff2`).toString('base64');
     const bold = readFileSync(`${__dirname}/../fonts/Inter-UI-Bold.woff2`).toString('base64');
+    let background = 'white';
+    let foreground = 'black';
+
+    if (theme === 'dark') {
+        [foreground, background] = [background, foreground];
+    }
     return `
     @font-face {
         font-family: 'Inter UI';
@@ -22,7 +28,7 @@ function getCss(fontSize: string) {
     }
 
     body {
-        background: white;
+        background: ${background};
         background-image: radial-gradient(lightgray 5%, transparent 0);
         background-size: 60px 60px;
         height: 100vh;
@@ -59,18 +65,19 @@ function getCss(fontSize: string) {
         font-family: 'Inter UI', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
+        color: ${foreground}
     }`;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, md, fontSize, images } = parsedReq;
+    const { text, theme, md, fontSize, images } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(fontSize)}
+        ${getCss(theme, fontSize)}
     </style>
     <body>
         <div>
