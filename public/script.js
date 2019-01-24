@@ -163,7 +163,12 @@ const App = (props, state, setState) => {
                     label: `Image ${images.length + 1}`,
                     input: H(Button, {
                         label: `Add Image ${images.length + 1}`,
-                        onclick: () => { setLoadingState({ images: [...images, ''] }) }
+                        onclick: () => {
+                            const nextImage = images.length === 1
+                                ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
+                                : '';
+                            setLoadingState({ images: [...images, nextImage] })
+                        }
                     }),
                 }),
             )
