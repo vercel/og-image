@@ -1,5 +1,18 @@
 import { toClipboard } from 'https://cdn.jsdelivr.net/npm/copee@1.0.6/dist/copee.mjs';
 
+function debounce(func, wait) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			func.apply(context, args);
+		};
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+	};
+};
+
 const ImagePreview = ({ src, onclick, onload, loading }) => {
     const style = {
         filter: loading ? 'blur(5px)' : '',
@@ -32,13 +45,13 @@ const Dropdown = ({ options, value, onchange }) => {
     );
 }
 
-const TextInput = ({ value, onchange }) => {
+const TextInput = ({ value, oninput }) => {
     return H('div',
         { className: 'input-outer-wrapper' },
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: 'text', value, onchange: e => onchange(e.target.value) }
+                { type: 'text', value, oninput: e => oninput(e.target.value) }
             )
         )
     );
@@ -90,6 +103,7 @@ const markdownOptions = [
 ];
 
 const App = (props, state, setState) => {
+    const setLoadingState = (newState) => setState({ ...newState, loading: true });
     const { fileType = 'png', fontSize = '75px', md = '1', text = '**Hello** World', images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'], showToast = false, loading = true } = state;
     const url = new URL(window.location.hostname === 'localhost' ? 'https://og-image.now.sh' : window.location.origin);
     url.pathname = `${text}.${fileType}`;
@@ -98,9 +112,7 @@ const App = (props, state, setState) => {
     for (let image of images) {
         url.searchParams.append('images', image);
     }
-    const setLoadingState = (newState) => {
-        setState({ ...newState, loading: true });
-    };
+    
     return H('div',
         { className: 'split' },
         H('div',
@@ -120,11 +132,23 @@ const App = (props, state, setState) => {
                 }),
                 H(Field, {
                     label: 'Text Input',
-                    input: H(TextInput, { value: text, onchange: val => setLoadingState({ text: val }) })
+                    input: H(TextInput, {
+                        value: text,
+                        oninput: debounce(val => {
+                            setLoadingState({ text: val });
+                        }, 150)
+                    })
                 }),
                 ...images.map((image, i) => H(Field, {
                     label: `Image ${i + 1}`,
-                    input: H(TextInput, { value: image, onchange: val => { let clone = [...images]; clone[i] = val; setLoadingState({ images: clone }) } })
+                    input: H(TextInput, {
+                        value: image,
+                        oninput: debounce(val => {
+                            let clone = [...images];
+                            clone[i] = val;
+                            setLoadingState({ images: clone });
+                        }, 150)
+                    })
                 })),
                 H(Field, {
                     label: `Image ${images.length + 1}`,
