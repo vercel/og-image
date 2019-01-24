@@ -38,6 +38,17 @@ function getCss(theme: string, fontSize: string) {
         justify-content: center;
     }
 
+    code {
+        color: #D400FF;
+        font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+        font-size: 0.9em;
+        white-space: pre-wrap;
+    }
+
+    code:before, code:after {
+        content: '\`';
+    }
+
     .img-wrapper {
         display: flex;
         align-items: center;
