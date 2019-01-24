@@ -19,16 +19,15 @@ h1 {
     width: 100%;
 }
 
-.split > div {
+.pull-left {
+    min-width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pull-right {
     min-width: 50%;
 }
-
-@media (max-width: 900px) {
-    .split {
-        flex-wrap: wrap; 
-    }
-}
-
 
 button {
     appearance: none;
@@ -80,7 +79,7 @@ button:hover {
     position: relative;
     transition: border 0.2s ease,color 0.2s ease;
     vertical-align: middle;
-    width: initial;
+    width: 100%;
 }
 
 .input-outer-wrapper:hover {
@@ -128,7 +127,7 @@ button:hover {
     white-space: nowrap;
     line-height: 0;
     width: auto;
-    min-width: 160px;
+    min-width: 100%;
 }
 
 .select-wrapper:hover {
@@ -165,7 +164,7 @@ select {
 }
 
 .field {
-    margin: 20px 0px;
+    margin: 20px 80px;
 }
 
 .field-label {
@@ -176,7 +175,7 @@ select {
 }
 
 .field-value {
-    width: 300px;
+    width: 200px;
     display: inline-block;
 }
 
@@ -244,4 +243,22 @@ img {
 .image-wrapper:hover {
     box-shadow: 0 1px 16px rgba(0,0,0,0.1);
     border-color: #ddd;
+}
+
+
+@media (max-width: 1000px) {
+    .field {
+        margin: 20px 10px;
+    }
+}
+
+@media (max-width: 900px) {
+    .split {
+        flex-wrap: wrap; 
+    }
+
+    .field-label {
+        width: 60px;
+        font-size: 13px;
+    }
 }
