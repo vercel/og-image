@@ -226,6 +226,7 @@ select {
 
 img {
     max-width: 100%;
+    transition: all 0.3s ease-in 0s;
 }
 
 .image-wrapper {
