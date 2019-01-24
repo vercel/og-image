@@ -1,8 +1,7 @@
 import { writeFile } from 'fs';
-import { join } from 'path';
+import { join, basename, dirname } from 'path';
 import { promisify } from 'util';
 import { tmpdir } from 'os';
-import { URL } from 'url';
 const writeFileAsync = promisify(writeFile);
 
 export async function writeTempFile(name: string, contents: string) {
@@ -13,7 +12,9 @@ export async function writeTempFile(name: string, contents: string) {
 }
 
 export function pathToFileURL(path: string) {
-    const { href } = new URL(path, 'file:');
-    console.log('File url is ' + href);
-    return href;
+    const fileName = basename(path);
+    const folderName = dirname(path);
+    const fileUrl = 'file://' + join(folderName, encodeURIComponent(fileName));
+    console.log('File url is ' + fileUrl);
+    return fileUrl;
 }

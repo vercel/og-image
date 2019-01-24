@@ -115,7 +115,7 @@ const App = (props, state, setState) => {
         loading = true
     } = state;
     const url = new URL(window.location.hostname === 'localhost' ? 'https://og-image.now.sh' : window.location.origin);
-    url.pathname = `${text}.${fileType}`;
+    url.pathname = `${encodeURIComponent(text)}.${fileType}`;
     url.searchParams.append('md', md);
     url.searchParams.append('fontSize', fontSize);
     for (let image of images) {
