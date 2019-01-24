@@ -1,10 +1,27 @@
 import { toClipboard } from 'https://cdn.jsdelivr.net/npm/copee@1.0.6/dist/copee.mjs';
 
-const ImagePreview = ({ src, onclick }) => {
+function debounce(func, wait) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			func.apply(context, args);
+		};
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+	};
+};
+
+const ImagePreview = ({ src, onclick, onload, onerror, loading }) => {
+    const style = {
+        filter: loading ? 'blur(5px)' : '',
+        opacity: loading ? 0.1 : 1,
+    };
     return H('a',
         { className: 'image-wrapper', href: src, onclick },
         H('img',
-            { src }
+            { src, onload, onerror, style }
         )
     );
 }
@@ -28,13 +45,13 @@ const Dropdown = ({ options, value, onchange }) => {
     );
 }
 
-const TextInput = ({ value, onchange }) => {
+const TextInput = ({ value, oninput }) => {
     return H('div',
         { className: 'input-outer-wrapper' },
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: 'text', value, onchange: e => onchange(e.target.value) }
+                { type: 'text', value, oninput: e => oninput(e.target.value) }
             )
         )
     );
@@ -86,14 +103,25 @@ const markdownOptions = [
 ];
 
 const App = (props, state, setState) => {
-    const { fileType = 'png', fontSize = '75px', md = '1', text = '**Hello** World', images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'], showToast = false } = state;
-    const url = new URL(window.location.origin);
+    const setLoadingState = (newState) => setState({ ...newState, loading: true });
+    const {
+        fileType = 'png',
+        fontSize = '75px',
+        md = '1',
+        text = '**Hello** World',
+        images=['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg'],
+        showToast = false,
+        messageToast = '',
+        loading = true
+    } = state;
+    const url = new URL(window.location.hostname === 'localhost' ? 'https://og-image.now.sh' : window.location.origin);
     url.pathname = `${text}.${fileType}`;
     url.searchParams.append('md', md);
     url.searchParams.append('fontSize', fontSize);
     for (let image of images) {
         url.searchParams.append('images', image);
     }
+    
     return H('div',
         { className: 'split' },
         H('div',
@@ -101,29 +129,41 @@ const App = (props, state, setState) => {
             H('div',
                 H(Field, {
                     label: 'File Type',
-                    input: H(Dropdown, { options: fileTypeOptions, value: fileType, onchange: val => setState({fileType: val}) })
+                    input: H(Dropdown, { options: fileTypeOptions, value: fileType, onchange: val => setLoadingState({fileType: val}) })
                 }),
                 H(Field, {
                     label: 'Font Size',
-                    input: H(Dropdown, { options: fontSizeOptions, value: fontSize, onchange: val => setState({fontSize: val}) })
+                    input: H(Dropdown, { options: fontSizeOptions, value: fontSize, onchange: val => setLoadingState({fontSize: val}) })
                 }),
                 H(Field, {
                     label: 'Text Type',
-                    input: H(Dropdown, { options: markdownOptions, value: md, onchange: val => setState({ md: val }) })
+                    input: H(Dropdown, { options: markdownOptions, value: md, onchange: val => setLoadingState({ md: val }) })
                 }),
                 H(Field, {
                     label: 'Text Input',
-                    input: H(TextInput, { value: text, onchange: val => setState({ text: val }) })
+                    input: H(TextInput, {
+                        value: text,
+                        oninput: debounce(val => {
+                            setLoadingState({ text: val });
+                        }, 150)
+                    })
                 }),
                 ...images.map((image, i) => H(Field, {
                     label: `Image ${i + 1}`,
-                    input: H(TextInput, { value: image, onchange: val => { let clone = [...images]; clone[i] = val; setState({ images: clone }) } })
+                    input: H(TextInput, {
+                        value: image,
+                        oninput: debounce(val => {
+                            let clone = [...images];
+                            clone[i] = val;
+                            setLoadingState({ images: clone });
+                        }, 150)
+                    })
                 })),
                 H(Field, {
                     label: `Image ${images.length + 1}`,
                     input: H(Button, {
                         label: `Add Image ${images.length + 1}`,
-                        onclick: () => { setState({ images: [...images, ''] }) }
+                        onclick: () => { setLoadingState({ images: [...images, ''] }) }
                     }),
                 }),
             )
@@ -132,11 +172,17 @@ const App = (props, state, setState) => {
             { clasName: 'pull-right' },
             H(ImagePreview, {
                 src: url.href,
+                loading: loading,
+                onload: e => setState({ loading: false }),
+                onerror: e => {
+                    setState({ showToast: true, messageToast: 'Oops, an error occurred' });
+                    setTimeout(() => setState({ showToast: false }), 2000);
+                },
                 onclick: e => {
                     e.preventDefault();
                     const success = toClipboard(url.href);
                     if (success) {
-                        setState({ showToast: true });
+                        setState({ showToast: true, messageToast: 'Copied image URL to clipboard' });
                         setTimeout(() => setState({ showToast: false }), 3000);
                     } else {
                         window.open(url.href, '_blank');
@@ -146,7 +192,7 @@ const App = (props, state, setState) => {
             })
         ),
         H(Toast, {
-            message: 'Copied image URL to clipboard',
+            message: messageToast,
             show: showToast,
         })
     );
