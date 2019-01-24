@@ -8,9 +8,12 @@ function getCss(theme: string, fontSize: string) {
     const bold = readFileSync(`${__dirname}/../fonts/Inter-UI-Bold.woff2`).toString('base64');
     let background = 'white';
     let foreground = 'black';
+    let radial = 'lightgray';
 
     if (theme === 'dark') {
-        [foreground, background] = [background, foreground];
+        background = 'black';
+        foreground = 'white';
+        radial = 'dimgray';
     }
     return `
     @font-face {
@@ -29,7 +32,7 @@ function getCss(theme: string, fontSize: string) {
 
     body {
         background: ${background};
-        background-image: radial-gradient(lightgray 5%, transparent 0);
+        background-image: radial-gradient(${radial} 5%, transparent 0);
         background-size: 60px 60px;
         height: 100vh;
         display: flex;
@@ -41,7 +44,6 @@ function getCss(theme: string, fontSize: string) {
     code {
         color: #D400FF;
         font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
-        font-size: 0.9em;
         white-space: pre-wrap;
     }
 
