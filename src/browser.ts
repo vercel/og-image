@@ -1,21 +1,30 @@
-import { toClipboard } from 'https://cdn.jsdelivr.net/npm/copee@1.0.6/dist/copee.mjs';
 const nowBlack = 'https://assets.zeit.co/image/upload/front/assets/design/now-black.svg';
 const nowWhite = 'https://assets.zeit.co/image/upload/front/assets/design/now-white.svg';
 
-function debounce(func, wait) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
+const { H, R, copee } = (window as any);
+
+function debounce(func: Function, wait: number) {
+	var timeout = -1;
+	return function(this: any, ...args: any[]) {
+		var context = this;
 		var later = function() {
-			timeout = null;
+			timeout = -1;
 			func.apply(context, args);
 		};
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
+		window.clearTimeout(timeout);
+		timeout = window.setTimeout(later, wait);
 	};
 };
 
-const ImagePreview = ({ src, onclick, onload, onerror, loading }) => {
+interface ImagePreviewProps {
+    src: string;
+    onclick: () => void;
+    onload: () => void;
+    onerror: () => void;
+    loading: boolean;
+}
+
+const ImagePreview = ({ src, onclick, onload, onerror, loading }: ImagePreviewProps) => {
     const style = {
         filter: loading ? 'blur(5px)' : '',
         opacity: loading ? 0.1 : 1,
@@ -28,11 +37,22 @@ const ImagePreview = ({ src, onclick, onload, onerror, loading }) => {
     );
 }
 
-const Dropdown = ({ options, value, onchange }) => {
+interface DropdownOption {
+    text: string;
+    value: string;
+}
+
+interface DropdownProps {
+    options: DropdownOption[];
+    value: string;
+    onchange: (val: string) => void;
+}
+
+const Dropdown = ({ options, value, onchange }: DropdownProps) => {
     return H('div',
         { className: 'select-wrapper'},
         H('select',
-            { onchange: e => onchange(e.target.value) },
+            { onchange: (e: any) => onchange(e.target.value) },
             options.map(o =>
                 H('option',
                     { value: o.value, selected: value === o.value },
@@ -47,23 +67,38 @@ const Dropdown = ({ options, value, onchange }) => {
     );
 }
 
-const TextInput = ({ value, oninput }) => {
+interface TextInputProps {
+    value: string;
+    oninput: (val: string) => void;
+}
+
+const TextInput = ({ value, oninput }: TextInputProps) => {
     return H('div',
         { className: 'input-outer-wrapper' },
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: 'text', value, oninput: e => oninput(e.target.value) }
+                { type: 'text', value, oninput: (e: any) => oninput(e.target.value) }
             )
         )
     );
 }
 
-const Button = ({ label, onclick }) => {
+interface ButtonProps {
+    label: string;
+    onclick: () => void;
+}
+
+const Button = ({ label, onclick }: ButtonProps) => {
     return H('button', { onclick }, label);
 }
 
-const Field = ({ label, input }) => {
+interface FieldProps {
+    label: string;
+    input: any;
+}
+
+const Field = ({ label, input }: FieldProps) => {
     return H('div',
         { className: 'field' },
         H('label', { className: 'field-label' }, label),
@@ -71,7 +106,12 @@ const Field = ({ label, input }) => {
     );
 }
 
-const Toast = ({ show, message }) => {
+interface ToastProps {
+    show: boolean;
+    message: string;
+}
+
+const Toast = ({ show, message }: ToastProps) => {
     const style = { transform:  show ? 'translate3d(0,-0px,-0px) scale(1)' : '' };
     return H('div',
         { className: 'toast-area' },
@@ -88,47 +128,72 @@ const Toast = ({ show, message }) => {
     );
 }
 
-const themeOptions = [
+const themeOptions: DropdownOption[] = [
     { text: 'Light', value: 'light' },
     { text: 'Dark', value: 'dark' },
 ];
 
-const fileTypeOptions = [
+const fileTypeOptions: DropdownOption[] = [
     { text: 'PNG', value: 'png' },
     { text: 'JPEG', value: 'jpeg' },
 ];
 
-const fontSizeOptions = Array
+const fontSizeOptions: DropdownOption[] = Array
     .from({ length: 10 })
     .map((_, i) => i * 25)
     .filter(n => n > 0)
     .map(n => ({ text: n + 'px', value: n + 'px' }));
 
-const markdownOptions = [
+const markdownOptions: DropdownOption[] = [
     { text: 'Plain Text', value: '0' },
     { text: 'Markdown', value: '1' },
 ];
 
-const App = (props, state, setState) => {
-    const setLoadingState = (newState) => {
-        
+const imageLightOptions: DropdownOption[] = [
+    { text: 'Now', value: 'https://assets.zeit.co/image/upload/front/assets/design/now-black.svg' },
+    { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-black-triangle.svg' },
+    { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-black-logo.svg' },
+    { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-color-logo.svg' },
+];
+
+const imageDarkOptions: DropdownOption[] = [
+    { text: 'Now', value: 'https://assets.zeit.co/image/upload/front/assets/design/now-white.svg' },
+    { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-white-triangle.svg' },
+    { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-white-logo.svg' },
+    { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-bw-logo.svg' },
+];
+
+interface AppState extends ParsedRequest {
+    loading: boolean;
+    showToast: boolean;
+    messageToast: string;
+    selectedImageIndex: number;
+}
+
+type SetState = (state: Partial<AppState>) => void;
+
+const App = (_: any, state: AppState, setState: SetState) => {
+    const setLoadingState = (newState: Partial<AppState>) => {
         setState({ ...newState, loading: true });
     };
     const {
         fileType = 'png',
         fontSize = '75px',
         theme = 'light',
-        md = '1',
+        md = true,
         text = '**Hello** World',
         images=[nowBlack],
         showToast = false,
         messageToast = '',
-        loading = true
+        loading = true,
+        selectedImageIndex = 0,
     } = state;
+    const mdValue = md ? '1' : '0';
+    const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.hostname === 'localhost' ? 'https://og-image.now.sh' : window.location.origin);
     url.pathname = `${encodeURIComponent(text)}.${fileType}`;
     url.searchParams.append('theme', theme);
-    url.searchParams.append('md', md);
+    url.searchParams.append('md', mdValue);
     url.searchParams.append('fontSize', fontSize);
     for (let image of images) {
         url.searchParams.append('images', image);
@@ -144,7 +209,7 @@ const App = (props, state, setState) => {
                     input: H(Dropdown, {
                         options: themeOptions,
                         value: theme,
-                        onchange: val => {
+                        onchange: (val: Theme) => {
                             if (images[0] === nowBlack && val === 'dark') {
                                 images[0] = nowWhite;
                             } else if (images[0] === nowWhite && val === 'light') {
@@ -156,32 +221,58 @@ const App = (props, state, setState) => {
                 }),
                 H(Field, {
                     label: 'File Type',
-                    input: H(Dropdown, { options: fileTypeOptions, value: fileType, onchange: val => setLoadingState({fileType: val}) })
+                    input: H(Dropdown, {
+                        options: fileTypeOptions,
+                        value: fileType,
+                        onchange: (val: FileType) => setLoadingState({ fileType: val })
+                    })
                 }),
                 H(Field, {
                     label: 'Font Size',
-                    input: H(Dropdown, { options: fontSizeOptions, value: fontSize, onchange: val => setLoadingState({fontSize: val}) })
+                    input: H(Dropdown, {
+                        options: fontSizeOptions,
+                        value: fontSize,
+                        onchange: (val: string) => setLoadingState({ fontSize: val })
+                    })
                 }),
                 H(Field, {
                     label: 'Text Type',
-                    input: H(Dropdown, { options: markdownOptions, value: md, onchange: val => setLoadingState({ md: val }) })
+                    input: H(Dropdown, {
+                        options: markdownOptions,
+                        value: mdValue,
+                        onchange: (val: string) => setLoadingState({ md: val === '1' })
+                    })
                 }),
                 H(Field, {
                     label: 'Text Input',
                     input: H(TextInput, {
                         value: text,
-                        oninput: debounce(val => {
+                        oninput: debounce((val: string) => {
                             setLoadingState({ text: val });
                         }, 150)
                     })
                 }),
-                ...images.map((image, i) => H(Field, {
-                    label: `Image ${i + 1}`,
+                H(Field, {
+                    label: 'Image 1',
+                    input: H(Dropdown, {
+                        options: imageOptions,
+                        value: imageOptions[selectedImageIndex].value,
+                        onchange: (val: string) =>  {
+                            let clone = [...images];
+                            clone[0] = val;
+                            setLoadingState({ images: clone });
+                            const selected = imageOptions.map(o => o.value).indexOf(val);
+                            setLoadingState({ images: clone, selectedImageIndex: selected });
+                        }
+                    })
+                }),
+                ...images.slice(1).map((image, i) => H(Field, {
+                    label: `Image ${i + 2}`,
                     input: H(TextInput, {
                         value: image,
-                        oninput: debounce(val => {
+                        oninput: debounce((val: string) => {
                             let clone = [...images];
-                            clone[i] = val;
+                            clone[i + 1] = val;
                             setLoadingState({ images: clone });
                         }, 150)
                     })
@@ -205,14 +296,14 @@ const App = (props, state, setState) => {
             H(ImagePreview, {
                 src: url.href,
                 loading: loading,
-                onload: e => setState({ loading: false }),
-                onerror: e => {
+                onload: () => setState({ loading: false }),
+                onerror: () => {
                     setState({ showToast: true, messageToast: 'Oops, an error occurred' });
                     setTimeout(() => setState({ showToast: false }), 2000);
                 },
-                onclick: e => {
+                onclick: (e: Event) => {
                     e.preventDefault();
-                    const success = toClipboard(url.href);
+                    const success = copee.toClipboard(url.href);
                     if (success) {
                         setState({ showToast: true, messageToast: 'Copied image URL to clipboard' });
                         setTimeout(() => setState({ showToast: false }), 3000);

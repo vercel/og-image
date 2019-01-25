@@ -2,7 +2,7 @@ import * as chromeAwsLambda from 'chrome-aws-lambda';
 import { launch } from 'puppeteer-core';
 const chrome = chromeAwsLambda as any;
 
-export async function getScreenshot(url: string, type: ScreenshotType) {
+export async function getScreenshot(url: string, type: FileType) {
     const browser = await launch({
         args: chrome.args,
         executablePath: await chrome.executablePath,

@@ -1,8 +1,8 @@
-type ScreenshotType = 'png' | 'jpeg';
+type FileType = 'png' | 'jpeg';
 type Theme = 'light' | 'dark';
 
 interface ParsedRequest {
-    type: ScreenshotType;
+    fileType: FileType;
     text: string;
     theme: Theme;
     md: boolean;
