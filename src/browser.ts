@@ -149,10 +149,25 @@ const markdownOptions: DropdownOption[] = [
     { text: 'Markdown', value: '1' },
 ];
 
+const imageLightOptions: DropdownOption[] = [
+    { text: 'Now', value: 'https://assets.zeit.co/image/upload/front/assets/design/now-black.svg' },
+    { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-black-triangle.svg' },
+    { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-black-logo.svg' },
+    { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-color-logo.svg' },
+];
+
+const imageDarkOptions: DropdownOption[] = [
+    { text: 'Now', value: 'https://assets.zeit.co/image/upload/front/assets/design/now-white.svg' },
+    { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-white-triangle.svg' },
+    { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-white-logo.svg' },
+    { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-bw-logo.svg' },
+];
+
 interface AppState extends ParsedRequest {
     loading: boolean;
     showToast: boolean;
     messageToast: string;
+    selectedImageIndex: number;
 }
 
 type SetState = (state: Partial<AppState>) => void;
@@ -170,12 +185,15 @@ const App = (_: any, state: AppState, setState: SetState) => {
         images=[nowBlack],
         showToast = false,
         messageToast = '',
-        loading = true
+        loading = true,
+        selectedImageIndex = 0,
     } = state;
+    const mdValue = md ? '1' : '0';
+    const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.hostname === 'localhost' ? 'https://og-image.now.sh' : window.location.origin);
     url.pathname = `${encodeURIComponent(text)}.${fileType}`;
     url.searchParams.append('theme', theme);
-    url.searchParams.append('md', md ? '1' : '0');
+    url.searchParams.append('md', mdValue);
     url.searchParams.append('fontSize', fontSize);
     for (let image of images) {
         url.searchParams.append('images', image);
@@ -203,15 +221,27 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 }),
                 H(Field, {
                     label: 'File Type',
-                    input: H(Dropdown, { options: fileTypeOptions, value: fileType, onchange: (val: FileType) => setLoadingState({ fileType: val }) })
+                    input: H(Dropdown, {
+                        options: fileTypeOptions,
+                        value: fileType,
+                        onchange: (val: FileType) => setLoadingState({ fileType: val })
+                    })
                 }),
                 H(Field, {
                     label: 'Font Size',
-                    input: H(Dropdown, { options: fontSizeOptions, value: fontSize, onchange: (val: string) => setLoadingState({ fontSize: val }) })
+                    input: H(Dropdown, {
+                        options: fontSizeOptions,
+                        value: fontSize,
+                        onchange: (val: string) => setLoadingState({ fontSize: val })
+                    })
                 }),
                 H(Field, {
                     label: 'Text Type',
-                    input: H(Dropdown, { options: markdownOptions, value: md ? '1' : '0', onchange: (val: string) => setLoadingState({ md: val === '1' }) })
+                    input: H(Dropdown, {
+                        options: markdownOptions,
+                        value: mdValue,
+                        onchange: (val: string) => setLoadingState({ md: val === '1' })
+                    })
                 }),
                 H(Field, {
                     label: 'Text Input',
@@ -222,13 +252,27 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         }, 150)
                     })
                 }),
-                ...images.map((image, i) => H(Field, {
-                    label: `Image ${i + 1}`,
+                H(Field, {
+                    label: 'Image 1',
+                    input: H(Dropdown, {
+                        options: imageOptions,
+                        value: imageOptions[selectedImageIndex].value,
+                        onchange: (val: string) =>  {
+                            let clone = [...images];
+                            clone[0] = val;
+                            setLoadingState({ images: clone });
+                            const selected = imageOptions.map(o => o.value).indexOf(val);
+                            setLoadingState({ images: clone, selectedImageIndex: selected });
+                        }
+                    })
+                }),
+                ...images.slice(1).map((image, i) => H(Field, {
+                    label: `Image ${i + 2}`,
                     input: H(TextInput, {
                         value: image,
                         oninput: debounce((val: string) => {
                             let clone = [...images];
-                            clone[i] = val;
+                            clone[i + 1] = val;
                             setLoadingState({ images: clone });
                         }, 150)
                     })
