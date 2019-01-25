@@ -17,12 +17,12 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
             return;
         }
 
-        const { text, type } = parsedReq;
+        const { text, fileType } = parsedReq;
         const filePath = await writeTempFile(text, html);
         const fileUrl = pathToFileURL(filePath);
-        const file = await getScreenshot(fileUrl, type);
+        const file = await getScreenshot(fileUrl, fileType);
         res.statusCode = 200;
-        res.setHeader('Content-Type', `image/${type}`);
+        res.setHeader('Content-Type', `image/${fileType}`);
         res.setHeader('Cache-Control', `public, immutable, no-transform, max-age=31536000`);
         res.end(file);
     } catch (e) {

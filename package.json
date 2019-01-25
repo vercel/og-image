@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node dist/card.js",
     "build": "tsc",
+    "now-build": "tsc",
     "watch": "tsc --watch"
   },
   "author": "styfle",

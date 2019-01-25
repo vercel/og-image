@@ -26,7 +26,7 @@ export function parseRequest(req: IncomingMessage) {
     }
 
     const parsedRequest: ParsedRequest = {
-        type: extension === 'jpeg' ? extension : 'png',
+        fileType: extension === 'jpeg' ? extension : 'png',
         text: decodeURIComponent(text),
         theme: theme === 'dark' ? 'dark' : 'light',
         md: md === '1' || md === 'true',
