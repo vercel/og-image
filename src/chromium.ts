@@ -1,18 +1,25 @@
-import * as chromeAwsLambda from 'chrome-aws-lambda';
-import { launch } from 'puppeteer-core';
-const chrome = chromeAwsLambda as any;
+import * as chromeAws from 'chrome-aws-lambda';
+import { launch, Page } from 'puppeteer-core';
+let _page: Page | null;
 
-export async function getScreenshot(url: string, type: FileType) {
+async function getPage() {
+    if (_page) {
+        return _page;
+    }
+    const chrome = chromeAws as any;
     const browser = await launch({
         args: chrome.args,
         executablePath: await chrome.executablePath,
         headless: chrome.headless,
     });
+    _page = await browser.newPage();
+    return _page;
+}
 
-    const page = await browser.newPage();
+export async function getScreenshot(url: string, type: FileType) {
+    const page = await getPage();
     await page.setViewport({ width: 2048, height: 1170 });
     await page.goto(url);
     const file = await page.screenshot({ type });
-    await browser.close();
     return file;
 }
