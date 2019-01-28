@@ -5,7 +5,7 @@
     "builds": [
         { "src": "public/*", "use": "@now/static" },
         { "src": "package.json", "use": "@now/static-build" },
-        { "src": "src/card.ts", "use": "@now/node@canary", "config": { "maxLambdaSize": "40mb" } }
+        { "src": "src/card.ts", "use": "@now/node@0.4.28-canary.6", "config": { "maxLambdaSize": "40mb" } }
     ],
     "routes": [
         { "src": "/", "dest": "/public/index.html" },
