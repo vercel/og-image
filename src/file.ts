@@ -1,20 +1,20 @@
 import { writeFile } from 'fs';
-import { join, basename, dirname } from 'path';
+import { join } from 'path';
+import { randomBytes } from 'crypto';
 import { promisify } from 'util';
 import { tmpdir } from 'os';
 const writeFileAsync = promisify(writeFile);
 
 export async function writeTempFile(name: string, contents: string) {
-    const randomPath = join(tmpdir(), `${name}.html`);
-    console.log('Writing file to ' + randomPath);
+    const randomFile = randomBytes(32).toString('hex') + '.html';
+    const randomPath = join(tmpdir(), randomFile);
+    console.log(`Writing file ${name} to ${randomPath}`);
     await writeFileAsync(randomPath, contents);
     return randomPath;
 }
 
 export function pathToFileURL(path: string) {
-    const fileName = basename(path);
-    const folderName = dirname(path);
-    const fileUrl = 'file://' + join(folderName, encodeURIComponent(fileName));
+    const fileUrl = 'file://' + path;
     console.log('File url is ' + fileUrl);
     return fileUrl;
 }
