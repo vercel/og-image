@@ -35,7 +35,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
 
 if (isDev) {
-    const PORT = process.env.PORT || 3000;
+    const PORT = process.env.PORT || 13463;
     const listen = () => console.log(`Listening on ${PORT}...`);
     createServer(handler).listen(PORT, listen);
 }
