@@ -1,6 +1,3 @@
-const nowBlack = 'https://assets.zeit.co/image/upload/front/assets/design/now-black.svg';
-const nowWhite = 'https://assets.zeit.co/image/upload/front/assets/design/now-white.svg';
-
 const { H, R, copee } = (window as any);
 
 function debounce(func: Function, wait: number) {
@@ -182,7 +179,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
         theme = 'light',
         md = true,
         text = '**Hello** World',
-        images=[nowBlack],
+        images=[imageLightOptions[0].value],
         showToast = false,
         messageToast = '',
         loading = true,
@@ -210,12 +207,10 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         options: themeOptions,
                         value: theme,
                         onchange: (val: Theme) => {
-                            if (images[0] === nowBlack && val === 'dark') {
-                                images[0] = nowWhite;
-                            } else if (images[0] === nowWhite && val === 'light') {
-                                images[0] = nowBlack;
-                            }
-                            setLoadingState({ theme: val, images: [...images] });
+                            const options = val === 'light' ? imageLightOptions : imageDarkOptions
+                            let clone = [...images];
+                            clone[0] = options[selectedImageIndex].value;
+                            setLoadingState({ theme: val, images: clone });
                         }
                     })
                 }),
@@ -260,7 +255,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         onchange: (val: string) =>  {
                             let clone = [...images];
                             clone[0] = val;
-                            setLoadingState({ images: clone });
                             const selected = imageOptions.map(o => o.value).indexOf(val);
                             setLoadingState({ images: clone, selectedImageIndex: selected });
                         }
