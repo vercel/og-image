@@ -30,7 +30,7 @@ export function parseRequest(req: IncomingMessage) {
         text: decodeURIComponent(text),
         theme: theme === 'dark' ? 'dark' : 'light',
         md: md === '1' || md === 'true',
-        fontSize: fontSize || '75px',
+        fontSize: fontSize || '96px',
         images: Array.isArray(images) ? images : [images],
     };
     parsedRequest.images = getDefaultImages(parsedRequest.images, parsedRequest.theme);
