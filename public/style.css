@@ -3,7 +3,24 @@ body {
     margin: 20px;
 }
 
-h1 {
+a {
+    cursor: pointer;
+    color: #0076FF;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid white;
+}
+
+a:hover {
+    border-bottom: 1px solid #0076FF;
+}
+
+footer {
+    opacity: 0.5;
+    font-size: 0.8em;
+}
+
+.center, h1 {
     text-align: center;
 }
 
@@ -262,4 +279,19 @@ img {
         width: 60px;
         font-size: 13px;
     }
+}
+
+.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+
+@keyframes octocat-wave {
+    0%,100% { transform:rotate(0) }
+    20%,60% { transform:rotate(-25deg) }
+    40%,80% { transform:rotate(10deg) }
+}
+
+@media (max-width:500px) {
+    .github-corner:hover .octo-arm { animation:none }
+    .github-corner .octo-arm { animation:octocat-wave 560ms ease-in-out }
 }
