@@ -22,7 +22,7 @@ It looks like the following:
 ## Why use this service?
 
 The purpose of the `og:image` tag is to give some context to the webpage, the URL that was shared on a social network.
-It would take a long time to painstakingly design an image for every single blog post so thats where `og-image.now.sh` comes in.
+It would take a long time to painstakingly design an image for every single blog post so that's where `og-image.now.sh` comes in.
 We can simply pass the title of our blog post as an image name and it will generate the image for us on the fly!
 
 It looks like the following:
@@ -41,9 +41,9 @@ Now try changing the text `Hello` to the title of your choosing and watch the ma
 You'll want to fork this repository and deploy your own image generator.
 
 1. Click the fork button at the top right of GitHub
-2. Clone the repo to your local machine with `git clone URL_TO_FORKED_REPO_HERE`
+2. Clone the repo to your local machine with `git clone URL_OF_FORKED_REPO_HERE`
 3. Make changes by swapping out images, changing colors, etc
-4. Deploy by running `now` (if you don't already have it, run `npm install -g now`)
+4. Deploy by running `now` from the CLI (if you don't already have it, run `npm install -g now`)
 
 Alternatively, you can do a one-click to deploy with the button below.
 
