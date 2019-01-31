@@ -1,17 +1,5 @@
 const { H, R, copee } = (window as any);
-
-function debounce(func: Function, wait: number) {
-	var timeout = -1;
-	return function(this: any, ...args: any[]) {
-		var context = this;
-		var later = function() {
-			timeout = -1;
-			func.apply(context, args);
-		};
-		window.clearTimeout(timeout);
-		timeout = window.setTimeout(later, wait);
-	};
-};
+let timeout = -1;
 
 interface ImagePreviewProps {
     src: string;
@@ -165,17 +153,26 @@ interface AppState extends ParsedRequest {
     showToast: boolean;
     messageToast: string;
     selectedImageIndex: number;
+    overrideUrl: URL | null;
 }
 
 type SetState = (state: Partial<AppState>) => void;
 
 const App = (_: any, state: AppState, setState: SetState) => {
     const setLoadingState = (newState: Partial<AppState>) => {
+        window.clearTimeout(timeout);
+        if (state.overrideUrl && state.overrideUrl !== newState.overrideUrl) {
+            newState.overrideUrl = state.overrideUrl;
+        }
+        if (newState.overrideUrl) {
+            timeout = window.setTimeout(() => setState({ overrideUrl: null }), 200);
+        }
+
         setState({ ...newState, loading: true });
     };
     const {
         fileType = 'png',
-        fontSize = '75px',
+        fontSize = '100px',
         theme = 'light',
         md = true,
         text = '**Hello** World',
@@ -184,6 +181,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
         messageToast = '',
         loading = true,
         selectedImageIndex = 0,
+        overrideUrl = null,
     } = state;
     const mdValue = md ? '1' : '0';
     const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
@@ -195,7 +193,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
     for (let image of images) {
         url.searchParams.append('images', image);
     }
-    
+
     return H('div',
         { className: 'split' },
         H('div',
@@ -242,9 +240,10 @@ const App = (_: any, state: AppState, setState: SetState) => {
                     label: 'Text Input',
                     input: H(TextInput, {
                         value: text,
-                        oninput: debounce((val: string) => {
-                            setLoadingState({ text: val });
-                        }, 150)
+                        oninput: (val: string) => {
+                            console.log('oninput ' + val);
+                            setLoadingState({ text: val, overrideUrl: url });
+                        }
                     })
                 }),
                 H(Field, {
@@ -264,11 +263,11 @@ const App = (_: any, state: AppState, setState: SetState) => {
                     label: `Image ${i + 2}`,
                     input: H(TextInput, {
                         value: image,
-                        oninput: debounce((val: string) => {
+                        oninput: (val: string) => {
                             let clone = [...images];
                             clone[i + 1] = val;
-                            setLoadingState({ images: clone });
-                        }, 150)
+                            setLoadingState({ images: clone, overrideUrl: url });
+                        }
                     })
                 })),
                 H(Field, {
@@ -288,7 +287,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
         H('div',
             { clasName: 'pull-right' },
             H(ImagePreview, {
-                src: url.href,
+                src: overrideUrl ? overrideUrl.href : url.href,
                 loading: loading,
                 onload: () => setState({ loading: false }),
                 onerror: () => {
