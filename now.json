@@ -2,7 +2,8 @@
     "name": "og-image",	 
     "alias": "og-image.now.sh",
     "version": 2,
-	"regions": ["all"],
+    "regions": ["all"],
+    "public": true,
     "builds": [
         { "src": "public/*", "use": "@now/static" },
         { "src": "package.json", "use": "@now/static-build" },
