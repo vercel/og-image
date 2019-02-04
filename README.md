@@ -1,10 +1,10 @@
 # [Open Graph Image Generator](https://og-image.now.sh)
 
-A service that generates dynamic [Open Graph](http://ogp.me) images that you can embed in your `<meta>` tags.
+A service that generates dynamic Open Graph images that you can embed in your `<meta>` tags.
 
 ## What is an Open Graph Image?
 
-Have you ever posted a hyperlink to twitter, facebook, or slack and seen an image popup?
+Have you ever posted a hyperlink to Twitter, Facebook, or Slack and seen an image popup?
 How did your social network know how to "unfurl" the URL and get an image?
 The answer is in your `<head>`.
 
@@ -21,9 +21,11 @@ It looks like the following:
 
 ## Why use this service?
 
-The purpose of the `og:image` tag is to give some context to the webpage, the URL that was shared on a social network.
-It would take a long time to painstakingly design an image for every single blog post so that's where `og-image.now.sh` comes in.
-We can simply pass the title of our blog post as an image name and it will generate the image for us on the fly!
+Read the [blog post](https://zeit.co/blog/social-og-image-cards-as-a-service) for more info on the "Why" part.
+
+The short answer is that it would take a long time to painstakingly design an image for every single blog post. And we don't want the exact same image for every blog post because that wouldn't make the article stand out when it was shared to Twitter. 
+
+That's where `og-image.now.sh` comes in. We can simply pass the title of our blog post to our generator service and it will generate the image for us on the fly!
 
 It looks like the following:
 
@@ -36,7 +38,7 @@ It looks like the following:
 
 Now try changing the text `Hello` to the title of your choosing and watch the magic happen ✨
 
-## Deploy
+## Deploy your own
 
 You'll want to fork this repository and deploy your own image generator.
 
@@ -49,6 +51,9 @@ Alternatively, you can do a one-click to deploy with the button below.
 
 [![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/styfle/og-image)
 
+Once you have an image generator that sparks joy, you can setup [automatic Now + GitHub](https://zeit.co/github) deployments so that pushing to master is also deploying to production! 🚀
+
 ## Authors
 
-Steven ([@styfle](https://twitter.com/styfle)) - [ZEIT](https://zeit.co)
+- Steven ([@styfle](https://twitter.com/styfle)) - [ZEIT](https://zeit.co)
+- Evil Rabbit ([@evilrabbit](https://twitter.com/evilrabbit_)) - [ZEIT](https://zeit.co)
