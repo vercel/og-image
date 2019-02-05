@@ -2,6 +2,10 @@
 
 A service that generates dynamic Open Graph images that you can embed in your `<meta>` tags.
 
+Here's what it looks like in action.
+
+<img src="https://raw.githubusercontent.com/styfle/og-image/master/public/tweet.png" height="200" />
+
 ## What is an Open Graph Image?
 
 Have you ever posted a hyperlink to Twitter, Facebook, or Slack and seen an image popup?
