@@ -10,17 +10,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     try {
         const parsedReq = parseRequest(req);
         const html = getHtml(parsedReq);
-        
-        if (isDev) {
-            res.setHeader('Content-Type', 'text/html');
-            res.end(html);
-            return;
-        }
-
         const { text, fileType } = parsedReq;
         const filePath = await writeTempFile(text, html);
         const fileUrl = pathToFileURL(filePath);
-        const file = await getScreenshot(fileUrl, fileType);
+        const file = await getScreenshot(fileUrl, fileType, isDev);
         res.statusCode = 200;
         res.setHeader('Content-Type', `image/${fileType}`);
         res.setHeader('Cache-Control', `public, immutable, no-transform, max-age=31536000`);

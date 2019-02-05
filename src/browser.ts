@@ -187,7 +187,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
     } = state;
     const mdValue = md ? '1' : '0';
     const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
-    const url = new URL(window.location.hostname === 'localhost' ? 'https://og-image.now.sh' : window.location.origin);
+    const url = new URL(window.location.hostname === 'localhost' ? 'http://localhost:13463' : window.location.origin);
     url.pathname = `${encodeURIComponent(text)}.${fileType}`;
     url.searchParams.append('theme', theme);
     url.searchParams.append('md', mdValue);
