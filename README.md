@@ -1,10 +1,13 @@
 # [Open Graph Image Generator](https://og-image.now.sh)
 
+<a href="https://twitter.com/zeithq/status/1092587111985881088">
+    <img align="right" src="https://raw.githubusercontent.com/styfle/og-image/master/public/tweet.png" height="300" />
+</a>
+
 A service that generates dynamic Open Graph images that you can embed in your `<meta>` tags.
 
-Here's what it looks like in action.
+See the image embedded in the tweet for a real use case.
 
-<img src="https://raw.githubusercontent.com/styfle/og-image/master/public/tweet.png" height="200" />
 
 ## What is an Open Graph Image?
 
