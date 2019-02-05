@@ -54,7 +54,6 @@ const Dropdown = ({ options, value, onchange }: DropdownProps) => {
 
 interface TextInputProps {
     value: string;
-    id: string;
     oninput: (val: string) => void;
 }
 
