@@ -86,8 +86,10 @@ interface FieldProps {
 const Field = ({ label, input }: FieldProps) => {
     return H('div',
         { className: 'field' },
-        H('label', { className: 'field-label' }, label),
-        H('div', { className: 'field-value' }, input),
+        H('label', 
+            H('div', {className: 'field-label'}, label),
+            H('div', { className: 'field-value' }, input),
+        ),
     );
 }
 
