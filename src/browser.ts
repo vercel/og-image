@@ -30,14 +30,15 @@ interface DropdownOption {
 interface DropdownProps {
     options: DropdownOption[];
     value: string;
+    id: string;
     onchange: (val: string) => void;
 }
 
-const Dropdown = ({ options, value, onchange }: DropdownProps) => {
+const Dropdown = ({ options, value, onchange, id }: DropdownProps) => {
     return H('div',
         { className: 'select-wrapper'},
         H('select',
-            { onchange: (e: any) => onchange(e.target.value) },
+            { id: id, onchange: (e: any) => onchange(e.target.value) },
             options.map(o =>
                 H('option',
                     { value: o.value, selected: value === o.value },
@@ -54,16 +55,17 @@ const Dropdown = ({ options, value, onchange }: DropdownProps) => {
 
 interface TextInputProps {
     value: string;
+    id: string;
     oninput: (val: string) => void;
 }
 
-const TextInput = ({ value, oninput }: TextInputProps) => {
+const TextInput = ({ value, oninput, id }: TextInputProps) => {
     return H('div',
         { className: 'input-outer-wrapper' },
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: 'text', value, oninput: (e: any) => oninput(e.target.value) }
+                { id: id, type: 'text', value, oninput: (e: any) => oninput(e.target.value) }
             )
         )
     );
@@ -71,22 +73,24 @@ const TextInput = ({ value, oninput }: TextInputProps) => {
 
 interface ButtonProps {
     label: string;
+    id?: string;
     onclick: () => void;
 }
 
-const Button = ({ label, onclick }: ButtonProps) => {
-    return H('button', { onclick }, label);
+const Button = ({ label, onclick, id }: ButtonProps) => {
+    return H('button', { onclick, id }, label);
 }
 
 interface FieldProps {
     label: string;
+    labelForId: string;
     input: any;
 }
 
-const Field = ({ label, input }: FieldProps) => {
+const Field = ({ label, input, labelForId }: FieldProps) => {
     return H('div',
         { className: 'field' },
-        H('label', { className: 'field-label' }, label),
+        H('label', { className: 'field-label', htmlFor: labelForId }, label),
         H('div', { className: 'field-value' }, input),
     );
 }
@@ -148,6 +152,17 @@ const imageDarkOptions: DropdownOption[] = [
     { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-bw-logo.svg' },
 ];
 
+type FieldType = 'Theme' | 'FileType' | 'FontSize' | 'TextType' | 'TextInput' | 'Image';
+
+const fieldIds: Record<FieldType, string> = {
+    Theme: 'theme',
+    FileType: 'fileType',
+    FontSize: 'fontSize',
+    TextType: 'textType',
+    TextInput: 'textInput',
+    Image: 'image'
+}
+
 interface AppState extends ParsedRequest {
     loading: boolean;
     showToast: boolean;
@@ -201,7 +216,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
             H('div',
                 H(Field, {
                     label: 'Theme',
+                    labelForId: fieldIds.Theme,
                     input: H(Dropdown, {
+                        id: fieldIds.Theme,
                         options: themeOptions,
                         value: theme,
                         onchange: (val: Theme) => {
@@ -214,7 +231,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 }),
                 H(Field, {
                     label: 'File Type',
+                    labelForId: fieldIds.FileType,
                     input: H(Dropdown, {
+                        id: fieldIds.FileType,
                         options: fileTypeOptions,
                         value: fileType,
                         onchange: (val: FileType) => setLoadingState({ fileType: val })
@@ -222,7 +241,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 }),
                 H(Field, {
                     label: 'Font Size',
+                    labelForId: fieldIds.FontSize,
                     input: H(Dropdown, {
+                        id: fieldIds.FontSize,
                         options: fontSizeOptions,
                         value: fontSize,
                         onchange: (val: string) => setLoadingState({ fontSize: val })
@@ -230,7 +251,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 }),
                 H(Field, {
                     label: 'Text Type',
+                    labelForId: fieldIds.TextType,
                     input: H(Dropdown, {
+                        id: fieldIds.TextType,
                         options: markdownOptions,
                         value: mdValue,
                         onchange: (val: string) => setLoadingState({ md: val === '1' })
@@ -238,7 +261,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 }),
                 H(Field, {
                     label: 'Text Input',
+                    labelForId: fieldIds.TextInput,
                     input: H(TextInput, {
+                        id: fieldIds.TextInput,
                         value: text,
                         oninput: (val: string) => {
                             console.log('oninput ' + val);
@@ -248,7 +273,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 }),
                 H(Field, {
                     label: 'Image 1',
+                    labelForId: `${fieldIds.Image}-1`,
                     input: H(Dropdown, {
+                        id: `${fieldIds.Image}-1`,
                         options: imageOptions,
                         value: imageOptions[selectedImageIndex].value,
                         onchange: (val: string) =>  {
@@ -261,7 +288,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 }),
                 ...images.slice(1).map((image, i) => H(Field, {
                     label: `Image ${i + 2}`,
+                    labelForId: `${fieldIds.Image}-${i + 2}`,
                     input: H(TextInput, {
+                        id: `${fieldIds.Image}-${i + 2}`,
                         value: image,
                         oninput: (val: string) => {
                             let clone = [...images];
@@ -272,7 +301,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 })),
                 H(Field, {
                     label: `Image ${images.length + 1}`,
+                    labelForId: `${fieldIds.Image}-${images.length + 1}`,
                     input: H(Button, {
+                        id: `${fieldIds.Image}-${images.length + 1}`,
                         label: `Add Image ${images.length + 1}`,
                         onclick: () => {
                             const nextImage = images.length === 1
