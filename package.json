@@ -1,13 +1,15 @@
 {
   "name": "og-image",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate an open graph image for twitter/facebook/etc",
   "main": "dist/card.js",
   "scripts": {
     "start": "node dist/card.js",
     "build": "tsc",
     "now-build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "http-server": "http-server -p 8080 -a localhost -o",
+    "develop": "run-p watch start http-server"
   },
   "author": "styfle",
   "repository": "github:styfle/og-image",
@@ -20,6 +22,8 @@
   "devDependencies": {
     "@types/marked": "^0.6.0",
     "@types/puppeteer-core": "^1.9.0",
+    "http-server": "^0.11.1",
+    "npm-run-all": "^4.1.5",
     "typescript": "^3.2.4"
   }
 }
