@@ -4,8 +4,8 @@ import * as marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
 
 function getCss(theme: string, fontSize: string) {
-    const regular = readFileSync(`${__dirname}/../.fonts/Inter-UI-Regular.woff2`).toString('base64');
-    const bold = readFileSync(`${__dirname}/../.fonts/Inter-UI-Bold.woff2`).toString('base64');
+    const regular = readFileSync(`${__dirname}/../.fonts/Inter-Regular.woff2`).toString('base64');
+    const bold = readFileSync(`${__dirname}/../.fonts/Inter-Bold.woff2`).toString('base64');
     let background = 'white';
     let foreground = 'black';
     let radial = 'lightgray';
