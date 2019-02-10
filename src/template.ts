@@ -6,6 +6,7 @@ import { sanitizeHtml } from './sanitizer';
 function getCss(theme: string, fontSize: string) {
     const regular = readFileSync(`${__dirname}/../.fonts/Inter-Regular.woff2`).toString('base64');
     const bold = readFileSync(`${__dirname}/../.fonts/Inter-Bold.woff2`).toString('base64');
+
     let background = 'white';
     let foreground = 'black';
     let radial = 'lightgray';
@@ -17,14 +18,14 @@ function getCss(theme: string, fontSize: string) {
     }
     return `
     @font-face {
-        font-family: 'Inter UI';
+        font-family: 'Inter';
         font-style:  normal;
         font-weight: normal;
         src: url(data:font/woff2;charset=utf-8;base64,${regular}) format('woff2');
     }
 
     @font-face {
-        font-family: 'Inter UI';
+        font-family: 'Inter';
         font-style:  normal;
         font-weight: bold;
         src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
@@ -75,7 +76,7 @@ function getCss(theme: string, fontSize: string) {
     }
     
     .heading {
-        font-family: 'Inter UI', sans-serif;
+        font-family: 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground}
