@@ -1,16 +1,16 @@
 import { writeFile } from 'fs';
 import { join } from 'path';
-import { randomBytes } from 'crypto';
+import { createHash } from 'crypto';
 import { promisify } from 'util';
 import { tmpdir } from 'os';
 const writeFileAsync = promisify(writeFile);
 
 export async function writeTempFile(name: string, contents: string) {
-    const randomFile = randomBytes(32).toString('hex') + '.html';
-    const randomPath = join(tmpdir(), randomFile);
-    console.log(`Writing file ${name} to ${randomPath}`);
-    await writeFileAsync(randomPath, contents);
-    return randomPath;
+    const fileName = createHash('md5').update(name).digest('hex') + '.html';
+    const filePath = join(tmpdir(), fileName);
+    console.log(`Writing file ${name} to ${filePath}`);
+    await writeFileAsync(filePath, contents);
+    return filePath;
 }
 
 export function pathToFileURL(path: string) {

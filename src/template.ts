@@ -3,11 +3,11 @@ import { readFileSync } from 'fs';
 import marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
 
-function getCss(theme: string, fontSize: string) {
-    const regular = readFileSync(`${__dirname}/../.fonts/Inter-Regular.woff2`).toString('base64');
-    const bold = readFileSync(`${__dirname}/../.fonts/Inter-Bold.woff2`).toString('base64');
-    const noto = readFileSync(`${__dirname}/../.fonts/NotoColorEmoji.ttf`).toString('base64');
+const regular = readFileSync(`${__dirname}/../.fonts/Inter-Regular.woff2`).toString('base64');
+const bold = readFileSync(`${__dirname}/../.fonts/Inter-Bold.woff2`).toString('base64');
+const noto = readFileSync(`${__dirname}/../.fonts/NotoColorEmoji.ttf`).toString('base64');
 
+function getCss(theme: string, fontSize: string) {
     let background = 'white';
     let foreground = 'black';
     let radial = 'lightgray';
@@ -93,6 +93,7 @@ function getCss(theme: string, fontSize: string) {
 
 export function getHtml(parsedReq: ParsedRequest) {
     const { text, theme, md, fontSize, images } = parsedReq;
+    const [ firstImage, ...otherImages ] = images;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -105,10 +106,10 @@ export function getHtml(parsedReq: ParsedRequest) {
         <div>
             <div class="spacer">
             <div class="img-wrapper">
-                <img class="logo" src="${sanitizeHtml(images[0])}" />
-                ${images.slice(1).map(img => {
-                    return `<div class="plus">+</div><img class="logo" src="${sanitizeHtml(img)}" />`;
-                })}
+                <img class="logo" src="${sanitizeHtml(firstImage)}" />
+                ${otherImages.map(img =>
+                    `<div class="plus">+</div><img class="logo" src="${sanitizeHtml(img)}" />`
+                )}
             </div>
             <div class="spacer">
             <div class="heading">${md

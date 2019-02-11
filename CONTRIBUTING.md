@@ -9,9 +9,11 @@ The Now 2.0 platform handles [routing](https://github.com/styfle/og-image/blob/m
 
 However, local development requires a few steps.
 
-1. Run `npm run watch` to get TS to JS compilation file watch running (compiles on save)
-2. Run the backend with `npm start` (you can try it by visiting http://localhost:13463/Nice.png)
-3. Run the frontend with `npx http-server .` and visit http://localhost:8080/public/index.html
-4. If necessary, edit the `exePath` in [options.ts](https://github.com/styfle/og-image/blob/master/src/options.ts) to point to your local Chrome executable
+1. Clone this repo
+2. Run `npm install` to install all dependencies
+3. Run `npm run watch` to get TS to JS compilation file watch running (compiles on save)
+4. Run the backend with `npm start` (you can try it by visiting http://localhost:13463/Nice.png)
+5. Run the frontend with `npx http-server .` and visit http://localhost:8080/public/index.html
+6. If necessary, edit the `exePath` in [options.ts](https://github.com/styfle/og-image/blob/master/src/options.ts) to point to your local Chrome executable
 
 Now you're ready to start local development!
