@@ -13,7 +13,8 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "removeComments": true,
-        "preserveConstEnums": true
+        "preserveConstEnums": true,
+        "esModuleInterop": true
     },
     "exclude": [
         "node_modules"

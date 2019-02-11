@@ -1,5 +1,4 @@
-import * as chromeAws from 'chrome-aws-lambda';
-const chrome = chromeAws as any;
+import chrome from 'chrome-aws-lambda';
 const exePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 interface Options {

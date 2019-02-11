@@ -1,6 +1,6 @@
 
 import { readFileSync } from 'fs';
-import * as marked from 'marked';
+import marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
 
 function getCss(theme: string, fontSize: string) {
