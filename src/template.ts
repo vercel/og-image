@@ -2,10 +2,12 @@
 import { readFileSync } from 'fs';
 import marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
+const twemoji = require('twemoji');
+const twOptions = { folder: 'svg', ext: '.svg' };
+const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 const regular = readFileSync(`${__dirname}/../.fonts/Inter-Regular.woff2`).toString('base64');
 const bold = readFileSync(`${__dirname}/../.fonts/Inter-Bold.woff2`).toString('base64');
-const noto = readFileSync(`${__dirname}/../.fonts/NotoColorEmoji.ttf`).toString('base64');
 
 function getCss(theme: string, fontSize: string) {
     let background = 'white';
@@ -30,13 +32,6 @@ function getCss(theme: string, fontSize: string) {
         font-style:  normal;
         font-weight: bold;
         src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Noto';
-        font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/ttf;charset=utf-8;base64,${noto}) format('truetype');
     }
 
     body {
@@ -82,9 +77,16 @@ function getCss(theme: string, fontSize: string) {
     .spacer {
         margin: 150px;
     }
+
+    img.emoji {
+        height: 1em;
+        width: 1em;
+        margin: 0 .05em 0 .1em;
+        vertical-align: -0.1em;
+    }
     
     .heading {
-        font-family: 'Inter', 'Noto', sans-serif;
+        font-family: 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground}
@@ -112,9 +114,9 @@ export function getHtml(parsedReq: ParsedRequest) {
                 )}
             </div>
             <div class="spacer">
-            <div class="heading">${md
-                ? marked(text)
-                : sanitizeHtml(text)}
+            <div class="heading">${emojify(
+                md ? marked(text) : sanitizeHtml(text)
+            )}
             </div>
         </div>
     </body>
