@@ -8,6 +8,7 @@ const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 const regular = readFileSync(`${__dirname}/../.fonts/Inter-Regular.woff2`).toString('base64');
 const bold = readFileSync(`${__dirname}/../.fonts/Inter-Bold.woff2`).toString('base64');
+const mono = readFileSync(`${__dirname}/../.fonts/Vera-Mono.woff2`).toString('base64');
 
 function getCss(theme: string, fontSize: string) {
     let background = 'white';
@@ -34,6 +35,13 @@ function getCss(theme: string, fontSize: string) {
         src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
     }
 
+    @font-face {
+        font-family: 'Vera';
+        font-style: normal;
+        font-weight: normal;
+        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
+      }
+
     body {
         background: ${background};
         background-image: radial-gradient(${radial} 5%, transparent 0);
@@ -47,8 +55,9 @@ function getCss(theme: string, fontSize: string) {
 
     code {
         color: #D400FF;
-        font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif;
+        font-family: 'Vera';
         white-space: pre-wrap;
+        letter-spacing: -5px;
     }
 
     code:before, code:after {
@@ -89,7 +98,8 @@ function getCss(theme: string, fontSize: string) {
         font-family: 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
-        color: ${foreground}
+        color: ${foreground};
+        line-height: 1.8;
     }`;
 }
 
