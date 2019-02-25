@@ -21,8 +21,8 @@ It looks like the following:
 
 ```html
 <head>
-  <title>Hello</title>
-  <meta property="og:image" content="http://example.com/hello.jpg" />
+  <title>Title</title>
+  <meta property="og:image" content="http://example.com/logo.jpg" />
 </head>
 ```
 
@@ -38,12 +38,12 @@ It looks like the following:
 
 ```html
 <head>
-  <title>Hello</title>
-  <meta property="og:image" content="https://og-image.now.sh/Hello.png" />
+  <title>Hello World</title>
+  <meta property="og:image" content="https://og-image.now.sh/Hello%20World.png" />
 </head>
 ```
 
-Now try changing the text `Hello` to the title of your choosing and watch the magic happen ✨
+Now try changing the text `Hello%20World` to the title of your choosing and watch the magic happen ✨
 
 ## Deploy your own
 
