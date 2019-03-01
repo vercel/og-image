@@ -19,7 +19,7 @@
     "twemoji": "^11.3.0"
   },
   "devDependencies": {
-    "@types/marked": "^0.6.0",
+    "@types/marked": "^0.6.1",
     "@types/puppeteer-core": "^1.9.0",
     "typescript": "^3.2.4"
   }
