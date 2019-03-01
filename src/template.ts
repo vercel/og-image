@@ -64,7 +64,7 @@ function getCss(theme: string, fontSize: string) {
         content: '\`';
     }
 
-    .img-wrapper {
+    .logo-wrapper {
         display: flex;
         align-items: center;
         align-content: center;
@@ -73,8 +73,6 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .logo {
-        width: auto;
-        height: 225px;
         margin: 0 75px;
     }
 
@@ -88,7 +86,7 @@ function getCss(theme: string, fontSize: string) {
         margin: 150px;
     }
 
-    img.emoji {
+    .emoji {
         height: 1em;
         width: 1em;
         margin: 0 .05em 0 .1em;
@@ -105,8 +103,7 @@ function getCss(theme: string, fontSize: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images } = parsedReq;
-    const [ firstImage, ...otherImages ] = images;
+    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -118,11 +115,10 @@ export function getHtml(parsedReq: ParsedRequest) {
     <body>
         <div>
             <div class="spacer">
-            <div class="img-wrapper">
-                <img class="logo" src="${sanitizeHtml(firstImage)}" />
-                ${otherImages.map(img =>
-                    `<div class="plus">+</div><img class="logo" src="${sanitizeHtml(img)}" />`
-                )}
+            <div class="logo-wrapper">
+                ${images.map((img, i) =>
+                    getPlusSign(i) + getImage(img, widths[i], heights[i])
+                ).join('')}
             </div>
             <div class="spacer">
             <div class="heading">${emojify(
@@ -132,4 +128,13 @@ export function getHtml(parsedReq: ParsedRequest) {
         </div>
     </body>
 </html>`;
+}
+
+function getImage(url: string, width ='auto', height = '225') {
+    const src = sanitizeHtml(url);
+    return `<img class="logo" src="${src}" width="${width}" height="${height}" />`
+}
+
+function getPlusSign(i: number) {
+    return i === 0 ? '' : '<div class="plus">+</div>';
 }
