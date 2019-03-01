@@ -130,9 +130,13 @@ export function getHtml(parsedReq: ParsedRequest) {
 </html>`;
 }
 
-function getImage(url: string, width ='auto', height = '225') {
-    const src = sanitizeHtml(url);
-    return `<img class="logo" src="${src}" width="${width}" height="${height}" />`
+function getImage(src: string, width ='auto', height = '225') {
+    return `<img
+        class="logo"
+        src="${sanitizeHtml(src)}"
+        width="${sanitizeHtml(width)}"
+        height="${sanitizeHtml(height)}"
+    />`
 }
 
 function getPlusSign(i: number) {
