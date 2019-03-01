@@ -31,11 +31,14 @@ interface DropdownProps {
     options: DropdownOption[];
     value: string;
     onchange: (val: string) => void;
+    small: boolean;
 }
 
-const Dropdown = ({ options, value, onchange }: DropdownProps) => {
+const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
+    const wrapper = small ? 'select-wrapper small' : 'select-wrapper';
+    const arrow = small ? 'select-arrow small' : 'select-arrow';
     return H('div',
-        { className: 'select-wrapper'},
+        { className: wrapper },
         H('select',
             { onchange: (e: any) => onchange(e.target.value) },
             options.map(o =>
@@ -46,7 +49,7 @@ const Dropdown = ({ options, value, onchange }: DropdownProps) => {
             )
         ),
         H('div',
-            { className: 'select-arrow' },
+            { className: arrow },
             '▼'
         )
     );
@@ -150,11 +153,35 @@ const imageDarkOptions: DropdownOption[] = [
     { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-bw-logo.svg' },
 ];
 
+const widthOptions = [
+    { text: 'width', value: 'auto' },
+    { text: '50', value: '50' },
+    { text: '100', value: '100' },
+    { text: '150', value: '150' },
+    { text: '200', value: '200' },
+    { text: '250', value: '250' },
+    { text: '300', value: '300' },
+    { text: '350', value: '350' },
+];
+
+const heightOptions = [
+    { text: 'height', value: 'auto' },
+    { text: '50', value: '50' },
+    { text: '100', value: '100' },
+    { text: '150', value: '150' },
+    { text: '200', value: '200' },
+    { text: '250', value: '250' },
+    { text: '300', value: '300' },
+    { text: '350', value: '350' },
+];
+
 interface AppState extends ParsedRequest {
     loading: boolean;
     showToast: boolean;
     messageToast: string;
     selectedImageIndex: number;
+    widths: string[];
+    heights: string[];
     overrideUrl: URL | null;
 }
 
@@ -179,6 +206,8 @@ const App = (_: any, state: AppState, setState: SetState) => {
         md = true,
         text = '**Hello** World',
         images=[imageLightOptions[0].value],
+        widths=[],
+        heights=[],
         showToast = false,
         messageToast = '',
         loading = true,
@@ -194,6 +223,12 @@ const App = (_: any, state: AppState, setState: SetState) => {
     url.searchParams.append('fontSize', fontSize);
     for (let image of images) {
         url.searchParams.append('images', image);
+    }
+    for (let width of widths) {
+        url.searchParams.append('widths', width);
+    }
+    for (let height of heights) {
+        url.searchParams.append('heights', height);
     }
 
     return H('div',
@@ -250,27 +285,77 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 }),
                 H(Field, {
                     label: 'Image 1',
-                    input: H(Dropdown, {
-                        options: imageOptions,
-                        value: imageOptions[selectedImageIndex].value,
-                        onchange: (val: string) =>  {
-                            let clone = [...images];
-                            clone[0] = val;
-                            const selected = imageOptions.map(o => o.value).indexOf(val);
-                            setLoadingState({ images: clone, selectedImageIndex: selected });
-                        }
-                    })
+                    input: H('div',
+                        H(Dropdown, {
+                            options: imageOptions,
+                            value: imageOptions[selectedImageIndex].value,
+                            onchange: (val: string) =>  {
+                                let clone = [...images];
+                                clone[0] = val;
+                                const selected = imageOptions.map(o => o.value).indexOf(val);
+                                setLoadingState({ images: clone, selectedImageIndex: selected });
+                            }
+                        }),
+                        H('div',
+                            { className: 'field-flex' },
+                            H(Dropdown, {
+                                options: widthOptions,
+                                value: widths[0],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...widths];
+                                    clone[0] = val;
+                                    setLoadingState({ widths: clone });
+                                }
+                            }),
+                            H(Dropdown, {
+                                options: heightOptions,
+                                value: heights[0],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...heights];
+                                    clone[0] = val;
+                                    setLoadingState({ heights: clone });
+                                }
+                            })
+                        )
+                    ),
                 }),
                 ...images.slice(1).map((image, i) => H(Field, {
                     label: `Image ${i + 2}`,
-                    input: H(TextInput, {
-                        value: image,
-                        oninput: (val: string) => {
-                            let clone = [...images];
-                            clone[i + 1] = val;
-                            setLoadingState({ images: clone, overrideUrl: url });
-                        }
-                    })
+                    input: H('div',
+                        H(TextInput, {
+                            value: image,
+                            oninput: (val: string) => {
+                                let clone = [...images];
+                                clone[i + 1] = val;
+                                setLoadingState({ images: clone, overrideUrl: url });
+                            }
+                        }),
+                        H('div',
+                            { className: 'field-flex' },
+                            H(Dropdown, {
+                                options: widthOptions,
+                                value: widths[i + 1],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...widths];
+                                    clone[i + 1] = val;
+                                    setLoadingState({ widths: clone });
+                                }
+                            }),
+                            H(Dropdown, {
+                                options: heightOptions,
+                                value: heights[i + 1],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...heights];
+                                    clone[i + 1] = val;
+                                    setLoadingState({ heights: clone });
+                                }
+                            })
+                        )
+                    )
                 })),
                 H(Field, {
                     label: `Image ${images.length + 1}`,
