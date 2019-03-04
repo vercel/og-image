@@ -9,18 +9,16 @@
     "now-build": "tsc",
     "watch": "tsc --watch"
   },
-  "author": "styfle",
-  "repository": "github:styfle/og-image",
   "license": "MIT",
   "dependencies": {
     "chrome-aws-lambda": "1.11.1",
-    "marked": "^0.6.1",
+    "marked": "0.6.1",
     "puppeteer-core": "1.11.0",
-    "twemoji": "^11.3.0"
+    "twemoji": "11.3.0"
   },
   "devDependencies": {
-    "@types/marked": "^0.6.1",
-    "@types/puppeteer-core": "^1.9.0",
-    "typescript": "^3.3.3333"
+    "@types/marked": "0.6.1",
+    "@types/puppeteer-core": "1.9.0",
+    "typescript": "3.3.3333"
   }
 }
