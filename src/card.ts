@@ -5,11 +5,17 @@ import { getHtml } from './template';
 import { writeTempFile, pathToFileURL } from './file';
 
 const isDev = !process.env.NOW_REGION;
+const isHtmlDebug = process.env.OG_HTML_DEBUG === '1';
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
         const parsedReq = parseRequest(req);
         const html = getHtml(parsedReq);
+        if (isHtmlDebug) {
+            res.setHeader('Content-Type', 'text/html');
+            res.end(html);
+            return;
+        }
         const { text, fileType } = parsedReq;
         const filePath = await writeTempFile(text, html);
         const fileUrl = pathToFileURL(filePath);

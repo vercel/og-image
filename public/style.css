@@ -152,6 +152,12 @@ button:hover {
     border-color: #ddd;
 }
 
+.select-wrapper.small {
+    height: 24px;
+    min-width: 100px;
+    width: 100px;
+}
+
 .select-arrow {
     border-left: 1px solid #eaeaea;
     background: #fff;
@@ -163,6 +169,10 @@ button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.select-arrow.small {
+    width: 22px;
 }
 
 select {
@@ -180,8 +190,13 @@ select {
     text-transform: none;
 }
 
-.field {
-    margin: 20px 80px;
+.field-flex {
+    display: flex;
+    margin-top: 10px;
+}
+
+.field-value {
+    margin: 10px 80px;
 }
 
 .field-label {
@@ -194,6 +209,11 @@ select {
 .field-value {
     width: 200px;
     display: inline-block;
+}
+
+label {
+    display: flex;
+    align-items: center;
 }
 
 .toast-area {
