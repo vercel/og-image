@@ -1,7 +1,7 @@
 # [Open Graph Image as a Service](https://og-image.now.sh)
 
 <a href="https://twitter.com/zeithq/status/1092587111985881088">
-    <img align="right" src="https://raw.githubusercontent.com/styfle/og-image/master/public/tweet.png" height="300" />
+    <img align="right" src="https://raw.githubusercontent.com/zeit/og-image/master/public/tweet.png" height="300" />
 </a>
 
 Serverless service that generates dynamic Open Graph images that you can embed in your `<meta>` tags.
@@ -51,12 +51,12 @@ You'll want to fork this repository and deploy your own image generator.
 
 1. Click the fork button at the top right of GitHub
 2. Clone the repo to your local machine with `git clone URL_OF_FORKED_REPO_HERE`
-3. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/styfle/og-image/blob/master/CONTRIBUTING.md) for more)
+3. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/zeit/og-image/blob/master/CONTRIBUTING.md) for more)
 4. Deploy by running `now` from the CLI (if you don't already have it, run `npm install -g now`)
 
 Alternatively, you can do a one-click to deploy with the button below.
 
-[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/styfle/og-image)
+[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/zeit/og-image)
 
 Once you have an image generator that sparks joy, you can setup [automatic Now + GitHub](https://zeit.co/github) deployments so that pushing to master is also deploying to production! 🚀
 

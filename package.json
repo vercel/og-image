@@ -10,7 +10,7 @@
     "watch": "tsc --watch"
   },
   "author": "styfle",
-  "repository": "github:styfle/og-image",
+  "repository": "github:zeit/og-image",
   "license": "MIT",
   "dependencies": {
     "chrome-aws-lambda": "1.11.1",
