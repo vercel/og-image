@@ -1,6 +1,6 @@
 {
     "name": "og-image",	 
-    "alias": ["api-og-image.zeit.sh"],
+    "alias": [ "og-image.now.sh", "api-og-image.zeit.sh" ],
     "version": 2,
     "regions": ["all"],
     "public": true,
