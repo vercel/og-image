@@ -9,8 +9,6 @@
     "now-build": "tsc",
     "watch": "tsc --watch"
   },
-  "author": "styfle",
-  "repository": "github:zeit/og-image",
   "license": "MIT",
   "dependencies": {
     "chrome-aws-lambda": "1.11.1",
