@@ -7,13 +7,13 @@ There are two pieces to `og-image` that are worth noting before you begin develo
 
 The Now 2.0 platform handles [routing](https://github.com/zeit/og-image/blob/master/now.json#L12) in an elegate way for us so deployment is easy.
 
-However, local development requires a few steps.
+To start hacking, do the following:
 
-1. Clone this repo
-2. Run `npm install` to install all dependencies
-3. Run `npm run watch` to get TS to JS compilation file watch running (compiles on save)
-4. Run the backend with `npm start` (you can try it by visiting http://localhost:13463/Nice.png)
-5. Run the frontend with `npx http-server .` and visit http://localhost:8080/public/index.html
-6. If necessary, edit the `exePath` in [options.ts](https://github.com/zeit/og-image/blob/master/src/options.ts) to point to your local Chrome executable
+1. Clone this repo with `git clone https://github.com/zeit/og-image`
+2. Change directory with `cd og-image`
+2. Run `yarn` or `npm install` to install all dependencies
+3. Run  `yarn dev` or `npm run dev` to start the dev server
+4. Visit http://localhost:8080/public/index.html
+5. If necessary, edit the `exePath` in [options.ts](https://github.com/zeit/og-image/blob/master/src/options.ts) to point to your local Chrome executable
 
 Now you're ready to start local development!
