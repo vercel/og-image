@@ -1,10 +1,10 @@
-import { createServer, IncomingMessage, ServerResponse } from 'http';
+import { IncomingMessage, ServerResponse } from 'http';
 import { parseRequest } from './parser';
 import { getScreenshot } from './chromium';
 import { getHtml } from './template';
 import { writeTempFile, pathToFileURL } from './file';
 
-const isDev = !process.env.NOW_REGION;
+const isDev = process.env.NOW_REGION === 'dev1';
 const isHtmlDebug = process.env.OG_HTML_DEBUG === '1';
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
@@ -30,11 +30,4 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         res.end('<h1>Internal Error</h1><p>Sorry, there was a problem</p>');
         console.error(e);
     }
-}
-
-
-if (isDev) {
-    const PORT = process.env.PORT || 13463;
-    const listen = () => console.log(`Listening on ${PORT}...`);
-    createServer(handler).listen(PORT, listen);
 }
