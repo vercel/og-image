@@ -53,8 +53,10 @@ You'll want to fork this repository and deploy your own image generator.
 
 1. Click the fork button at the top right of GitHub
 2. Clone the repo to your local machine with `git clone URL_OF_FORKED_REPO_HERE`
-3. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/zeit/og-image/blob/master/CONTRIBUTING.md) for more)
-4. Deploy by running `now` from the CLI (if you don't already have it, run `npm install -g now`)
+3. Change directory with `cd og-image`
+4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/zeit/og-image/blob/master/CONTRIBUTING.md) for more info)
+5. Run locally with `now dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g now`)
+4. Deploy to the cloud by running `now` and you'll get a unique URL
 
 Alternatively, you can do a one-click to deploy with the button below.
 
