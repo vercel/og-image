@@ -372,7 +372,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
             )
         ),
         H('div',
-            { clasName: 'pull-right' },
+            { className: 'pull-right' },
             H(ImagePreview, {
                 src: overrideUrl ? overrideUrl.href : url.href,
                 loading: loading,
