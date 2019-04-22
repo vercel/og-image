@@ -14,10 +14,11 @@ const ImagePreview = ({ src, onclick, onload, onerror, loading }: ImagePreviewPr
         filter: loading ? 'blur(5px)' : '',
         opacity: loading ? 0.1 : 1,
     };
+    const title = 'Click to copy image URL to clipboard';
     return H('a',
         { className: 'image-wrapper', href: src, onclick },
         H('img',
-            { src, onload, onerror, style }
+            { src, onload, onerror, style, title }
         )
     );
 }

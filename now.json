@@ -11,8 +11,7 @@
     ],
     "routes": [
         { "src": "/", "dest": "/public/index.html" },
-        { "src": "/favicon.ico", "dest": "/public/favicon.ico" },
-        { "src": "/style.css", "dest": "/public/style.css" },
+        { "src": "/(favicon.ico|style.css|robots.txt)", "dest": "/public/$1" },
         { "src": "/dist/browser.js", "dest": "/browser.js" },
         { "src": "/(.+)", "dest": "/src/card.ts" }
     ]
