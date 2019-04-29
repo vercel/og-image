@@ -17,3 +17,5 @@ To start hacking, do the following:
 5. If necessary, edit the `exePath` in [options.ts](https://github.com/zeit/og-image/blob/master/src/options.ts) to point to your local Chrome executable
 
 Now you're ready to start local development!
+
+You can set an environment variable to assist with debugging `export OG_HTML_DEBUG=1`. This will render the image as HTML so you can play around with your browser's dev tools before committing changes to the template.
