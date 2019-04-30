@@ -11,9 +11,8 @@ To start hacking, do the following:
 
 1. Clone this repo with `git clone https://github.com/zeit/og-image`
 2. Change directory with `cd og-image`
-2. Run `yarn` or `npm install` to install all dependencies
-3. Run  `yarn dev` or `npm run dev` to start the dev server
-4. Visit http://localhost:8080/public/index.html
+3. Run `yarn` or `npm install` to install all dependencies
+4. Run locally with `now dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g now`)
 5. If necessary, edit the `exePath` in [options.ts](https://github.com/zeit/og-image/blob/master/src/options.ts) to point to your local Chrome executable
 
 Now you're ready to start local development!
