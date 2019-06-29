@@ -4,7 +4,6 @@
   "description": "Generate an open graph image for twitter/facebook/etc",
   "main": "dist/card.js",
   "scripts": {
-    "dev": "now dev",
     "build": "tsc",
     "now-build": "tsc",
     "watch": "tsc --watch"
