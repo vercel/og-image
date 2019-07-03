@@ -5,7 +5,7 @@
     "regions": ["all"],
     "public": true,
     "builds": [
-        { "src": "public/*", "use": "@now/static" },
+        { "src": "public/**", "use": "@now/static" },
         { "src": "package.json", "use": "@now/static-build" },
         { "src": "src/card.ts", "use": "@now/node", "config": { "maxLambdaSize": "36mb" } }
     ],
