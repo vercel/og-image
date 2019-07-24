@@ -41,11 +41,11 @@ It looks like the following:
 ```html
 <head>
   <title>Hello World</title>
-  <meta property="og:image" content="https://og-image.now.sh/Hello%20World.png" />
+  <meta property="og:image" content="https://og-image-egghead-course.now.sh/gatsby-theme-authoring.png" />
 </head>
 ```
 
-Now try changing the text `Hello%20World` to the title of your choosing and watch the magic happen ✨
+Now try changing the text `gatsby-theme-authoring` to the egghead course slug of your choosing and watch the magic happen ✨
 
 ## Deploy your own
 
