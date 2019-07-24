@@ -117,7 +117,7 @@ function getCss(theme: string, fontSize: string) {
 
 export function getHtml(parsedReq: ParsedRequest, course: any) {
     const { theme, md, fontSize, widths, heights } = parsedReq
-    const { square_cover_large_url, title } = course
+    const { square_cover_large_url, title, instructor } = course
     const images = [square_cover_large_url]
     const text = title
 
@@ -147,7 +147,9 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
                     <div class="divider"></div>
                     <div class="with-author-holder">
                         <div>with</div>
-                        <div class="author-name">Mike Sherov</div>
+                        <div class="author-name">${emojify(
+                md ? marked(instructor.full_name) : sanitizeHtml(instructor.full_name)
+            )}</div>
                     </div>
                 </div>
             </div>
