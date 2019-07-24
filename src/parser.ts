@@ -12,8 +12,9 @@ export function parseRequest(req: IncomingMessage) {
     if (Array.isArray(theme)) {
         throw new Error('Expected a single theme');
     }
-    
+
     const arr = pathname.slice(1).split('.');
+    console.log('arr:', arr)
     let extension = '';
     let text = '';
     if (arr.length === 0) {
@@ -48,6 +49,6 @@ function getDefaultImages(images: string[], theme: Theme): string[] {
         return images;
     }
     return theme === 'light'
-    ? ['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg']
-    : ['https://assets.zeit.co/image/upload/front/assets/design/now-white.svg'];
+        ? ['https://assets.zeit.co/image/upload/front/assets/design/now-black.svg']
+        : ['https://assets.zeit.co/image/upload/front/assets/design/now-white.svg'];
 }

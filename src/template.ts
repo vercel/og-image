@@ -102,8 +102,14 @@ function getCss(theme: string, fontSize: string) {
     }`;
 }
 
-export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+export function getHtml(parsedReq: ParsedRequest, course: any) {
+    const { theme, md, fontSize, widths, heights } = parsedReq;
+    const { square_cover_url, title } = course;
+    const images = [square_cover_url]
+    const text = title;
+
+    console.group(square_cover_url, title, course)
+
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -117,20 +123,20 @@ export function getHtml(parsedReq: ParsedRequest) {
             <div class="spacer">
             <div class="logo-wrapper">
                 ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
+        getPlusSign(i) + getImage(img, widths[i], heights[i])
+    ).join('')}
             </div>
             <div class="spacer">
             <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
+        md ? marked(text) : sanitizeHtml(text)
+    )}
             </div>
         </div>
     </body>
 </html>`;
 }
 
-function getImage(src: string, width ='auto', height = '225') {
+function getImage(src: string, width = 'auto', height = '225') {
     return `<img
         class="logo"
         alt="Generated Image"
