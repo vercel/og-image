@@ -1,54 +1,34 @@
+// import { readFileSync } from "fs"
+import marked from "marked"
+import { sanitizeHtml } from "./sanitizer"
+const twemoji = require("twemoji")
+const twOptions = { folder: "svg", ext: ".svg" }
+const emojify = (text: string) => twemoji.parse(text, twOptions)
 
-import { readFileSync } from 'fs';
-import marked from 'marked';
-import { sanitizeHtml } from './sanitizer';
-const twemoji = require('twemoji');
-const twOptions = { folder: 'svg', ext: '.svg' };
-const emojify = (text: string) => twemoji.parse(text, twOptions);
-
-const regular = readFileSync(`${__dirname}/../.fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../.fonts/Inter-Bold.woff2`).toString('base64');
-const mono = readFileSync(`${__dirname}/../.fonts/Vera-Mono.woff2`).toString('base64');
+// const regular = readFileSync(
+//   `${__dirname}/../.fonts/Inter-Regular.woff2`
+// ).toString("base64")
+// const bold = readFileSync(`${__dirname}/../.fonts/Inter-Bold.woff2`).toString(
+//   "base64"
+// )
+// const mono = readFileSync(`${__dirname}/../.fonts/Vera-Mono.woff2`).toString(
+//   "base64"
+// )
 
 function getCss(theme: string, fontSize: string) {
-    let background = 'white';
-    let foreground = 'black';
-    let radial = 'lightgray';
+    let background = "white"
+    let foreground = "black"
 
-    if (theme === 'dark') {
-        background = 'black';
-        foreground = 'white';
-        radial = 'dimgray';
+    if (theme === "dark") {
+        background = "black"
+        foreground = "white"
     }
     return `
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${regular}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: bold;
-        src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Vera';
-        font-style: normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
-      }
 
     body {
         background: ${background};
-        background-image: radial-gradient(${radial} 5%, transparent 0);
-        background-size: 60px 60px;
         height: 100vh;
         display: flex;
-        text-align: center;
         align-items: center;
         justify-content: center;
     }
@@ -64,26 +44,57 @@ function getCss(theme: string, fontSize: string) {
         content: '\`';
     }
 
-    .logo-wrapper {
+    .wrapper {
+        display: flex;
+        align-items: center;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont;
+    }
+
+    .logo-holder {
+        flex-shrink: 0;
         display: flex;
         align-items: center;
         align-content: center;
         justify-content: center;
         justify-items: center;
+        padding-left: 50px;
     }
 
     .logo {
         margin: 0 75px;
     }
 
+    .info-holder {
+        padding: 0 50px 0 60px;
+    }
+
+    .divider {
+        width: 80%;
+        height: 3px;
+        background: #d2a043;
+        margin: 60px 0;
+    }
+
+    .with-author-holder {
+        display: flex;
+        align-items: baseline;
+        width: 100%;
+        font-size: 60px;
+        color: #63768d;
+        font-weight: 300;
+    }
+
+    .author-name {
+        margin-left: 20px;
+        color: black;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
     .plus {
         color: #BBB;
         font-family: Times New Roman, Verdana;
         font-size: 100px;
-    }
-
-    .spacer {
-        margin: 150px;
     }
 
     .emoji {
@@ -94,21 +105,21 @@ function getCss(theme: string, fontSize: string) {
     }
     
     .heading {
-        font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
+        font-family: system-ui, -apple-system, BlinkMacSystemFont;
+        font-size: ${fontSize};
         font-style: normal;
+        font-weight: 500;
         color: ${foreground};
-        line-height: 1.8;
-    }`;
+        line-height: 1.1;
+        margin: 0;
+    }`
 }
 
 export function getHtml(parsedReq: ParsedRequest, course: any) {
-    const { theme, md, fontSize, widths, heights } = parsedReq;
-    const { square_cover_url, title } = course;
-    const images = [square_cover_url]
-    const text = title;
-
-    console.group(square_cover_url, title, course)
+    const { theme, md, fontSize, widths, heights } = parsedReq
+    const { square_cover_large_url, title } = course
+    const images = [square_cover_large_url]
+    const text = title
 
     return `<!DOCTYPE html>
 <html>
@@ -120,23 +131,32 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
     </style>
     <body>
         <div>
-            <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-        getPlusSign(i) + getImage(img, widths[i], heights[i])
-    ).join('')}
-            </div>
-            <div class="spacer">
-            <div class="heading">${emojify(
-        md ? marked(text) : sanitizeHtml(text)
-    )}
+            <div class="wrapper">
+                <div class="logo-holder">
+                    ${images
+            .map(
+                (img, i) =>
+                    getPlusSign(i) + getImage(img, widths[i], heights[i])
+            )
+            .join("")}
+                </div>
+                <div class="info-holder">
+                    <div class="heading">${emojify(
+                md ? marked(text) : sanitizeHtml(text)
+            )}</div>
+                    <div class="divider"></div>
+                    <div class="with-author-holder">
+                        <div>with</div>
+                        <div class="author-name">Mike Sherov</div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
-</html>`;
+</html>`
 }
 
-function getImage(src: string, width = 'auto', height = '225') {
+function getImage(src: string, width = "800", height = "auto") {
     return `<img
         class="logo"
         alt="Generated Image"
@@ -147,5 +167,5 @@ function getImage(src: string, width = 'auto', height = '225') {
 }
 
 function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
+    return i === 0 ? "" : '<div class="plus">+</div>'
 }
