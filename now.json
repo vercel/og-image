@@ -1,7 +1,4 @@
 {
-    "name": "og-image",	 
-    "alias": [ "og-image.now.sh", "api-og-image.zeit.sh" ],
-    "version": 2,
     "regions": ["all"],
     "public": true,
     "routes": [
