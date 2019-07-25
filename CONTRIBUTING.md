@@ -5,7 +5,7 @@ There are two pieces to `og-image` that are worth noting before you begin develo
 1. The backend image generator located in [/api/index.ts](https://github.com/zeit/og-image/blob/master/api/index.ts)
 2. The frontend inputs located in [/web/index.ts](https://github.com/zeit/og-image/blob/master/web/index.ts)
 
-The Now 2.0 platform handles [routing](https://github.com/zeit/og-image/blob/master/now.json#L12) in an elegate way for us so deployment is easy.
+The Now 2.0 platform handles [routing](https://github.com/zeit/og-image/blob/master/now.json#L9) in an elegate way for us so deployment is easy.
 
 To start hacking, do the following:
 
@@ -13,7 +13,7 @@ To start hacking, do the following:
 2. Change directory with `cd og-image`
 3. Run `yarn` or `npm install` to install all dependencies
 4. Run locally with `now dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g now`)
-5. If necessary, edit the `exePath` in [options.ts](https://github.com/zeit/og-image/blob/master/src/options.ts) to point to your local Chrome executable
+5. If necessary, edit the `exePath` in [/api/options.ts](https://github.com/zeit/og-image/blob/master/api/options.ts) to point to your local Chrome executable
 
 Now you're ready to start local development!
 
