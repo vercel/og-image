@@ -6,7 +6,7 @@
     "node": "8.10.x"
   },
   "scripts": {
-    "build": "tsc && mv dist/web/browser.js public/"
+    "build": "tsc -p api/tsconfig.json && tsc -p web/tsconfig.json"
   },
   "license": "MIT",
   "dependencies": {

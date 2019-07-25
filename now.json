@@ -5,8 +5,7 @@
     "regions": ["all"],
     "public": true,
     "routes": [
-        { "src": "/", "dest": "/index.html" },
-        { "src": "/(favicon.ico|style.css|robots.txt|browser.js)", "dest": "$1" },
+        { "handle": "filesystem" },
         { "src": "/(.+)", "dest": "/api" }
     ]
 }
