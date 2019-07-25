@@ -1,5 +1,6 @@
 import { IncomingMessage } from 'http';
 import { parse } from 'url';
+import { ParsedRequest, Theme } from './types';
 
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
