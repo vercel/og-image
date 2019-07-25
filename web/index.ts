@@ -1,3 +1,4 @@
+import { ParsedRequest, Theme, FileType } from '../api/types';
 const { H, R, copee } = (window as any);
 let timeout = -1;
 

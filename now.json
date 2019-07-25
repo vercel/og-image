@@ -4,15 +4,8 @@
     "version": 2,
     "regions": ["all"],
     "public": true,
-    "builds": [
-        { "src": "public/**", "use": "@now/static" },
-        { "src": "package.json", "use": "@now/static-build" },
-        { "src": "src/card.ts", "use": "@now/node@canary", "config": { "maxLambdaSize": "36mb" } }
-    ],
     "routes": [
-        { "src": "/", "dest": "/public/index.html" },
-        { "src": "/(favicon.ico|style.css|robots.txt)", "dest": "/public/$1" },
-        { "src": "/dist/browser.js", "dest": "/browser.js" },
-        { "src": "/(.+)", "dest": "/src/card.ts" }
+        { "handle": "filesystem" },
+        { "src": "/(.+)", "dest": "/api" }
     ]
 }

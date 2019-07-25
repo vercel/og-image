@@ -2,8 +2,8 @@
 
 There are two pieces to `og-image` that are worth noting before you begin development.
 
-1. The backend image generator located in [/src/card.ts](https://github.com/zeit/og-image/blob/master/src/card.ts)
-2. The frontend inputs located in [/src/browser.ts](https://github.com/zeit/og-image/blob/master/src/browser.ts)
+1. The backend image generator located in [/api/index.ts](https://github.com/zeit/og-image/blob/master/api/index.ts)
+2. The frontend inputs located in [/web/index.ts](https://github.com/zeit/og-image/blob/master/web/index.ts)
 
 The Now 2.0 platform handles [routing](https://github.com/zeit/og-image/blob/master/now.json#L12) in an elegate way for us so deployment is easy.
 
