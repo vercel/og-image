@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { parseRequest } from './parser';
-import { getScreenshot } from './chromium';
-import { getHtml } from './template';
-import { writeTempFile, pathToFileURL } from './file';
+import { parseRequest } from './_lib/parser';
+import { getScreenshot } from './_lib/chromium';
+import { getHtml } from './_lib/template';
+import { writeTempFile, pathToFileURL } from './_lib/file';
 
 const isDev = process.env.NOW_REGION === 'dev1';
 const isHtmlDebug = process.env.OG_HTML_DEBUG === '1';
