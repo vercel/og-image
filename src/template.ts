@@ -1,8 +1,8 @@
 // import { readFileSync } from "fs"
-import marked from "marked"
-import { sanitizeHtml } from "./sanitizer"
-const twemoji = require("twemoji")
-const twOptions = { folder: "svg", ext: ".svg" }
+import marked from 'marked'
+import { sanitizeHtml } from './sanitizer'
+const twemoji = require('twemoji')
+const twOptions = { folder: 'svg', ext: '.svg' }
 const emojify = (text: string) => twemoji.parse(text, twOptions)
 
 // const regular = readFileSync(
@@ -16,12 +16,12 @@ const emojify = (text: string) => twemoji.parse(text, twOptions)
 // )
 
 function getCss(theme: string, fontSize: string) {
-  let background = "white"
-  let foreground = "black"
+  let background = 'white'
+  let foreground = 'black'
 
-  if (theme === "dark") {
-    background = "black"
-    foreground = "white"
+  if (theme === 'dark') {
+    background = 'black'
+    foreground = 'white'
   }
 
   return `
@@ -54,7 +54,7 @@ function getCss(theme: string, fontSize: string) {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont;
+        font-family: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont;
         position: relative;
         padding: 0 5%;
     }
@@ -72,12 +72,13 @@ function getCss(theme: string, fontSize: string) {
         align-content: center;
         justify-content: center;
         justify-items: center;
-        width: 40%;
+        width: 50%;
     }
 
     .logo {
         width: 100%;
         display: block;
+        padding: 5%;
     }
 
     .info-holder {
@@ -86,25 +87,27 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .divider {
-        width: 80%;
-        height: 3px;
-        background: #d2a043;
-        margin: 30px 0;
+        width: 60%;
+        height: 2px;
+        background: #EFB548;
+        margin: 40px 0;
     }
 
     .with-author-holder {
         display: flex;
         align-items: baseline;
         width: 100%;
-        font-size: 32px;
-        color: #63768d;
+        font-size: 28px;
+        letter-spacing: 1px;
+        color: #778FAC;
         font-weight: 300;
     }
 
     .author-name {
         margin-left: 10px;
-        color: black;
-        font-weight: 500;
+        color: #181421;
+        letter-spacing: 4px;
+        font-weight: 700;
         text-transform: uppercase;
     }
 
@@ -122,10 +125,11 @@ function getCss(theme: string, fontSize: string) {
     }
     
     .heading {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont;
+        font-family: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont;
         font-size: ${fontSize};
         font-style: normal;
         font-weight: 500;
+        letter-spacing: 1.25px;
         color: ${foreground};
         line-height: 1.25;
         margin: 0;
@@ -138,7 +142,7 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
   const images = [square_cover_large_url]
   const text = title
   const adjustedFontSize =
-    text.length > 60 ? (text.length > 80 ? "52px" : "56px") : fontSize
+    text.length > 60 ? (text.length > 80 ? '52px' : '56px') : fontSize
 
   return `<!DOCTYPE html>
 <html>
@@ -151,19 +155,19 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
     <body>
         <div class="wrapper">
             ${getImage(
-              "https://d2ddoduugvun08.cloudfront.net/items/0s0k2J0j3i3O2m0D1k2K/eggo.svg",
-              "60",
-              "60",
-              "eggo"
+              'https://d2ddoduugvun08.cloudfront.net/items/0s0k2J0j3i3O2m0D1k2K/eggo.svg',
+              '60',
+              '60',
+              'eggo'
             )}
             <div class="logo-holder">
                 ${images
                   .map(
                     (img, i) =>
                       getPlusSign(i) +
-                      getImage(img, widths[i], heights[i], "logo")
+                      getImage(img, widths[i], heights[i], 'logo')
                   )
-                  .join("")}
+                  .join('')}
             </div>
             <div class="info-holder">
                 <div class="heading">${emojify(
@@ -186,8 +190,8 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
 
 function getImage(
   src: string,
-  width = "500",
-  height = "auto",
+  width = '500',
+  height = 'auto',
   className: string
 ) {
   return `<img
@@ -200,5 +204,5 @@ function getImage(
 }
 
 function getPlusSign(i: number) {
-  return i === 0 ? "" : '<div class="plus">+</div>'
+  return i === 0 ? '' : '<div class="plus">+</div>'
 }
