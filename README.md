@@ -1,3 +1,24 @@
+# Egghead Open Graph Images
+
+This automatically generates Open Graph images for Egghead courses.
+
+Navigate to `https://og-image-egghead-course.now.sh` followed by the slug of the course you want an image for.
+
+
+
+#### For Example
+
+`https://og-image-egghead-course.now.sh/gatsby-theme-authoring` creates this:
+
+![](https://og-image-egghead-course.now.sh/gatsby-theme-authoring)
+
+`https://og-image-egghead-course.now.sh/vue-and-socket-io-for-real-time-communication` creates this:
+
+![](https://og-image-egghead-course.now.sh/vue-and-socket-io-for-real-time-communication)
+
+---
+
+
 # [Open Graph Image as a Service](https://og-image.now.sh)
 
 <a href="https://twitter.com/zeithq/status/1092587111985881088">
@@ -27,45 +48,3 @@ It looks like the following:
   <meta property="og:image" content="http://example.com/logo.jpg" />
 </head>
 ```
-
-## Why use this service?
-
-Read the [blog post](https://zeit.co/blog/social-og-image-cards-as-a-service) for more info on the "Why" part.
-
-The short answer is that it would take a long time to painstakingly design an image for every single blog post. And we don't want the exact same image for every blog post because that wouldn't make the article stand out when it was shared to Twitter. 
-
-That's where `og-image.now.sh` comes in. We can simply pass the title of our blog post to our generator service and it will generate the image for us on the fly!
-
-It looks like the following:
-
-```html
-<head>
-  <title>Hello World</title>
-  <meta property="og:image" content="https://og-image-egghead-course.now.sh/gatsby-theme-authoring.png" />
-</head>
-```
-
-Now try changing the text `gatsby-theme-authoring` to the egghead course slug of your choosing and watch the magic happen ✨
-
-## Deploy your own
-
-You'll want to fork this repository and deploy your own image generator.
-
-1. Click the fork button at the top right of GitHub
-2. Clone the repo to your local machine with `git clone URL_OF_FORKED_REPO_HERE`
-3. Change directory with `cd og-image`
-4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/zeit/og-image/blob/master/CONTRIBUTING.md) for more info)
-5. Run locally with `now dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g now`)
-6. Deploy to the cloud by running `now` and you'll get a unique URL
-7. Setup [GitHub](https://zeit.co/github) to autodeply on push and set an `alias` in [now.json](https://zeit.co/github) to customize your URL.
-
-Alternatively, you can do a one-click to deploy with the button below.
-
-[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://zeit.co/new/project?template=zeit/og-image)
-
-Once you have an image generator that sparks joy, you can setup [automatic Now + GitHub](https://zeit.co/github) deployments so that pushing to master is also deploying to production! 🚀
-
-## Authors
-
-- Steven ([@styfle](https://twitter.com/styfle)) - [ZEIT](https://zeit.co)
-- Evil Rabbit ([@evilrabbit](https://twitter.com/evilrabbit_)) - [ZEIT](https://zeit.co)
