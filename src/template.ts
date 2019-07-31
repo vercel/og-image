@@ -1,27 +1,20 @@
-// import { readFileSync } from "fs"
-import marked from 'marked'
-import { sanitizeHtml } from './sanitizer'
-const twemoji = require('twemoji')
-const twOptions = { folder: 'svg', ext: '.svg' }
+import { readFileSync } from "fs"
+import marked from "marked"
+import { sanitizeHtml } from "./sanitizer"
+const twemoji = require("twemoji")
+const twOptions = { folder: "svg", ext: ".svg" }
 const emojify = (text: string) => twemoji.parse(text, twOptions)
 
-// const regular = readFileSync(
-//   `${__dirname}/../.fonts/Inter-Regular.woff2`
-// ).toString("base64")
-// const bold = readFileSync(`${__dirname}/../.fonts/Inter-Bold.woff2`).toString(
-//   "base64"
-// )
-// const mono = readFileSync(`${__dirname}/../.fonts/Vera-Mono.woff2`).toString(
-//   "base64"
-// )
+const eggoSrc = readFileSync(`${__dirname}/eggo.svg`).toString("base64")
+const eggo = "data:image/svg+xml;base64," + eggoSrc
 
 function getCss(theme: string, fontSize: string) {
-  let background = 'white'
-  let foreground = 'black'
+  let background = "white"
+  let foreground = "black"
 
-  if (theme === 'dark') {
-    background = 'black'
-    foreground = 'white'
+  if (theme === "dark") {
+    background = "black"
+    foreground = "white"
   }
 
   return `
@@ -142,7 +135,7 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
   const images = [square_cover_large_url]
   const text = title
   const adjustedFontSize =
-    text.length > 60 ? (text.length > 80 ? '52px' : '56px') : fontSize
+    text.length > 60 ? (text.length > 80 ? "52px" : "56px") : fontSize
 
   return `<!DOCTYPE html>
 <html>
@@ -154,20 +147,15 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
     </style>
     <body>
         <div class="wrapper">
-            ${getImage(
-              'https://d2ddoduugvun08.cloudfront.net/items/0s0k2J0j3i3O2m0D1k2K/eggo.svg',
-              '60',
-              '60',
-              'eggo'
-            )}
+            ${getImage(eggo, "60", "60", "eggo")}
             <div class="logo-holder">
                 ${images
                   .map(
                     (img, i) =>
                       getPlusSign(i) +
-                      getImage(img, widths[i], heights[i], 'logo')
+                      getImage(img, widths[i], heights[i], "logo")
                   )
-                  .join('')}
+                  .join("")}
             </div>
             <div class="info-holder">
                 <div class="heading">${emojify(
@@ -190,8 +178,8 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
 
 function getImage(
   src: string,
-  width = '500',
-  height = 'auto',
+  width = "500",
+  height = "auto",
   className: string
 ) {
   return `<img
@@ -204,5 +192,5 @@ function getImage(
 }
 
 function getPlusSign(i: number) {
-  return i === 0 ? '' : '<div class="plus">+</div>'
+  return i === 0 ? "" : '<div class="plus">+</div>'
 }
