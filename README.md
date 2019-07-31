@@ -8,11 +8,11 @@ Navigate to `https://og-image-egghead-course.now.sh` followed by the slug of the
 
 #### For Example
 
-`https://og-image-egghead-course.now.sh/gatsby-theme-authoring` creates this:
+https://og-image-egghead-course.now.sh/gatsby-theme-authoring creates this:
 
 ![](https://og-image-egghead-course.now.sh/gatsby-theme-authoring)
 
-`https://og-image-egghead-course.now.sh/vue-and-socket-io-for-real-time-communication` creates this:
+https://og-image-egghead-course.now.sh/vue-and-socket-io-for-real-time-communication creates this:
 
 ![](https://og-image-egghead-course.now.sh/vue-and-socket-io-for-real-time-communication)
 
