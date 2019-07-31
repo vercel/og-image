@@ -1,0 +1,11 @@
+
+# version is the only required field
+version = 1
+
+# the following settings can be omitted since they have defaults
+
+[merge]
+require_automerge_label = false
+blacklist_labels = ["NO MERGE"] # default: []
+method = "squash" # default: "merge", options: "merge", "squash", "rebase"
+delete_branch_on_merge = true # default: false
