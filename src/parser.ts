@@ -1,10 +1,21 @@
 import { IncomingMessage } from "http"
 import { parse } from "url"
+import compact from 'lodash/compact'
 
 export function parseRequest(req: IncomingMessage) {
-  console.log("HTTP " + req.url)
+
+  console.log(req.url, parse(req.url || "", true))
+
+
   const { pathname = "/", query = {} } = parse(req.url || "", true)
   const { fontSize, images, widths, heights, theme, md } = query
+  let [type, slug] = compact(pathname.split('/'))
+
+
+  if (type && !slug) {
+    slug = type
+    type = 'series'
+  }
 
   if (Array.isArray(fontSize)) {
     throw new Error("Expected a single fontSize")
@@ -13,8 +24,8 @@ export function parseRequest(req: IncomingMessage) {
     throw new Error("Expected a single theme")
   }
 
-  const arr = pathname.slice(1).split(".")
-  console.log("arr:", arr)
+  const arr = slug.split(".")
+
   let extension = ""
   let text = ""
   if (arr.length === 0) {
@@ -25,8 +36,9 @@ export function parseRequest(req: IncomingMessage) {
     extension = arr.pop() as string
     text = arr.join(".")
   }
-
+  console.log(text, slug, type, extension)
   const parsedRequest: ParsedRequest = {
+    resourceType: type,
     fileType: extension === "jpeg" ? extension : "png",
     text: decodeURIComponent(text),
     theme: theme === "dark" ? "dark" : "light",

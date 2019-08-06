@@ -11,21 +11,16 @@ const isHtmlDebug = process.env.OG_HTML_DEBUG === '1';
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
         const parsedReq = parseRequest(req);
-        const { text, fileType } = parsedReq;
-        const course = await axios.get(`https://egghead.io/api/v1/series/${text}`).then(({ data }) => data)
+        const { text, fileType, resourceType } = parsedReq;
 
+        const resource = await axios.get(`https://egghead.io/api/v1/${resourceType}/${text}`).then(({ data }) => data)
 
-
-        const html = getHtml(parsedReq, course);
+        const html = getHtml(parsedReq, resource);
         if (isHtmlDebug) {
             res.setHeader('Content-Type', 'text/html');
             res.end(html);
             return;
         }
-
-
-
-
 
         const filePath = await writeTempFile(text, html);
         const fileUrl = pathToFileURL(filePath);

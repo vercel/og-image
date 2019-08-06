@@ -9,15 +9,15 @@ const eggoSrc = readFileSync(`${__dirname}/eggo.svg`).toString("base64")
 const eggo = "data:image/svg+xml;base64," + eggoSrc
 
 function getCss(theme: string, fontSize: string) {
-  let background = "white"
-  let foreground = "black"
+    let background = "white"
+    let foreground = "black"
 
-  if (theme === "dark") {
-    background = "black"
-    foreground = "white"
-  }
+    if (theme === "dark") {
+        background = "black"
+        foreground = "white"
+    }
 
-  return `
+    return `
 
     * {
         box-sizing: border-box;
@@ -129,15 +129,17 @@ function getCss(theme: string, fontSize: string) {
     }`
 }
 
-export function getHtml(parsedReq: ParsedRequest, course: any) {
-  const { theme, md, fontSize, widths, heights } = parsedReq
-  const { square_cover_large_url, title, instructor } = course
-  const images = [square_cover_large_url]
-  const text = title
-  const adjustedFontSize =
-    text.length > 60 ? (text.length > 80 ? "52px" : "56px") : fontSize
+export function getHtml(parsedReq: ParsedRequest, resource: any) {
+    const { theme, md, fontSize, widths, heights, resourceType } = parsedReq
+    // TODO: this should be able to handle any Resource (ContentModel)
+    // which might mean we need to use a "convertToItem" style function?
+    const { square_cover_large_url, title, instructor } = resource
+    const images = [square_cover_large_url]
+    const text = title
+    const adjustedFontSize =
+        text.length > 60 ? (text.length > 80 ? "52px" : "56px") : fontSize
 
-  return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
@@ -150,25 +152,25 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
             ${getImage(eggo, "60", "60", "eggo")}
             <div class="logo-holder">
                 ${images
-                  .map(
-                    (img, i) =>
-                      getPlusSign(i) +
-                      getImage(img, widths[i], heights[i], "logo")
-                  )
-                  .join("")}
+            .map(
+                (img, i) =>
+                    getPlusSign(i) +
+                    getImage(img, widths[i], heights[i], "logo")
+            )
+            .join("")}
             </div>
             <div class="info-holder">
                 <div class="heading">${emojify(
-                  md ? marked(text) : sanitizeHtml(text)
-                )}</div>
+                md ? marked(text) : sanitizeHtml(text)
+            )}</div>
                 <div class="divider"></div>
                 <div class="with-author-holder">
                     <div>with</div>
                     <div class="author-name">${emojify(
-                      md
-                        ? marked(instructor.full_name)
-                        : sanitizeHtml(instructor.full_name)
-                    )}</div>
+                md
+                    ? marked(instructor.full_name)
+                    : sanitizeHtml(instructor.full_name)
+            )}</div>
                 </div>
             </div>
         </div>
@@ -177,12 +179,12 @@ export function getHtml(parsedReq: ParsedRequest, course: any) {
 }
 
 function getImage(
-  src: string,
-  width = "500",
-  height = "auto",
-  className: string
+    src: string,
+    width = "500",
+    height = "auto",
+    className: string
 ) {
-  return `<img
+    return `<img
         class="${className}"
         alt="Generated Image"
         src="${sanitizeHtml(src)}"
@@ -192,5 +194,5 @@ function getImage(
 }
 
 function getPlusSign(i: number) {
-  return i === 0 ? "" : '<div class="plus">+</div>'
+    return i === 0 ? "" : '<div class="plus">+</div>'
 }
