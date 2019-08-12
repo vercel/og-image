@@ -1,8 +1,10 @@
 {
     "regions": ["all"],
     "public": true,
+    "version": 2,
     "routes": [
-        { "handle": "filesystem" },
+        { "src": "/", "dest": "/index.html" },
+        { "src": "/(favicon.ico|style.css|robots.txt|dist/web/index.js)", "dest": "/$1" },
         { "src": "/(.+)", "dest": "/api" }
     ]
 }
