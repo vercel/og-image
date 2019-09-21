@@ -1,23 +1,23 @@
-import { readFileSync } from "fs"
-import marked from "marked"
-import { sanitizeHtml } from "./sanitizer"
-const twemoji = require("twemoji")
-const twOptions = { folder: "svg", ext: ".svg" }
+import {readFileSync} from 'fs'
+import marked from 'marked'
+import {sanitizeHtml} from './sanitizer'
+const twemoji = require('twemoji')
+const twOptions = {folder: 'svg', ext: '.svg'}
 const emojify = (text: string) => twemoji.parse(text, twOptions)
 
-const eggoSrc = readFileSync(`${__dirname}/eggo.svg`).toString("base64")
-const eggo = "data:image/svg+xml;base64," + eggoSrc
+const eggoSrc = readFileSync(`${__dirname}/eggo.svg`).toString('base64')
+const eggo = 'data:image/svg+xml;base64,' + eggoSrc
 
 function getCss(theme: string, fontSize: string) {
-    let background = "white"
-    let foreground = "black"
+  let background = 'white'
+  let foreground = 'black'
 
-    if (theme === "dark") {
-        background = "black"
-        foreground = "white"
-    }
+  if (theme === 'dark') {
+    background = 'black'
+    foreground = 'white'
+  }
 
-    return `
+  return `
 
     * {
         box-sizing: border-box;
@@ -130,16 +130,15 @@ function getCss(theme: string, fontSize: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest, resource: any) {
-    const { theme, md, fontSize, widths, heights, resourceType } = parsedReq
-    // TODO: this should be able to handle any Resource (ContentModel)
-    // which might mean we need to use a "convertToItem" style function?
-    const { square_cover_large_url, title, instructor } = resource
-    const images = [square_cover_large_url]
-    const text = title
-    const adjustedFontSize =
-        text.length > 60 ? (text.length > 80 ? "52px" : "56px") : fontSize
+  const {theme, md, fontSize, widths, heights, resourceType} = parsedReq
+  // TODO: this should be able to handle any Resource (ContentModel)
+  // which might mean we need to use a "convertToItem" style function?
+  const {square_cover_large_url, title, instructor, avatar_url, full_name} = resource
+  const images = [square_cover_large_url || avatar_url]
+  const text = title || full_name
+  const adjustedFontSize = text.length > 60 ? (text.length > 80 ? '52px' : '56px') : fontSize
 
-    return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
@@ -149,42 +148,34 @@ export function getHtml(parsedReq: ParsedRequest, resource: any) {
     </style>
     <body>
         <div class="wrapper">
-            ${getImage(eggo, "60", "60", "eggo")}
+            ${getImage(eggo, '60', '60', 'eggo')}
             <div class="logo-holder">
-                ${images
-            .map(
-                (img, i) =>
-                    getPlusSign(i) +
-                    getImage(img, widths[i], heights[i], "logo")
-            )
-            .join("")}
+                ${images.map((img, i) => getPlusSign(i) + getImage(img, widths[i], heights[i], 'logo')).join('')}
             </div>
             <div class="info-holder">
-                <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}</div>
-                <div class="divider"></div>
+                <div class="heading">${emojify(md ? marked(text) : sanitizeHtml(text))}</div>
+                ${
+                  instructor
+                    ? `
+                <div class="divider" />
+                
                 <div class="with-author-holder">
                     <div>with</div>
                     <div class="author-name">${emojify(
-                md
-                    ? marked(instructor.full_name)
-                    : sanitizeHtml(instructor.full_name)
-            )}</div>
+                      md ? marked(instructor.full_name) : sanitizeHtml(instructor.full_name),
+                    )}</div>
                 </div>
+                `
+                    : '<div class="author-name">egghead instructor</div>'
+                }
             </div>
         </div>
     </body>
 </html>`
 }
 
-function getImage(
-    src: string,
-    width = "500",
-    height = "auto",
-    className: string
-) {
-    return `<img
+function getImage(src: string, width = '500', height = 'auto', className: string) {
+  return `<img
         class="${className}"
         alt="Generated Image"
         src="${sanitizeHtml(src)}"
@@ -194,5 +185,5 @@ function getImage(
 }
 
 function getPlusSign(i: number) {
-    return i === 0 ? "" : '<div class="plus">+</div>'
+  return i === 0 ? '' : '<div class="plus">+</div>'
 }
