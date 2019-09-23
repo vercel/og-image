@@ -17,4 +17,9 @@ To start hacking, do the following:
 
 Now you're ready to start local development!
 
+### Caution
+
+This project requires Node 8 to run. This is due to a dependency on `chrome-aws-lambda` which doesn't support Node versions higher than `8.10`. Please consult the [respective docs](https://github.com/alixaxel/chrome-aws-lambda#usage) before attempting to upgrade.
+
+
 You can set an environment variable to assist with debugging `export OG_HTML_DEBUG=1`. This will render the image as HTML so you can play around with your browser's dev tools before committing changes to the template.
