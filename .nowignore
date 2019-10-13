@@ -1,5 +1,6 @@
 node_modules
-dist
+api/dist
+public/dist
 CONTRIBUTING.md
 README.md
 Dockerfile
