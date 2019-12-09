@@ -7,8 +7,7 @@
       "memory": 3008
     }
   },
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.+)", "dest": "/api" }
+  "rewrites": [
+    { "source": "/(.+)", "destination": "/api" }
   ]
 }
