@@ -13,7 +13,8 @@ export function parseRequest(req: IncomingMessage) {
     if (Array.isArray(theme)) {
         throw new Error('Expected a single theme');
     }
-    
+    if (!pathname) throw new Error("empty pathname")
+     
     const arr = pathname.slice(1).split('.');
     let extension = '';
     let text = '';

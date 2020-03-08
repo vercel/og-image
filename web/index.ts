@@ -67,20 +67,12 @@ const TextInput = ({ value, oninput }: TextInputProps) => {
         { className: 'input-outer-wrapper' },
         H('div',
             { className: 'input-inner-wrapper' },
-            H('input',
-                { type: 'text', value, oninput: (e: any) => oninput(e.target.value) }
+            H('textarea',
+                { oninput: (e: any) => oninput(e.target.value) },
+                value
             )
         )
     );
-}
-
-interface ButtonProps {
-    label: string;
-    onclick: () => void;
-}
-
-const Button = ({ label, onclick }: ButtonProps) => {
-    return H('button', { onclick }, label);
 }
 
 interface FieldProps {
@@ -154,28 +146,6 @@ const imageDarkOptions: DropdownOption[] = [
     { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-bw-logo.svg' },
 ];
 
-const widthOptions = [
-    { text: 'width', value: 'auto' },
-    { text: '50', value: '50' },
-    { text: '100', value: '100' },
-    { text: '150', value: '150' },
-    { text: '200', value: '200' },
-    { text: '250', value: '250' },
-    { text: '300', value: '300' },
-    { text: '350', value: '350' },
-];
-
-const heightOptions = [
-    { text: 'height', value: 'auto' },
-    { text: '50', value: '50' },
-    { text: '100', value: '100' },
-    { text: '150', value: '150' },
-    { text: '200', value: '200' },
-    { text: '250', value: '250' },
-    { text: '300', value: '300' },
-    { text: '350', value: '350' },
-];
-
 interface AppState extends ParsedRequest {
     loading: boolean;
     showToast: boolean;
@@ -216,7 +186,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
         overrideUrl = null,
     } = state;
     const mdValue = md ? '1' : '0';
-    const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.origin);
     url.pathname = `${encodeURIComponent(text)}.${fileType}`;
     url.searchParams.append('theme', theme);
@@ -283,92 +252,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             setLoadingState({ text: val, overrideUrl: url });
                         }
                     })
-                }),
-                H(Field, {
-                    label: 'Image 1',
-                    input: H('div',
-                        H(Dropdown, {
-                            options: imageOptions,
-                            value: imageOptions[selectedImageIndex].value,
-                            onchange: (val: string) =>  {
-                                let clone = [...images];
-                                clone[0] = val;
-                                const selected = imageOptions.map(o => o.value).indexOf(val);
-                                setLoadingState({ images: clone, selectedImageIndex: selected });
-                            }
-                        }),
-                        H('div',
-                            { className: 'field-flex' },
-                            H(Dropdown, {
-                                options: widthOptions,
-                                value: widths[0],
-                                small: true,
-                                onchange: (val: string) =>  {
-                                    let clone = [...widths];
-                                    clone[0] = val;
-                                    setLoadingState({ widths: clone });
-                                }
-                            }),
-                            H(Dropdown, {
-                                options: heightOptions,
-                                value: heights[0],
-                                small: true,
-                                onchange: (val: string) =>  {
-                                    let clone = [...heights];
-                                    clone[0] = val;
-                                    setLoadingState({ heights: clone });
-                                }
-                            })
-                        )
-                    ),
-                }),
-                ...images.slice(1).map((image, i) => H(Field, {
-                    label: `Image ${i + 2}`,
-                    input: H('div',
-                        H(TextInput, {
-                            value: image,
-                            oninput: (val: string) => {
-                                let clone = [...images];
-                                clone[i + 1] = val;
-                                setLoadingState({ images: clone, overrideUrl: url });
-                            }
-                        }),
-                        H('div',
-                            { className: 'field-flex' },
-                            H(Dropdown, {
-                                options: widthOptions,
-                                value: widths[i + 1],
-                                small: true,
-                                onchange: (val: string) =>  {
-                                    let clone = [...widths];
-                                    clone[i + 1] = val;
-                                    setLoadingState({ widths: clone });
-                                }
-                            }),
-                            H(Dropdown, {
-                                options: heightOptions,
-                                value: heights[i + 1],
-                                small: true,
-                                onchange: (val: string) =>  {
-                                    let clone = [...heights];
-                                    clone[i + 1] = val;
-                                    setLoadingState({ heights: clone });
-                                }
-                            })
-                        )
-                    )
-                })),
-                H(Field, {
-                    label: `Image ${images.length + 1}`,
-                    input: H(Button, {
-                        label: `Add Image ${images.length + 1}`,
-                        onclick: () => {
-                            const nextImage = images.length === 1
-                                ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
-                                : '';
-                            setLoadingState({ images: [...images, nextImage] })
-                        }
-                    }),
                 }),
             )
         ),
