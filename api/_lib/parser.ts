@@ -32,7 +32,7 @@ export function parseRequest(req: IncomingMessage) {
         text: decodeURIComponent(text),
         theme: theme === 'dark' ? 'dark' : 'light',
         md: md === '1' || md === 'true',
-        fontSize: fontSize || '96px',
+        fontSize: fontSize || '48px',
         images: getArray(images),
         widths: getArray(widths),
         heights: getArray(heights),
