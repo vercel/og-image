@@ -2,7 +2,6 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { parseRequest } from './_lib/parser';
 import { getScreenshot } from './_lib/chromium';
 import { getHtml } from './_lib/template';
-import { writeTempFile, pathToFileURL } from './_lib/file';
 
 const isDev = process.env.NOW_REGION === 'dev1';
 const isHtmlDebug = process.env.OG_HTML_DEBUG === '1';
@@ -16,10 +15,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
             res.end(html);
             return;
         }
-        const { text, fileType } = parsedReq;
-        const filePath = await writeTempFile(text, html);
-        const fileUrl = pathToFileURL(filePath);
-        const file = await getScreenshot(fileUrl, fileType, isDev);
+        const { fileType } = parsedReq;
+        const file = await getScreenshot(html, fileType, isDev);
         res.statusCode = 200;
         res.setHeader('Content-Type', `image/${fileType}`);
         res.setHeader('Cache-Control', `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`);
