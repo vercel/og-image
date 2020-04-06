@@ -4,8 +4,8 @@ import { ParsedRequest, Theme } from './types';
 
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
-    const { pathname = '/', query = {} } = parse(req.url || '', true);
-    const { fontSize, images, widths, heights, theme, md } = query;
+    const { pathname, query } = parse(req.url || '/', true);
+    const { fontSize, images, widths, heights, theme, md } = (query || {});
 
     if (Array.isArray(fontSize)) {
         throw new Error('Expected a single fontSize');
@@ -14,7 +14,7 @@ export function parseRequest(req: IncomingMessage) {
         throw new Error('Expected a single theme');
     }
     
-    const arr = pathname.slice(1).split('.');
+    const arr = (pathname || '/').slice(1).split('.');
     let extension = '';
     let text = '';
     if (arr.length === 0) {
