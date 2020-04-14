@@ -59,11 +59,22 @@ You'll want to fork this repository and deploy your own image generator.
 4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/zeit/og-image/blob/master/CONTRIBUTING.md) for more info)
 5. Run locally with `now dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g now`)
 6. Deploy to the cloud by running `now` and you'll get a unique URL
-7. Setup [GitHub](https://zeit.co/github) to autodeply on push
+7. Setup [GitHub](https://zeit.co/github) to autodeploy on push
 
 Alternatively, you can do a one-click to deploy with the button below.
 
 [![Deploy to now](https://zeit.co/button)](https://zeit.co/new/project?template=zeit/og-image)
+
+If you are using free ZEIT Now plan, you will need to remove all configuration inside `now.json` besides
+`rewrites`. So your `now.json` should look like this:
+
+```json
+{
+  "rewrites": [
+    { "source": "/(.+)", "destination": "/api" }
+  ]
+}
+```
 
 Once you have an image generator that sparks joy, you can setup [automatic Now + GitHub](https://zeit.co/github) deployments so that pushing to master is also deploying to production! 🚀
 
