@@ -65,7 +65,7 @@ Alternatively, you can do a one-click to deploy with the button below.
 
 [![Deploy to now](https://zeit.co/button)](https://zeit.co/new/project?template=zeit/og-image)
 
-If you are using free zeit account you may need to remove all configuration inside `now.json` besides
+If you are using free ZEIT Now plan, you will need to remove all configuration inside `now.json` besides
 `rewrites`. So your `now.json` should look like this:
 
 ```json
