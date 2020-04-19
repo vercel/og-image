@@ -40,8 +40,8 @@ export function parseRequest(req: IncomingMessage) {
     return parsedRequest;
 }
 
-function getArray(stringOrArray: string[] | string): string[] {
-    return Array.isArray(stringOrArray) ? stringOrArray : [stringOrArray];
+function getArray(stringOrArray: string[] | string | undefined): string[] {
+    return stringOrArray ? Array.isArray(stringOrArray) ? stringOrArray : [stringOrArray] : [];
 }
 
 function getDefaultImages(images: string[], theme: Theme): string[] {
