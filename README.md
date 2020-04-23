@@ -1,4 +1,4 @@
-<a href="https://zeit.co/new/project?template=zeit/og-image"><img width="128" src="https://zeit.co/button" align="right"></a>
+<a href="https://vercel.com/new/project?template=zeit/og-image"><img width="128" src="https://vercel.com/button" align="right"></a>
 
 # [Open Graph Image as a Service](https://og-image.now.sh)
 
@@ -32,7 +32,7 @@ It looks like the following:
 
 ## Why use this service?
 
-Read the [blog post](https://zeit.co/blog/social-og-image-cards-as-a-service) for more info on the "Why" part.
+Read the [blog post](https://vercel.com/blog/social-og-image-cards-as-a-service) for more info on the "Why" part.
 
 The short answer is that it would take a long time to painstakingly design an image for every single blog post. And we don't want the exact same image for every blog post because that wouldn't make the article stand out when it was shared to Twitter. 
 
@@ -59,14 +59,14 @@ You'll want to fork this repository and deploy your own image generator.
 4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/zeit/og-image/blob/master/CONTRIBUTING.md) for more info)
 5. Run locally with `now dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g now`)
 6. Deploy to the cloud by running `now` and you'll get a unique URL
-7. Setup [GitHub](https://zeit.co/github) to autodeploy on push
+7. Setup [GitHub](https://vercel.com/github) to autodeploy on push
 
 Alternatively, you can do a one-click to deploy with the button below.
 
-[![Deploy to now](https://zeit.co/button)](https://zeit.co/new/project?template=zeit/og-image)
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/project?template=zeit/og-image)
 
-If you are using free ZEIT Now plan, you will need to remove all configuration inside `now.json` besides
-`rewrites`. So your `now.json` should look like this:
+If you are using the Hobby plan, you will need to remove all configuration inside `now.json` besides
+`rewrites`. Your `now.json` should look like this:
 
 ```json
 {
@@ -76,9 +76,9 @@ If you are using free ZEIT Now plan, you will need to remove all configuration i
 }
 ```
 
-Once you have an image generator that sparks joy, you can setup [automatic Now + GitHub](https://zeit.co/github) deployments so that pushing to master is also deploying to production! 🚀
+Once you have an image generator that sparks joy, you can setup [automatic GitHub](https://vercel.com/github) deployments so that pushing to master will deploy to production! 🚀
 
 ## Authors
 
-- Steven ([@styfle](https://twitter.com/styfle)) - [ZEIT](https://zeit.co)
-- Evil Rabbit ([@evilrabbit](https://twitter.com/evilrabbit_)) - [ZEIT](https://zeit.co)
+- Steven ([@styfle](https://twitter.com/styfle)) - [Vercel](https://vercel.com)
+- Evil Rabbit ([@evilrabbit](https://twitter.com/evilrabbit_)) - [Vercel](https://vercel.com)

@@ -5,7 +5,7 @@ There are two pieces to `og-image` that are worth noting before you begin develo
 1. The backend image generator located in [/api/index.ts](https://github.com/zeit/og-image/blob/master/api/index.ts)
 2. The frontend inputs located in [/web/index.ts](https://github.com/zeit/og-image/blob/master/web/index.ts)
 
-The Now 2.0 platform handles [routing](https://github.com/zeit/og-image/blob/master/now.json#L6) in an elegate way for us so deployment is easy.
+Vercel handles [routing](https://github.com/zeit/og-image/blob/master/now.json#L6) in an elegate way for us so deployment is easy.
 
 To start hacking, do the following:
 

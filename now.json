@@ -1,7 +1,6 @@
 {
   "regions": ["all"],
   "public": true,
-  "version": 2,
   "functions": {
     "api/**": {
       "memory": 3008
