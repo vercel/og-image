@@ -40,8 +40,14 @@ export function parseRequest(req: IncomingMessage) {
     return parsedRequest;
 }
 
-function getArray(stringOrArray: string[] | string): string[] {
-    return Array.isArray(stringOrArray) ? stringOrArray : [stringOrArray];
+function getArray(stringOrArray: string[] | string | undefined): string[] {
+    if (typeof stringOrArray === 'undefined') {
+        return [];
+    } else if (Array.isArray(stringOrArray)) {
+        return stringOrArray;
+    } else {
+        return [stringOrArray];
+    }
 }
 
 function getDefaultImages(images: string[], theme: Theme): string[] {
@@ -49,7 +55,7 @@ function getDefaultImages(images: string[], theme: Theme): string[] {
         ? 'https://assets.vercel.com/image/upload/front/assets/design/zeit-black-triangle.svg'
         : 'https://assets.vercel.com/image/upload/front/assets/design/zeit-white-triangle.svg';
 
-    if (images.length === 0) {
+    if (!images || !images[0]) {
         return [defaultImage];
     }
     if (!images[0].startsWith('https://assets.vercel.com/') && !images[0].startsWith('https://assets.zeit.co/')) {
