@@ -2,8 +2,8 @@
 
 # [Open Graph Image as a Service](https://og-image.now.sh)
 
-<a href="https://twitter.com/zeithq/status/1092587111985881088">
-    <img align="right" src="https://raw.githubusercontent.com/zeit/og-image/master/public/tweet.png" height="300" />
+<a href="https://twitter.com/vercel/status/1092587111985881088">
+    <img align="right" src="https://raw.githubusercontent.com/vercel/og-image/master/public/tweet.png" height="300" />
 </a>
 
 Serverless service that generates dynamic Open Graph images that you can embed in your `<meta>` tags.
@@ -54,10 +54,10 @@ You'll want to fork this repository and deploy your own image generator.
 1. Click the fork button at the top right of GitHub
 2. Clone the repo to your local machine with `git clone URL_OF_FORKED_REPO_HERE`
 3. Change directory with `cd og-image`
-4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/zeit/og-image/blob/master/CONTRIBUTING.md) for more info)
-5. Hobby plan users will need to remove all configuration inside `now.json` besides `rewrites`
-6. Run locally with `now dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g now`)
-7. Deploy to the cloud by running `now` and you'll get a unique URL
+4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/vercel/og-image/blob/master/CONTRIBUTING.md) for more info)
+5. Hobby plan users will need to remove all configuration inside `vercel.json` besides `rewrites`
+6. Run locally with `vercel dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g vercel`)
+7. Deploy to the cloud by running `vercel` and you'll get a unique URL
 8. Setup [GitHub](https://vercel.com/github) to autodeploy on push
 
 If you are using a paid plan, you can do a one-click deploy with the button below.
