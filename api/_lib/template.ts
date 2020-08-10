@@ -42,6 +42,18 @@ function getCss(_theme: string, fontSize: string) {
         display: flex;
     }
 
+    .intro {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .intro .heading {
+        display: none;
+    }
+
     code {
         color: #FF4949;
         font-family: 'Vera';
@@ -92,7 +104,7 @@ function getCss(_theme: string, fontSize: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { text, theme, md, fontSize, images, widths, heights, intro } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -102,11 +114,11 @@ export function getHtml(parsedReq: ParsedRequest) {
         ${getCss(theme, fontSize)}
     </style>
     <body>
-        <div>
+        <div class="${intro ? 'intro' : ''}">
             <div class="spacer">
             <div class="logo-wrapper">
                 ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
+                    getPlusSign(i) + getImage(img, widths[i], heights[i], intro)
                 ).join('')}
             </div>
             <div class="heading">${emojify(
@@ -118,13 +130,13 @@ export function getHtml(parsedReq: ParsedRequest) {
 </html>`;
 }
 
-function getImage(src: string, width ='auto', height = '40') {
+function getImage(src: string, width ='auto', height = '40', isIntro = false) {
     return `<img
         class="logo"
         alt="Generated Image"
         src="${sanitizeHtml(src)}"
         width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
+        height="${sanitizeHtml(isIntro ? '80' : height)}"
     />`
 }
 
