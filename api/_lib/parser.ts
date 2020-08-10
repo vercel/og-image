@@ -1,6 +1,7 @@
 import { IncomingMessage } from 'http';
 import { parse } from 'url';
 import { ParsedRequest, Theme } from './types';
+import { readFileSync } from 'fs';
 
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
@@ -50,16 +51,12 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
     }
 }
 
-function getDefaultImages(images: string[], theme: Theme): string[] {
-    const defaultImage = theme === 'light'
-        ? 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg'
-        : 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg';
+function getDefaultImages(images: string[], _theme: Theme): string[] {
+    const defaultImage = 'data:image/svg+xml;base64,' + readFileSync(`${__dirname}/../_imgs/theheadlessdev.svg`).toString('base64');
 
     if (!images || !images[0]) {
         return [defaultImage];
     }
-    if (!images[0].startsWith('https://assets.vercel.com/') && !images[0].startsWith('https://assets.zeit.co/')) {
-        images[0] = defaultImage;
-    }
+    
     return images;
 }

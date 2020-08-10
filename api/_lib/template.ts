@@ -7,33 +7,25 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
+const rglr = readFileSync(`${__dirname}/../_fonts/Poppins-Regular.ttf`).toString('base64');
+const bold = readFileSync(`${__dirname}/../_fonts/Poppins-Bold.ttf`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
+const bgImg = readFileSync(`${__dirname}/../_imgs/background.png`).toString('base64');
 
-function getCss(theme: string, fontSize: string) {
-    let background = 'white';
-    let foreground = 'black';
-    let radial = 'lightgray';
-
-    if (theme === 'dark') {
-        background = 'black';
-        foreground = 'white';
-        radial = 'dimgray';
-    }
+function getCss(_theme: string, fontSize: string) {
     return `
     @font-face {
-        font-family: 'Inter';
+        font-family: 'Poppins';
         font-style:  normal;
         font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
+        src: url(data:font/ttf;charset=utf-8;base64,${rglr}) format('ttf');
     }
 
     @font-face {
-        font-family: 'Inter';
+        font-family: 'Poppins';
         font-style:  normal;
         font-weight: bold;
-        src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
+        src: url(data:font/ttf;charset=utf-8;base64,${bold}) format('ttf');
     }
 
     @font-face {
@@ -44,18 +36,14 @@ function getCss(theme: string, fontSize: string) {
       }
 
     body {
-        background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
+        background-image: url(data:image/png;base64,${bgImg});
+        background-size: 512x 512px;
         height: 100vh;
         display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
     }
 
     code {
-        color: #D400FF;
+        color: #FF4949;
         font-family: 'Vera';
         white-space: pre-wrap;
         letter-spacing: -5px;
@@ -69,12 +57,10 @@ function getCss(theme: string, fontSize: string) {
         display: flex;
         align-items: center;
         align-content: center;
-        justify-content: center;
-        justify-items: center;
     }
 
     .logo {
-        margin: 0 75px;
+        margin: 0 0 75px;
     }
 
     .plus {
@@ -84,7 +70,7 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .spacer {
-        margin: 150px;
+        margin: 100px;
     }
 
     .emoji {
@@ -95,11 +81,13 @@ function getCss(theme: string, fontSize: string) {
     }
     
     .heading {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Poppins', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
-        color: ${foreground};
-        line-height: 1.8;
+        color: #000;
+        line-height: 1.5;
+        letter-spacing: 0.4px;
+        padding-top: 80px;
     }`;
 }
 
@@ -121,7 +109,6 @@ export function getHtml(parsedReq: ParsedRequest) {
                     getPlusSign(i) + getImage(img, widths[i], heights[i])
                 ).join('')}
             </div>
-            <div class="spacer">
             <div class="heading">${emojify(
                 md ? marked(text) : sanitizeHtml(text)
             )}
@@ -131,7 +118,7 @@ export function getHtml(parsedReq: ParsedRequest) {
 </html>`;
 }
 
-function getImage(src: string, width ='auto', height = '225') {
+function getImage(src: string, width ='auto', height = '40') {
     return `<img
         class="logo"
         alt="Generated Image"
