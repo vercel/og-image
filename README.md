@@ -54,7 +54,7 @@ You'll want to fork this repository and deploy your own image generator.
 1. Click the fork button at the top right of GitHub
 2. Clone the repo to your local machine with `git clone URL_OF_FORKED_REPO_HERE`
 3. Change directory with `cd og-image`
-4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/vercel/og-image/blob/master/CONTRIBUTING.md) for more info)
+4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/vercel/og-image/blob/main/CONTRIBUTING.md) for more info)
 5. Hobby plan users will need to remove all configuration inside `vercel.json` besides `rewrites`
 6. Run locally with `vercel dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g vercel`)
 7. Deploy to the cloud by running `vercel` and you'll get a unique URL
