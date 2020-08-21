@@ -22,6 +22,11 @@ footer {
 
 .center, h1 {
     text-align: center;
+    font-weight: 200;
+}
+
+.center h1 strong {
+    font-weight: 400;
 }
 
 .container {

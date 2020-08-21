@@ -1,0 +1,10 @@
+version: "1"
+rules:
+  - base: upstream
+    upstream: vercel:main
+    mergeMethod: hardreset
+    mergeUnstable: true
+  - base: master
+    upstream: upstream
+    reviewers:
+      - wei
