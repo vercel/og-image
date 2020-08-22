@@ -1,5 +1,8 @@
 {
+  "redirects": [
+    { "source": "/", "destination": "https://github.com/wei/screenshotter#readme", "permanent": false }
+  ],
   "rewrites": [
-    { "source": "/(.+)", "destination": "/api" }
+    { "source": "/screenshot", "destination": "/api" }
   ]
 }

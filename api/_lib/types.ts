@@ -1,13 +1,12 @@
-export type FileType = 'png' | 'jpeg';
-export type Theme = 'light' | 'dark';
+import { Viewport } from "puppeteer";
 
 export interface ParsedRequest {
-    fileType: FileType;
-    text: string;
-    theme: Theme;
-    md: boolean;
-    fontSize: string;
-    images: string[];
-    widths: string[];
-    heights: string[];
+    url: string;
+    selector: string[];
+    canvas: boolean;
+    ua: string | undefined;
+    size: Viewport;
+    full: boolean;
+    css: string | undefined;
+    waitforframe: number | undefined;
 }

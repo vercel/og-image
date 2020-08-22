@@ -1,6 +1,6 @@
-import { launch, Page } from 'puppeteer-core';
+import { launch, Page, ElementHandle } from 'puppeteer-core';
 import { getOptions } from './options';
-import { FileType } from './types';
+import { ParsedRequest } from './types';
 let _page: Page | null;
 
 async function getPage(isDev: boolean) {
@@ -13,10 +13,79 @@ async function getPage(isDev: boolean) {
     return _page;
 }
 
-export async function getScreenshot(html: string, type: FileType, isDev: boolean) {
+export async function getScreenshot(request: ParsedRequest, isDev: boolean) {
     const page = await getPage(isDev);
-    await page.setViewport({ width: 2048, height: 1170 });
-    await page.setContent(html);
-    const file = await page.screenshot({ type });
-    return file;
+    
+    const { url, selector, canvas, ua, size, full, css, waitforframe } = request;
+
+    if (ua) {
+        await page.setUserAgent(ua);
+    }
+    await page.setViewport(size);
+
+    if (url.startsWith('data:text/html;base64,')) {
+        await page.setContent(Buffer.from(url.substr('data:text/html;base64,'.length), 'base64').toString('binary'), { waitUntil: 'networkidle0' });
+    } else if (url.startsWith('data:text/html,')) {
+        await page.setContent(url.substr('data:text/html,'.length), { waitUntil: 'networkidle0' });
+    } else {
+        await page.goto(url, { waitUntil: 'networkidle0' });
+    }
+
+    if (waitforframe && page.frames().length > 1) {
+        try {
+            const loadframes = page.frames();
+            loadframes.shift();  // First frame is current page, no need to wait
+            await Promise.all(
+                loadframes.map(f => 
+                    f.waitForNavigation({ 
+                        waitUntil: 'networkidle0',
+                        timeout: Number(waitforframe)
+                    })
+                )
+            );
+        } catch (ex) {
+            console.error(ex.message);
+        }
+    }
+
+    if (css) {
+        await page.evaluate(css => {
+            const styleSheet = document.createElement('style');
+            styleSheet.type = 'text/css';
+            styleSheet.innerText = css;
+            document.head.appendChild(styleSheet);
+        }, css);
+    }
+
+    let buffer: Buffer;
+    let elem: ElementHandle | null = null;
+    for (let sel of selector) {
+        if (sel) {
+            elem = await page.$(sel);
+            if (elem) break;
+        }
+    }
+    if (selector && canvas) {
+        const pngDataURL = await page.evaluate(elem => elem.toDataURL('image/png'), elem);
+        buffer = new Buffer(pngDataURL.split(',')[1], 'base64');
+    } else if (!full) {
+        if (elem) {
+            buffer = await elem.screenshot({encoding: 'binary'});
+        } else {
+            buffer = await page.screenshot({encoding: 'binary'});
+        }
+    } else {
+        if (elem) {
+            await page.evaluate((_selector) => {
+                window.scrollBy(0, document.querySelector(_selector).offsetTop);
+            }, selector);
+        }
+        buffer = await page.screenshot({encoding: 'binary'});
+    }
+
+    await page.goto('about:blank', { waitUntil: 'networkidle0' });
+    
+    await page.close();
+
+    return buffer;
 }
