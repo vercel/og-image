@@ -355,6 +355,22 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                     setLoadingState({ heights: clone });
                                 }
                             })
+                        ),
+                        H('div',
+                            { className: 'field-flex' },
+                            H(Button, {
+                                label: `Remove Image ${i + 2}`,
+                                onclick: (e: MouseEvent) => {
+                                    e.preventDefault();
+                                    let imagesClone = [...images];
+                                    imagesClone.splice(i + 1, 1);
+                                    let widthsClone = [...widths];
+                                    widthsClone.splice(i + 1, 1);
+                                    let heightsClone = [...heights];
+                                    heightsClone.splice(i + 1, 1);
+                                    setLoadingState({ images: imagesClone, widths: widthsClone, heights: heightsClone });
+                                }
+                            })
                         )
                     )
                 })),
