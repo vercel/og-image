@@ -9,7 +9,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         const parsedReq = parseRequest(req);
         const file = await getScreenshot(parsedReq, isDev);
         res.statusCode = 200;
-        res.setHeader('Content-Type', `image/png`);
+        res.setHeader('Content-Type', 'image/png');
         res.end(file);
     } catch (e) {
         res.statusCode = 500;

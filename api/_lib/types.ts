@@ -1,4 +1,4 @@
-import { Viewport } from "puppeteer";
+import { Viewport } from 'puppeteer';
 
 export interface ParsedRequest {
     url: string;

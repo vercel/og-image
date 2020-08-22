@@ -1,6 +1,7 @@
 import { launch, Page, ElementHandle } from 'puppeteer-core';
 import { getOptions } from './options';
 import { ParsedRequest } from './types';
+
 let _page: Page | null;
 
 async function getPage(isDev: boolean) {
@@ -15,8 +16,10 @@ async function getPage(isDev: boolean) {
 
 export async function getScreenshot(request: ParsedRequest, isDev: boolean) {
     const page = await getPage(isDev);
-    
-    const { url, selector, canvas, ua, size, full, css, waitforframe } = request;
+
+    const {
+        url, selector, canvas, ua, size, full, css, waitforframe,
+    } = request;
 
     if (ua) {
         await page.setUserAgent(ua);
@@ -34,14 +37,12 @@ export async function getScreenshot(request: ParsedRequest, isDev: boolean) {
     if (waitforframe && page.frames().length > 1) {
         try {
             const loadframes = page.frames();
-            loadframes.shift();  // First frame is current page, no need to wait
+            loadframes.shift(); // First frame is current page, no need to wait
             await Promise.all(
-                loadframes.map(f => 
-                    f.waitForNavigation({ 
-                        waitUntil: 'networkidle0',
-                        timeout: Number(waitforframe)
-                    })
-                )
+                loadframes.map((f) => f.waitForNavigation({
+                    waitUntil: 'networkidle0',
+                    timeout: Number(waitforframe),
+                })),
             );
         } catch (ex) {
             console.error(ex.message);
@@ -49,30 +50,30 @@ export async function getScreenshot(request: ParsedRequest, isDev: boolean) {
     }
 
     if (css) {
-        await page.evaluate(css => {
+        await page.evaluate((_css) => {
             const styleSheet = document.createElement('style');
             styleSheet.type = 'text/css';
-            styleSheet.innerText = css;
+            styleSheet.innerText = _css;
             document.head.appendChild(styleSheet);
         }, css);
     }
 
     let buffer: Buffer;
     let elem: ElementHandle | null = null;
-    for (let sel of selector) {
+    for (const sel of selector) { // eslint-disable-line no-restricted-syntax
         if (sel) {
-            elem = await page.$(sel);
+            elem = await page.$(sel); // eslint-disable-line no-await-in-loop
             if (elem) break;
         }
     }
     if (selector && canvas) {
-        const pngDataURL = await page.evaluate(elem => elem.toDataURL('image/png'), elem);
-        buffer = new Buffer(pngDataURL.split(',')[1], 'base64');
+        const pngDataURL: string = await page.evaluate((_elem) => _elem.toDataURL('image/png'), elem);
+        buffer = Buffer.from(pngDataURL.split(',')[1], 'base64');
     } else if (!full) {
         if (elem) {
-            buffer = await elem.screenshot({encoding: 'binary'});
+            buffer = await elem.screenshot({ encoding: 'binary' });
         } else {
-            buffer = await page.screenshot({encoding: 'binary'});
+            buffer = await page.screenshot({ encoding: 'binary' });
         }
     } else {
         if (elem) {
@@ -80,11 +81,11 @@ export async function getScreenshot(request: ParsedRequest, isDev: boolean) {
                 window.scrollBy(0, document.querySelector(_selector).offsetTop);
             }, selector);
         }
-        buffer = await page.screenshot({encoding: 'binary'});
+        buffer = await page.screenshot({ encoding: 'binary' });
     }
 
     await page.goto('about:blank', { waitUntil: 'networkidle0' });
-    
+
     await page.close();
 
     return buffer;

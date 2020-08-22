@@ -1,20 +1,29 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./api/tsconfig.json"
+  },
   "plugins": [
     "@typescript-eslint"
   ],
   "extends": [
+    "airbnb-typescript/base",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
     "semi": ["error", "always"],
+    "no-console": 0,
+    "no-nested-ternary": 0,
+    "no-underscore-dangle": 0,
+    "import/prefer-default-export": 0,
     "indent": ["error", 4],
-    "comma-dangle": ["error", "never"],
-    "prefer-const": 0,
+    "@typescript-eslint/indent": ["error", 4],
+    "@typescript-eslint/naming-convention": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0,
-    "@typescript-eslint/no-explicit-any": 0
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-use-before-define": 0
   }
 }

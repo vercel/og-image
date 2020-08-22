@@ -3,9 +3,11 @@ import { parse } from 'url';
 import { ParsedRequest } from './types';
 
 export function parseRequest(req: IncomingMessage) {
-    console.log('HTTP ' + req.url);
+    console.log(`HTTP ${req.url}`);
     const { query } = parse(req.url || '/', true);
-    let { url, selector, canvas, ua, size = '1024,768', full, css, waitforframe } = (query || {});
+    const {
+        url, selector, canvas, ua, size = '1024,768', full, css, waitforframe,
+    } = (query || {});
 
     if (!url) {
         throw new Error('Missing url parameter');
@@ -24,11 +26,11 @@ export function parseRequest(req: IncomingMessage) {
         ua: ua ? ua.toString() : undefined,
         size: {
             width: Number(size.toString().split(',')[0]),
-            height: Number(size.toString().split(',')[1])
+            height: Number(size.toString().split(',')[1]),
         },
         full: !!(full || '').toString(),
         css: css ? css.toString() : undefined,
-        waitforframe: waitforframe ? Number(waitforframe.toString()) : undefined
+        waitforframe: waitforframe ? Number(waitforframe.toString()) : undefined,
     };
 
     return parsedRequest;
@@ -37,9 +39,8 @@ export function parseRequest(req: IncomingMessage) {
 function getArray(stringOrArray: string[] | string | undefined): string[] {
     if (typeof stringOrArray === 'undefined' || stringOrArray === '') {
         return [];
-    } else if (Array.isArray(stringOrArray)) {
+    } if (Array.isArray(stringOrArray)) {
         return stringOrArray;
-    } else {
-        return [stringOrArray];
     }
+    return [stringOrArray];
 }
