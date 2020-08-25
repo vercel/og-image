@@ -73,7 +73,7 @@ button {
     line-height: 0;
 
     height: 24px;
-    width: 100px;
+    width: calc(100% + 2px);
     padding: 0 10px;
     font-size: 12px;
     background: #fff;
