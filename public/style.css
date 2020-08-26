@@ -186,7 +186,7 @@ select {
     font-size: 14px;
     margin-right: -20px;
     width: calc(100% + 20px);
-    padding: 0 76px 0 16px;
+    padding: 0 0 0 16px;
     text-transform: none;
 }
 
