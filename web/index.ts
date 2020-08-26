@@ -362,12 +362,10 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                 label: `Remove Image ${i + 2}`,
                                 onclick: (e: MouseEvent) => {
                                     e.preventDefault();
-                                    let imagesClone = [...images];
-                                    imagesClone.splice(i + 1, 1);
-                                    let widthsClone = [...widths];
-                                    widthsClone.splice(i + 1, 1);
-                                    let heightsClone = [...heights];
-                                    heightsClone.splice(i + 1, 1);
+                                    const filter = (arr: any[]) => [...arr].filter((_, n) => n !== i + 1);
+                                    const imagesClone = filter(images);
+                                    const widthsClone = filter(widths);
+                                    const heightsClone = filter(heights);
                                     setLoadingState({ images: imagesClone, widths: widthsClone, heights: heightsClone });
                                 }
                             })
