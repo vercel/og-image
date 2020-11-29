@@ -1,6 +1,7 @@
 export type FileType = 'png' | 'jpeg';
 export type Theme = 'light' | 'dark';
-// add a type such as docs, api
+export type imageType = 'Docs' | 'API' | 'Blogs';
+
 
 export interface ParsedRequest {
     fileType: FileType;
@@ -11,4 +12,5 @@ export interface ParsedRequest {
     images: string[];
     widths: string[];
     heights: string[];
+    imageType: string;
 }
