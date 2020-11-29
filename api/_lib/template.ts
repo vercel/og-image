@@ -126,6 +126,7 @@ export function getHtml(parsedReq: ParsedRequest) {
                 md ? marked(text) : sanitizeHtml(text)
             )}
             </div>
+            <h1> Docusaurus - Docs </h1>
         </div>
     </body>
 </html>`;
