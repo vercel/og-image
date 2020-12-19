@@ -4,7 +4,7 @@
     "node": "12.x"
   },
   "scripts": {
-    "build": "tsc -p api/tsconfig.json && tsc -p web/tsconfig.json"
+    "build": "tsc -p api/tsconfig.json"
   },
   "dependencies": {
     "chrome-aws-lambda": "2.1.1",
