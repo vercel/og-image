@@ -13,10 +13,10 @@ async function getPage(isDev: boolean) {
     return _page;
 }
 
-export async function getArtScreenshot(_hash: string, type: FileType, isDev: boolean) {
+export async function getArtScreenshot(hash: string, type: FileType, isDev: boolean) {
     const page = await getPage(isDev);
     await page.setViewport({ width: 675, height: 1080 });
-    await page.goto(`https://app-ruddy-eight.vercel.app/preview/art/0x0cad07c863e31935e2f61fedb278b848c22d6ad7ef282d355179ed6da6e222cc`);
+    await page.goto(`https://app-ruddy-eight.vercel.app/preview/art/${hash}`);
     const file = await page.screenshot({ type });
     return file;
 }
