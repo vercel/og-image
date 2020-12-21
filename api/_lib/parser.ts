@@ -6,7 +6,7 @@ import { readFileSync } from 'fs';
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
     const { pathname, query } = parse(req.url || '/', true);
-    const { fontSize, images, widths, heights, theme, md, intro } = (query || {});
+    const { fontSize, images, widths, heights, theme, md, intro, subTitle, authors, authorsImg } = (query || {});
 
     if (Array.isArray(fontSize)) {
         throw new Error('Expected a single fontSize');
@@ -36,7 +36,10 @@ export function parseRequest(req: IncomingMessage) {
         images: getArray(images),
         widths: getArray(widths),
         heights: getArray(heights),
-        intro: Boolean(intro)
+        intro: Boolean(intro),
+        subTitle: decodeURIComponent((subTitle || '') as string),
+        authors: getArray(authors),
+        authorsImg: getArray(authorsImg)
     };
     parsedRequest.images = getDefaultImages(parsedRequest.images, parsedRequest.theme);
     return parsedRequest;
