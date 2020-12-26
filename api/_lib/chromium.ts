@@ -16,7 +16,7 @@ async function getPage(isDev: boolean) {
 export async function getArtScreenshot(hash: string, type: FileType, isDev: boolean) {
     const page = await getPage(isDev);
     await page.setViewport({ width: 1125, height: 1800 });
-    await page.goto(`https://app-ruddy-eight.vercel.app/preview/art/${hash}`);
+    await page.goto(`https://pob.studio/preview/art/${hash}`);
     const file = await page.screenshot({ type });
     return file;
 }
