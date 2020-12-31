@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 import { parse } from 'url';
-import { ArtParsedRequest, ParsedRequest } from './types';
+import { ArtParsedRequest, DefaultParsedRequest, PalleteParsedRequest, ParsedRequest } from './types';
 
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
@@ -8,12 +8,32 @@ export function parseRequest(req: IncomingMessage) {
 
     const previewType = (pathname || '/').slice(1);
 
-    const { hash } = (query || {});
+    const { hash, address, title, subtitle } = (query || {});
 
-    if (previewType === 'art') {
+    if (previewType.includes('art')) {
         const parsedRequest: ArtParsedRequest = {
             hash: hash as string,
             type: 'art',
+        };
+    
+        return parsedRequest;
+    }
+
+    if (previewType.includes('pallete')) {
+        const parsedRequest: PalleteParsedRequest = {
+            address: address as string,
+            type: 'pallete',
+        };
+    
+        return parsedRequest;
+    }
+
+    if (previewType.includes('default')) {
+        const parsedRequest: DefaultParsedRequest = {
+            hash: hash as string,
+            title: title as string,
+            subtitle: subtitle as string,
+            type: 'default',
         };
     
         return parsedRequest;
