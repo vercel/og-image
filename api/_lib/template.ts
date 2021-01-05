@@ -22,8 +22,10 @@ function getCss(theme: string, fontSize: string) {
         radial = 'dimgray';
     }
     return `
+    @import url('https://fonts.googleapis.com/css?family=M+PLUS+1p');
+
     @font-face {
-        font-family: 'Inter';
+        font-family: ''M PLUS 1p', Inter', sans-serif;
         font-style:  normal;
         font-weight: normal;
         src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
