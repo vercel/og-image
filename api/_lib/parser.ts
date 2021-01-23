@@ -32,7 +32,7 @@ export function parseRequest(req: IncomingMessage) {
         widths: getArray(widths),
         heights: getArray(heights),
     };
-    parsedRequest.images = getDefaultImages(parsedRequest.images);
+    parsedRequest.images = [defaultImage];
     return parsedRequest;
 }
 
@@ -46,14 +46,4 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
     }
 }
 
-function getDefaultImages(images: string[]): string[] {
-    const defaultImage = 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg';
-
-    if (!images || !images[0]) {
-        return [defaultImage];
-    }
-    if (!images[0].startsWith('https://assets.vercel.com/') && !images[0].startsWith('https://assets.zeit.co/')) {
-        images[0] = defaultImage;
-    }
-    return images;
-}
+const defaultImage = 'https://firebasestorage.googleapis.com/v0/b/kentaro-app.appspot.com/o/kentaro_1680x1680.webp?alt=media&token=237b72a9-2d04-40e7-a492-fc9fcb65e92e';
