@@ -301,9 +301,6 @@ img {
         margin: 20px 10px;
     }
     .pull-left {
-          min-width: 50%;
-          display: flex;
-          justify-content: flex-end;
           margin-left: 1.5em;
         }
 }
