@@ -1,6 +1,10 @@
 body {
-    font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    margin: 20px;
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica",
+    "Arial", sans-serif;
+  margin: 20px;
+  overflow-x: hidden;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 a {
@@ -175,6 +179,14 @@ button:hover {
     width: 22px;
 }
 
+.svg {
+  fill: #151513;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  border: 0;
+  right: 0;
+}
 select {
     height: 100%;
     border: none;
@@ -288,6 +300,9 @@ img {
     .field {
         margin: 20px 10px;
     }
+    .pull-left {
+          margin-left: 1.5em;
+        }
 }
 
 @media (max-width: 900px) {
@@ -302,7 +317,7 @@ img {
 }
 
 .github-corner:hover .octo-arm {
-    animation: octocat-wave 560ms ease-in-out
+    animation: octocat-wave 560ms ease-in-out;
 }
 
 @keyframes octocat-wave {
@@ -311,7 +326,25 @@ img {
     40%,80% { transform:rotate(10deg) }
 }
 
-@media (max-width:500px) {
-    .github-corner:hover .octo-arm { animation:none }
-    .github-corner .octo-arm { animation:octocat-wave 560ms ease-in-out }
+@media (max-width: 500px) {
+  .github-corner:hover .octo-arm {
+    animation: none;
+  }
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+  .container {
+    margin: 19%;
+  }
+  .svg {
+    right: -33%;
+  }
+}
+@media (max-width: 360px) {
+  .container {
+    margin: 29.5%;
+  }
+  .svg {
+    right: -52%;
+  }
 }
