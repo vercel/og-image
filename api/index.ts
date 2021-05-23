@@ -1,12 +1,12 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { VercelRequest, VercelResponse } from "@vercel/node";
 import { parseRequest } from './_lib/parser';
 import { getScreenshot } from './_lib/chromium';
 import { getHtml } from './_lib/template';
 
-const isDev = !process.env.AWS_REGION;
-const isHtmlDebug = process.env.OG_HTML_DEBUG === '1';
+const isDev = process.env.NODE_ENV === 'development';
+const isHtmlDebug = false;
 
-export default async function handler(req: IncomingMessage, res: ServerResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
         const parsedReq = parseRequest(req);
         const html = getHtml(parsedReq);
