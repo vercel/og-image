@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  @apply antialiased bg-lightest text-stronger;
+}
+
+h1,
+h2 {
+  @apply font-bold text-strongest;
+}
+
+th,
+td {
+  @apply px-4 py-2;
+}
+
+p {
+  @apply my-4;
+}
+
+a {
+  @apply text-azure hover:underline;
+}
+
+img {
+  @apply transition shadow hover:shadow-lg;
+}
+
+section {
+  @apply my-24;
+}
+
+select,
+input {
+  @apply px-3 py-1 transition border rounded hover:border-strong;
+}
+
+input {
+  @apply w-full;
+}
+
+select {
+  appearance: none;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: url('/icons/select.svg');
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 0.75em 0.75em;
+  @apply pr-8 text-center text-strong hover:text-stronger;
+}
+
+code {
+  @apply text-crimson;
+}
+code::before,
+code::after {
+  content: '`';
+}

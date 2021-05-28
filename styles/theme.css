@@ -1,0 +1,20 @@
+@media (prefers-color-scheme: light) {
+  :root {
+    --lightest: 100%;
+    --lighter: 80%;
+    --light: 60%;
+    --strong: 40%;
+    --stronger: 20%;
+    --strongest: 0%;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --lightest: 0%;
+    --lighter: 20%;
+    --light: 40%;
+    --strong: 60%;
+    --stronger: 80%;
+    --strongest: 100%;
+  }
+}

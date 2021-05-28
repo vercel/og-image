@@ -1,21 +1,33 @@
 {
   "private": true,
   "engines": {
-    "node": "14.x"
+    "node": ">=14.x"
   },
   "scripts": {
-    "build": "tsc -p api/tsconfig.json && tsc -p web/tsconfig.json"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint **/*.{ts,tsx}",
+    "format": "prettier --write **/*.{ts,tsx,css}"
   },
   "dependencies": {
-    "chrome-aws-lambda": "7.0.0",
-    "marked": "2.0.0",
-    "puppeteer-core": "7.0.0",
-    "twemoji": "13.0.1"
+    "marked": ">=2",
+    "next": ">=10.2",
+    "puppeteer": ">=9.1",
+    "react": ">=17",
+    "react-dom": ">=17"
   },
   "devDependencies": {
-    "@types/marked": "1.2.2",
-    "@types/puppeteer": "5.4.3",
-    "@types/puppeteer-core": "5.4.0",
-    "typescript": "4.1.5"
+    "@types/marked": ">=2",
+    "@types/puppeteer": ">=5.4",
+    "@types/react": ">=17",
+    "autoprefixer": ">=10.2",
+    "eslint": ">=7.27",
+    "eslint-config-next": ">=10.2",
+    "postcss": ">=8.3",
+    "prettier": ">=2.3",
+    "tailwind-preset": ">=1",
+    "tailwindcss": ">=2.1",
+    "typescript": ">=4.3"
   }
 }
