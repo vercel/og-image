@@ -11,15 +11,16 @@
     "format": "prettier --write **/*.{ts,tsx,css}"
   },
   "dependencies": {
+    "chrome-aws-lambda": ">=9.1",
     "marked": ">=2",
     "next": ">=10.2",
-    "puppeteer": ">=9.1",
+    "puppeteer-core": ">=9.1",
     "react": ">=17",
     "react-dom": ">=17"
   },
   "devDependencies": {
     "@types/marked": ">=2",
-    "@types/puppeteer": ">=5.4",
+    "@types/puppeteer-core": ">=5.4",
     "@types/react": ">=17",
     "autoprefixer": ">=10.2",
     "eslint": ">=7.27",

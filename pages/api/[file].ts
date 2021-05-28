@@ -1,12 +1,30 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import puppeteer from 'puppeteer';
+import chrome from 'chrome-aws-lambda';
+import puppeteer from 'puppeteer-core';
 import marked from 'marked';
 
 import type { NextApiHandler } from 'next';
 
 const getPage = async () => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch(
+    process.env.AWS_REGION
+      ? {
+          args: chrome.args,
+          executablePath: await chrome.executablePath,
+          headless: chrome.headless,
+        }
+      : {
+          args: [],
+          executablePath:
+            process.platform === 'win32'
+              ? 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+              : process.platform === 'linux'
+              ? '/usr/bin/google-chrome'
+              : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+          headless: true,
+        }
+  );
   const page = await browser.newPage();
   return page;
 };
