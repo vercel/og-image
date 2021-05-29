@@ -1,19 +1,14 @@
 import { IncomingMessage } from 'http';
-import { parse } from 'url';
+import { URL, URLSearchParams } from 'url';
 import { ParsedRequest, Theme } from './types';
 
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
-    const { pathname, query } = parse(req.url || '/', true);
+    const { pathname, searchParams } = new URL(req.url || '/', 'http://' + process.env.VERCEL_URL);
+    const params = new URLSearchParams(searchParams);
+    const query = Object.fromEntries(params);
     const { fontSize, images, widths, heights, theme, md } = (query || {});
 
-    if (Array.isArray(fontSize)) {
-        throw new Error('Expected a single fontSize');
-    }
-    if (Array.isArray(theme)) {
-        throw new Error('Expected a single theme');
-    }
-    
     const arr = (pathname || '/').slice(1).split('.');
     let extension = '';
     let text = '';
