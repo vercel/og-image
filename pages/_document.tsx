@@ -4,7 +4,7 @@ import NextDocument, { Html, Head, Main, NextScript } from 'next/document';
 class Document extends NextDocument {
   render() {
     return (
-      <Html>
+      <Html className="antialiased bg-lightest text-stronger">
         <Head>
           <meta name="color-scheme" content="dark light" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
