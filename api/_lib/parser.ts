@@ -1,13 +1,18 @@
 import { IncomingMessage } from 'http';
-import { URL, URLSearchParams } from 'url';
 import { ParsedRequest, Theme } from './types';
 
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
     const { pathname, searchParams } = new URL(req.url || '/', 'http://' + process.env.VERCEL_URL);
-    const params = new URLSearchParams(searchParams);
-    const query = Object.fromEntries(params);
+    var query: any = groupParamsByKey(searchParams);
     const { fontSize, images, widths, heights, theme, md } = (query || {});
+
+    if (Array.isArray(fontSize)) {
+        throw new Error('Expected a single fontSize');
+    }
+    if (Array.isArray(theme)) {
+        throw new Error('Expected a single theme');
+    }
 
     const arr = (pathname || '/').slice(1).split('.');
     let extension = '';
@@ -57,4 +62,21 @@ function getDefaultImages(images: string[], theme: Theme): string[] {
         images[0] = defaultImage;
     }
     return images;
+}
+
+function groupParamsByKey(params: any) {
+    return [...params.entries()].reduce((acc, tuple) => {
+        const [key, val] = tuple;
+        if (acc.hasOwnProperty(key)) {
+            if (Array.isArray(acc[key])) {
+                acc[key] = [...acc[key], val]
+            } else {
+                acc[key] = [acc[key], val];
+            }
+        } else {
+            acc[key] = val;
+        }
+
+        return acc;
+    }, {});
 }
