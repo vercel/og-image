@@ -1,1 +1,6 @@
-{ "extends": "next" }
+{
+  "extends": "next",
+  "rules": {
+    "react/prop-types": 0
+  }
+}

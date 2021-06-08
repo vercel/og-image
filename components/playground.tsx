@@ -22,6 +22,7 @@ const Playground: React.VFC = () => {
     `img=${images.map((image) => encodeURIComponent(image)).join('&image=')}` +
     '&' +
     `img_size=${encodeURIComponent(imageSize)}`;
+
   return (
     <section className="grid gap-8 p-6 mx-auto shadow-xl max-w-7xl lg:grid-cols-2">
       <table className="w-full table-fixed">

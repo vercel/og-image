@@ -15,14 +15,14 @@ const Home: NextPage = () => {
         />
       </Head>
 
-      <h1 className="text-5xl text-center">
+      <h1 className="text-center">
         Open Graph Image <br /> as a Service
       </h1>
 
       <Playground />
 
-      <section className="mx-auto max-w-prose">
-        <h2 className="text-3xl">What is this?</h2>
+      <section className="mx-auto mt-24 max-w-prose">
+        <h2>What is this?</h2>
         <p>
           This is a service that generates dynamic{' '}
           <a href="http://ogp.me" target="_blank" rel="noopener noreferrer">

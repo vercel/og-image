@@ -8,6 +8,7 @@
     --strongest: 0%;
   }
 }
+
 @media (prefers-color-scheme: dark) {
   :root {
     --lightest: 0%;
