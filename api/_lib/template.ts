@@ -81,7 +81,7 @@ function getCss(theme: string, fontSize: string, hideDots: boolean) {
     }
 
     .logo-rounded {
-        border-radius: 9999px;
+        border-radius: 50%;
     }
 
     .plus {
