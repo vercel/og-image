@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
-import { ParsedRequest } from './types';
+import { ParsedRequest, Theme, Bg } from './types';
 const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
@@ -10,7 +10,7 @@ const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
 
-function getCss(theme: string, fontSize: string, hideDots: boolean) {
+function getCss(theme: Theme, fontSize: string, bg: Bg) {
     let background = 'white';
     let foreground = 'black';
     let radial = 'lightgray';
@@ -45,7 +45,7 @@ function getCss(theme: string, fontSize: string, hideDots: boolean) {
     body {
         background: ${background};
         ${
-            hideDots
+            bg === 'plain'
                 ? ''
                 : `background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);`
         }
@@ -111,14 +111,14 @@ function getCss(theme: string, fontSize: string, hideDots: boolean) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights, imagesCircle, hideDots } = parsedReq;
+    const { text, theme, md, fontSize, images, widths, heights, imagesCircle, bg } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize, hideDots)}
+        ${getCss(theme, fontSize, bg)}
     </style>
     <body>
         <div>
