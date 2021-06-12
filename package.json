@@ -16,19 +16,19 @@
     "next": ">=10.2",
     "puppeteer-core": ">=10",
     "react": ">=17",
-    "react-dom": ">=17"
+    "react-dom": ">=17",
+    "autoprefixer": ">=10.2",
+    "tailwind-preset": ">=1.2",
+    "postcss": ">=8.3",
+    "tailwindcss": ">=2.1"
   },
   "devDependencies": {
     "@types/marked": ">=2",
     "@types/puppeteer-core": ">=5.4",
     "@types/react": ">=17",
-    "autoprefixer": ">=10.2",
     "eslint": ">=7.28",
     "eslint-config-next": ">=10.2",
-    "postcss": ">=8.3",
     "prettier": ">=2.3",
-    "tailwind-preset": ">=1",
-    "tailwindcss": ">=2.1",
     "typescript": ">=4.3"
   }
 }
