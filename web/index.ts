@@ -144,13 +144,13 @@ const markdownOptions: DropdownOption[] = [
 const imageLightOptions: DropdownOption[] = [
   { text: 'Jarvis - Full logo', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-word-mark-on-white.svg' },
   { text: 'Jarvis - Icon', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-color-mark.svg' },
-  // { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-color-logo.svg' },
+  { text: 'Jarvis - Recipes', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-recipes-logo-on-white.svg' },
 ];
 
 const imageDarkOptions: DropdownOption[] = [
   { text: 'Jarvis - Full logo', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-word-mark-on-black.svg' },
   { text: 'Jarvis - Icon', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-color-mark.svg' },
-  // { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-bw-logo.svg' },
+  { text: 'Jarvis - Recipes', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-recipes-logo-on-black.svg' },
 ];
 
 const widthOptions = [
