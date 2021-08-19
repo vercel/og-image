@@ -1,4 +1,4 @@
-import { ParsedRequest, Theme, FileType } from '../api/_lib/types';
+import { ParsedRequest, Template, FileType } from '../api/_lib/types';
 const { H, R, copee } = (window as any);
 let timeout = -1;
 
@@ -120,9 +120,11 @@ const Toast = ({ show, message }: ToastProps) => {
     );
 }
 
-const themeOptions: DropdownOption[] = [
-    { text: 'Light', value: 'light' },
-    { text: 'Dark', value: 'dark' },
+const templateOptions: DropdownOption[] = [
+    { text: 'Site', value: 'site' },
+    { text: 'Blog', value: 'blog' },
+    { text: 'Docs', value: 'docs' },
+    { text: 'Learn', value: 'learn' },
 ];
 
 const fileTypeOptions: DropdownOption[] = [
@@ -141,17 +143,11 @@ const markdownOptions: DropdownOption[] = [
     { text: 'Markdown', value: '1' },
 ];
 
-const imageLightOptions: DropdownOption[] = [
-    { text: 'Vercel', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg' },
-    { text: 'Next.js', value: 'https://assets.vercel.com/image/upload/front/assets/design/nextjs-black-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-color-logo.svg' },
-];
-
-const imageDarkOptions: DropdownOption[] = [
-
-    { text: 'Vercel', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg' },
-    { text: 'Next.js', value: 'https://assets.vercel.com/image/upload/front/assets/design/nextjs-white-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-bw-logo.svg' },
+const imageOptions: DropdownOption[] = [
+    { text: 'Checkly', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg' },
+    { text: 'Headless', value: '/theheadlessdev.svg' },
+    { text: 'Rakun', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-color-logo.svg' },
+    { text: 'Tweet', value: '/tweet.png' },
 ];
 
 const widthOptions = [
@@ -183,7 +179,6 @@ interface AppState extends ParsedRequest {
     selectedImageIndex: number;
     widths: string[];
     heights: string[];
-    overrideUrl: URL | null;
 }
 
 type SetState = (state: Partial<AppState>) => void;
@@ -191,35 +186,38 @@ type SetState = (state: Partial<AppState>) => void;
 const App = (_: any, state: AppState, setState: SetState) => {
     const setLoadingState = (newState: Partial<AppState>) => {
         window.clearTimeout(timeout);
-        if (state.overrideUrl && state.overrideUrl !== newState.overrideUrl) {
-            newState.overrideUrl = state.overrideUrl;
-        }
-        if (newState.overrideUrl) {
-            timeout = window.setTimeout(() => setState({ overrideUrl: null }), 200);
-        }
+        // if (state.overrideUrl && state.overrideUrl !== newState.overrideUrl) {
+        //     newState.overrideUrl = state.overrideUrl;
+        // }
+        // if (newState.overrideUrl) {
+        //     timeout = window.setTimeout(() => setState({ overrideUrl: null }), 200);
+        // }
 
         setState({ ...newState, loading: true });
     };
     const {
         fileType = 'png',
         fontSize = '100px',
-        theme = 'light',
+        template = 'docs',
         md = true,
-        text = '**Hello** World',
-        images=[imageLightOptions[0].value],
+        titleText = '**Hello** World',
+        subtitleText = '',
+        breadcrumbsText = '',
+        images=[],
         widths=[],
         heights=[],
         showToast = false,
         messageToast = '',
         loading = true,
         selectedImageIndex = 0,
-        overrideUrl = null,
     } = state;
     const mdValue = md ? '1' : '0';
-    const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.origin);
-    url.pathname = `${encodeURIComponent(text)}.${fileType}`;
-    url.searchParams.append('theme', theme);
+    url.pathname = `${template}.${fileType}`;
+    url.searchParams.append('titleText', encodeURIComponent(titleText));
+    subtitleText && url.searchParams.append('subtitleText', encodeURIComponent(subtitleText));
+    breadcrumbsText && url.searchParams.append('breadcrumbsText', encodeURIComponent(breadcrumbsText));
+    url.searchParams.append('template', template);
     url.searchParams.append('md', mdValue);
     url.searchParams.append('fontSize', fontSize);
     for (let image of images) {
@@ -238,16 +236,11 @@ const App = (_: any, state: AppState, setState: SetState) => {
             { className: 'pull-left' },
             H('div',
                 H(Field, {
-                    label: 'Theme',
+                    label: 'Template',
                     input: H(Dropdown, {
-                        options: themeOptions,
-                        value: theme,
-                        onchange: (val: Theme) => {
-                            const options = val === 'light' ? imageLightOptions : imageDarkOptions
-                            let clone = [...images];
-                            clone[0] = options[selectedImageIndex].value;
-                            setLoadingState({ theme: val, images: clone });
-                        }
+                        options: templateOptions,
+                        value: template,
+                        onchange: (val: Template) => setLoadingState({ template: val })
                     })
                 }),
                 H(Field, {
@@ -275,12 +268,32 @@ const App = (_: any, state: AppState, setState: SetState) => {
                     })
                 }),
                 H(Field, {
-                    label: 'Text Input',
+                    label: 'Title Text',
                     input: H(TextInput, {
-                        value: text,
+                        value: titleText,
                         oninput: (val: string) => {
                             console.log('oninput ' + val);
-                            setLoadingState({ text: val, overrideUrl: url });
+                            setLoadingState({ titleText: val });
+                        }
+                    })
+                }),
+                H(Field, {
+                    label: 'Subtitle',
+                    input: H(TextInput, {
+                        value: subtitleText,
+                        oninput: (val: string) => {
+                            console.log('oninput ' + val);
+                            setLoadingState({ subtitleText: val });
+                        }
+                    })
+                }),
+                H(Field, {
+                    label: 'Breadcrumbs',
+                    input: H(TextInput, {
+                        value: breadcrumbsText,
+                        oninput: (val: string) => {
+                            console.log('oninput ' + val);
+                            setLoadingState({ breadcrumbsText: val });
                         }
                     })
                 }),
@@ -330,7 +343,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             oninput: (val: string) => {
                                 let clone = [...images];
                                 clone[i + 1] = val;
-                                setLoadingState({ images: clone, overrideUrl: url });
+                                setLoadingState({ images: clone });
                             }
                         }),
                         H('div',
@@ -389,10 +402,11 @@ const App = (_: any, state: AppState, setState: SetState) => {
         H('div',
             { className: 'pull-right' },
             H(ImagePreview, {
-                src: overrideUrl ? overrideUrl.href : url.href,
+                src: url.href,
                 loading: loading,
                 onload: () => setState({ loading: false }),
-                onerror: () => {
+                onerror: (err: any) => {
+                    console.error(err)
                     setState({ showToast: true, messageToast: 'Oops, an error occurred' });
                     setTimeout(() => setState({ showToast: false }), 2000);
                 },

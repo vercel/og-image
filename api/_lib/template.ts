@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'fs';
 import marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
@@ -10,10 +9,10 @@ const emojify = (text: string) => twemoji.parse(text, twOptions);
 const rglr = readFileSync(`${__dirname}/../_fonts/Poppins-Regular.ttf`).toString('base64');
 const bold = readFileSync(`${__dirname}/../_fonts/Poppins-Bold.ttf`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
-const bgImg = readFileSync(`${__dirname}/../_imgs/background.png`).toString('base64');
 
-function getCss(_theme: string, fontSize: string) {
+function getCss(templateImage: string, template: string, fontSize: string) {
     return `
+    p,
     body {
         padding: 0;
         margin: 0;
@@ -41,8 +40,8 @@ function getCss(_theme: string, fontSize: string) {
       }
 
     body {
-        background-image: url(data:image/png;base64,${bgImg});
-        background-size: 512x 512px;
+        background-image: url(${templateImage});
+        background-size: cover;
         height: 100vh;
         display: flex;
         flex-direction: column;
@@ -59,7 +58,7 @@ function getCss(_theme: string, fontSize: string) {
     }
 
     .wrapper {
-        padding: 100px;
+        padding: 50px;
     }
 
     .intro .heading {
@@ -100,82 +99,72 @@ function getCss(_theme: string, fontSize: string) {
         vertical-align: -0.1em;
     }
 
-    .heading,
-    .sub-heading {
+    .breadcrumbs {
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        color: #999;
+        letter-spacing: 0.4px;
+        padding-top: 0px;
+        font-size: 35px;
+    }
+
+    .heading {
         font-family: 'Poppins', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: #000;
         line-height: 1.5;
         letter-spacing: 0.4px;
-        padding-top: 80px;
+        padding-top: ${template === 'site' ? '100px' : '80px'};
+        text-align: ${template === 'site' ? 'center' : 'left'};
     }
 
     .sub-heading {
+        ${(template === 'docs' || template === 'learn') && 'max-width: 60%;'};
+        font-family: 'Poppins', sans-serif;
+        color: #777;
         letter-spacing: 0.4px;
         padding-top: 0px;
-        font-size: 55px;
-    }
-
-    .authors {
-        display: flex;
-        font-family: 'Poppins', sans-serif;
-        font-size: 50px;
-        font-style: normal;
-        color: #000;
-        padding: 0 100px 100px;
-    }
-
-    .authors .author {
-        display: flex;
-        align-items: center;
-        margin-right: 50px;
-    }
-
-    .authors .author img {
-        margin-right: 5px;
-        border-radius: 9999px;
-        width: 60px;
-        border: 2px solid #fff;
-        box-sizing: border-box;
+        font-size: 3rem;
+        text-align: ${template === 'site' ? 'center' : 'left'};
     }`;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights, intro, subTitle, authors, authorsImg } = parsedReq;
+    const { template, templateImage, md, fontSize, images, widths, heights, intro, titleText, subtitleText, breadcrumbsText } = parsedReq;
+    console.log(template)
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize)}
+        ${getCss(templateImage, template, fontSize)}
     </style>
     <body>
         <div class="${intro ? 'intro' : 'wrapper'}">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i], intro)
-                ).join('')}
-            </div>
+            ${breadcrumbsText ? `<div class="breadcrumbs">${emojify(
+                md ? marked(breadcrumbsText) : sanitizeHtml(breadcrumbsText)
+            )}
+            </div>` : ''}
             <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
+                md ? marked(titleText) : sanitizeHtml(titleText)
             )}
             </div>
-            ${subTitle ? `<div class="sub-heading">${emojify(
-                md ? marked(subTitle) : sanitizeHtml(subTitle)
+            ${images.length ? (`<div class="logo-wrapper">
+                ${images.map((img, i) =>
+                    getImage(img, widths[i], heights[i], intro)
+                )}
+            </div>`) : ''}
+            ${subtitleText ? `<div class="sub-heading">${emojify(
+                md ? marked(subtitleText) : sanitizeHtml(subtitleText)
             )}
             </div>` : ''}
         </div>
-        ${authors && authors.length ? `<div class="authors">
-            ${authors.map((name, i) =>
-                `<div class="author">
-                    <img src="${authorsImg[i]}" /> ${name}
-                </div>`
-            ).join('')}
-        </div>`: ''}
     </body>
-</html>`;
+</html>`
 }
 
 function getImage(src: string, width ='auto', height = '40', isIntro = false) {
@@ -188,6 +177,3 @@ function getImage(src: string, width ='auto', height = '40', isIntro = false) {
     />`
 }
 
-function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
-}
