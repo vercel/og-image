@@ -7,30 +7,30 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
+const rglr = readFileSync(`${__dirname}/../_fonts/GothamPro-Medium.woff2`).toString('base64');
+const bold = readFileSync(`${__dirname}/../_fonts/GothamPro-Bold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
 
 function getCss(theme: string, fontSize: string) {
-    let background = 'white';
+    // let background = 'white';
     let foreground = 'black';
     let radial = 'lightgray';
 
     if (theme === 'dark') {
-        background = 'black';
+        // background = 'black';
         foreground = 'white';
         radial = 'dimgray';
     }
     return `
     @font-face {
-        font-family: 'Inter';
+        font-family: 'GothamPro';
         font-style:  normal;
         font-weight: normal;
         src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
     }
 
     @font-face {
-        font-family: 'Inter';
+        font-family: 'GothamPro';
         font-style:  normal;
         font-weight: bold;
         src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
@@ -44,7 +44,7 @@ function getCss(theme: string, fontSize: string) {
       }
 
     body {
-        background: ${background};
+        background: url(data:image/svg;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MjgiIHZpZXdCb3g9IjAgMCAxMjAwIDYyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTS0wLjAxOTI4NzEgMEgxMjAwVjYyOEgtMC4wMTkyODcxVjBaIiBmaWxsPSIjMTg1RENFIi8+CjxyZWN0IHg9IjYzOC4zNDgiIHk9Ii0yNDMuMzczIiB3aWR0aD0iNDI0Ljk4MiIgaGVpZ2h0PSIxMDMzLjIyIiB0cmFuc2Zvcm09InJvdGF0ZSgyNC45Njg4IDYzOC4zNDggLTI0My4zNzMpIiBmaWxsPSIjNENCRkZFIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4K);
         background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
         background-size: 100px 100px;
         height: 100vh;
