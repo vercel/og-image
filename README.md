@@ -6,8 +6,6 @@ Serverless service that generates dynamic Open Graph images that you can embed i
 
 For each keystroke, headless chromium is used to render an HTML page and take a screenshot of the result which gets cached.
 
-See the image embedded in the tweet for a real use case.
-
 This fork has been significantly modified from [vercel/og-image](https://github.com/vercel/og-image). The goal is to dynamically create the following og-image types.
 
 ![image](https://user-images.githubusercontent.com/7415984/130135123-820a6de1-ca17-43dd-b4b5-239096b3f1f1.png)
