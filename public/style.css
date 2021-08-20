@@ -295,6 +295,12 @@ img {
     border-color: #ddd;
 }
 
+.image-hint {
+  font-size: 0.8rem;
+  font-weight: 200;
+  text-align: center;
+  font-style: italic;
+}
 
 @media (max-width: 1000px) {
     .field {

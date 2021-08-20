@@ -7,9 +7,9 @@ export interface ParsedRequest {
     fileType: FileType;
     md: boolean;
     fontSize: string;
-    images: string[];
-    widths: string[];
-    heights: string[];
+    image: string;
+    width: string;
+    height: string;
     intro: boolean;
     titleText: string;
     subtitleText: string;

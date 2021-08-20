@@ -137,8 +137,7 @@ function getCss(templateImage: string, template: string, fontSize: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { template, templateImage, md, fontSize, images, widths, heights, intro, titleText, subtitleText, breadcrumbsText } = parsedReq;
-    console.log(template)
+    const { template, templateImage, md, fontSize, image, width, height, intro, titleText, subtitleText, breadcrumbsText } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -163,17 +162,15 @@ export function getHtml(parsedReq: ParsedRequest) {
               )}
               </div>` : ''}
             </div>
-            ${template === 'blog' && images.length ? (`<div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getImage(img, widths[i], heights[i], intro)
-                )}
+            ${template === 'blog' && image ? (`<div class="logo-wrapper">
+                ${getImage(image, width, height, intro)}
             </div>`) : ''}
         </div>
     </body>
 </html>`
 }
 
-function getImage(src: string, width ='auto', height = '40', isIntro = false) {
+function getImage(src: string, width ='auto', height = '240', isIntro = false) {
     return `<img
         class="logo"
         alt="Generated Image"
