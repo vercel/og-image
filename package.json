@@ -1,8 +1,19 @@
 {
-	"private": true,
-	"engines": {
-		"node": "14.x"
-	},
+	"name": "checkly-og-image",
+	"description": "Dynamic og-image generator for ChecklyHQ",
+  "contributors": [
+    "Maxi Gimenez <maxi@checklyhq.com>",
+    "Nico Domino <nico@checklyhq.com>"
+  ],
+  "homepage": "https://og-image-git-ndom91-add-base-img-types-checkly.vercel.app",
+  "repository": "https://github.com/checkly/og-image",
+  "bugs": "https://github.com/checkly/og-image/issues",
+  "keywords": [
+    "og-image",
+    "playwright"
+  ],
+  "version": "0.1.0",
+  "license": "MIT",
 	"scripts": {
 		"dev:local": "vercel dev",
 		"build": "tsc -p api/tsconfig.json && tsc -p web/tsconfig.json"
