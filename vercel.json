@@ -1,5 +1,5 @@
 {
-  "regions": ["all"],
+  "regions": ["iad1"],
   "functions": {
     "api/**": {
       "memory": 3008
