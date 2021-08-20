@@ -59,16 +59,17 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
 
 interface TextInputProps {
     value: string;
+    placeholder: string;
     oninput: (val: string) => void;
 }
 
-const TextInput = ({ value, oninput }: TextInputProps) => {
+const TextInput = ({ value, placeholder, oninput }: TextInputProps) => {
     return H('div',
         { className: 'input-outer-wrapper' },
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: 'text', value, oninput: (e: any) => oninput(e.target.value) }
+                { type: 'text', value, placeholder, oninput: (e: any) => oninput(e.target.value) }
             )
         )
     );
@@ -136,24 +137,30 @@ const markdownOptions: DropdownOption[] = [
 
 const widthOptions = [
     { text: 'width', value: 'auto' },
-    { text: '50', value: '50' },
-    { text: '100', value: '100' },
-    { text: '150', value: '150' },
-    { text: '200', value: '200' },
-    { text: '250', value: '250' },
-    { text: '300', value: '300' },
-    { text: '350', value: '350' },
+    { text: 'auto', value: 'auto' },
+    { text: '50px', value: '50' },
+    { text: '100px', value: '100' },
+    { text: '150px', value: '150' },
+    { text: '200px', value: '200' },
+    { text: '250px', value: '250' },
+    { text: '300px', value: '300' },
+    { text: '350px', value: '350' },
+    { text: '400px', value: '400' },
+    { text: '450px', value: '450' },
 ];
 
 const heightOptions = [
     { text: 'height', value: 'auto' },
-    { text: '50', value: '50' },
-    { text: '100', value: '100' },
-    { text: '150', value: '150' },
-    { text: '200', value: '200' },
-    { text: '250', value: '250' },
-    { text: '300', value: '300' },
-    { text: '350', value: '350' },
+    { text: 'auto', value: 'auto' },
+    { text: '50px', value: '50' },
+    { text: '100px', value: '100' },
+    { text: '150px', value: '150' },
+    { text: '200px', value: '200' },
+    { text: '250px', value: '250' },
+    { text: '300px', value: '300' },
+    { text: '350px', value: '350' },
+    { text: '400px', value: '400' },
+    { text: '450px', value: '450' },
 ];
 
 interface AppState extends ParsedRequest {
@@ -272,6 +279,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                     input: H('div',
                         H(TextInput, {
                             value: '',
+                            placeholder: 'image url',
                             onchange: (val: string) =>  {
                                 setLoadingState({ image: val });
                             }
