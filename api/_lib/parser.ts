@@ -38,6 +38,12 @@ export function parseRequest(req: IncomingMessage) {
         subtitleText: decodeURIComponent((subtitleText || '') as string),
         breadcrumbsText: decodeURIComponent((breadcrumbsText || '') as string),
     };
+    if (template === 'blog' && !parsedRequest.images.length) {
+      const fatRakun = 'data:image/svg+xml;base64,' + readFileSync(path.join(process.cwd(), 'api', '_imgs', '_fat-rakun.svg')).toString('base64');
+      parsedRequest.images = [fatRakun]
+      parsedRequest.widths = ['250']
+      parsedRequest.heights = ['250']
+    }
     return parsedRequest;
 }
 

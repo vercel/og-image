@@ -143,12 +143,12 @@ const markdownOptions: DropdownOption[] = [
     { text: 'Markdown', value: '1' },
 ];
 
-const imageOptions: DropdownOption[] = [
-    { text: 'Checkly', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg' },
-    { text: 'Headless', value: '/theheadlessdev.svg' },
-    { text: 'Rakun', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-color-logo.svg' },
-    { text: 'Tweet', value: '/tweet.png' },
-];
+// const imageOptions: DropdownOption[] = [
+//     { text: 'Checkly', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg' },
+//     { text: 'Headless', value: '/theheadlessdev.svg' },
+//     { text: 'Rakun', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-color-logo.svg' },
+//     { text: 'Tweet', value: '/tweet.png' },
+// ];
 
 const widthOptions = [
     { text: 'width', value: 'auto' },
@@ -209,7 +209,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
         showToast = false,
         messageToast = '',
         loading = true,
-        selectedImageIndex = 0,
     } = state;
     const mdValue = md ? '1' : '0';
     const url = new URL(window.location.origin);
@@ -300,16 +299,24 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 H(Field, {
                     label: 'Image 1',
                     input: H('div',
-                        H(Dropdown, {
-                            options: imageOptions,
-                            value: imageOptions[selectedImageIndex].value,
+                        H(TextInput, {
+                            value: '',
                             onchange: (val: string) =>  {
                                 let clone = [...images];
                                 clone[0] = val;
-                                const selected = imageOptions.map(o => o.value).indexOf(val);
-                                setLoadingState({ images: clone, selectedImageIndex: selected });
+                                setLoadingState({ images: clone });
                             }
                         }),
+                        // H(Dropdown, {
+                        //     options: imageOptions,
+                        //     value: imageOptions[selectedImageIndex].value,
+                        //     onchange: (val: string) =>  {
+                        //         let clone = [...images];
+                        //         clone[0] = val;
+                        //         const selected = imageOptions.map(o => o.value).indexOf(val);
+                        //         setLoadingState({ images: clone, selectedImageIndex: selected });
+                        //     }
+                        // }),
                         H('div',
                             { className: 'field-flex' },
                             H(Dropdown, {

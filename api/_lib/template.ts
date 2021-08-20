@@ -58,7 +58,14 @@ function getCss(templateImage: string, template: string, fontSize: string) {
     }
 
     .wrapper {
-        padding: 50px;
+        padding: ${template === 'blog' ? '70px 50px' : '60px 50px'};
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .text-wrapper {
+      margin: ${template === 'site' ? '0 auto' : '0'};
     }
 
     .intro .heading {
@@ -78,12 +85,9 @@ function getCss(templateImage: string, template: string, fontSize: string) {
 
     .logo-wrapper {
         display: flex;
+        margin: 0 40px;
         align-items: center;
         align-content: center;
-    }
-
-    .logo {
-        margin: 0 0 55px;
     }
 
     .plus {
@@ -127,7 +131,7 @@ function getCss(templateImage: string, template: string, fontSize: string) {
         color: #777;
         letter-spacing: 0.4px;
         padding-top: 0px;
-        font-size: 3rem;
+        font-size: 2.5rem;
         text-align: ${template === 'site' ? 'center' : 'left'};
     }`;
 }
@@ -149,19 +153,21 @@ export function getHtml(parsedReq: ParsedRequest) {
                 md ? marked(breadcrumbsText) : sanitizeHtml(breadcrumbsText)
             )}
             </div>` : ''}
-            <div class="heading">${emojify(
-                md ? marked(titleText) : sanitizeHtml(titleText)
-            )}
+            <div class="text-wrapper">
+              <div class="heading">${emojify(
+                  md ? marked(titleText) : sanitizeHtml(titleText)
+              )}
+              </div>
+              ${subtitleText ? `<div class="sub-heading">${emojify(
+                  md ? marked(subtitleText) : sanitizeHtml(subtitleText)
+              )}
+              </div>` : ''}
             </div>
-            ${images.length ? (`<div class="logo-wrapper">
+            ${template === 'blog' && images.length ? (`<div class="logo-wrapper">
                 ${images.map((img, i) =>
                     getImage(img, widths[i], heights[i], intro)
                 )}
             </div>`) : ''}
-            ${subtitleText ? `<div class="sub-heading">${emojify(
-                md ? marked(subtitleText) : sanitizeHtml(subtitleText)
-            )}
-            </div>` : ''}
         </div>
     </body>
 </html>`
