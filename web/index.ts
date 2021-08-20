@@ -143,11 +143,12 @@ const markdownOptions: DropdownOption[] = [
 
 const imageLightOptions: DropdownOption[] = [
     { text: 'Stockora (Black)', value: 'https://og-image.stockora.com/stockora-black.svg' },
+    { text: 'Stockora (White)', value: 'https://og-image.stockora.com/stockora.svg' },
 ];
 
 const imageDarkOptions: DropdownOption[] = [
     { text: 'Stockora (White)', value: 'https://og-image.stockora.com/stockora.svg' },
-
+    { text: 'Stockora (Black)', value: 'https://og-image.stockora.com/stockora-black.svg' },
 ];
 
 const widthOptions = [
