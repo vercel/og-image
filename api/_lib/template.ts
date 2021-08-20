@@ -149,11 +149,11 @@ export function getHtml(parsedReq: ParsedRequest) {
     </style>
     <body>
         <div class="${intro ? 'intro' : 'wrapper'}">
-            ${breadcrumbsText ? `<div class="breadcrumbs">${emojify(
-                md ? marked(breadcrumbsText) : sanitizeHtml(breadcrumbsText)
-            )}
-            </div>` : ''}
             <div class="text-wrapper">
+              ${(template === 'learn' || template === 'docs') && breadcrumbsText ? `<div class="breadcrumbs">${emojify(
+                  md ? marked(breadcrumbsText) : sanitizeHtml(breadcrumbsText)
+              )}
+              </div>` : ''}
               <div class="heading">${emojify(
                   md ? marked(titleText) : sanitizeHtml(titleText)
               )}
