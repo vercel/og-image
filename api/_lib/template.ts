@@ -7,6 +7,7 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
+const light = readFileSync(`${__dirname}/../_fonts/GothamPro-Light.woff2`).toString('base64');
 const rglr = readFileSync(`${__dirname}/../_fonts/GothamPro-Medium.woff2`).toString('base64');
 const bold = readFileSync(`${__dirname}/../_fonts/GothamPro-Bold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
@@ -14,14 +15,21 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('ba
 function getCss(theme: string, fontSize: string) {
     // let background = 'white';
     let foreground = 'black';
-    let radial = 'lightgray';
+    // let radial = 'lightgray';
 
     if (theme === 'dark') {
         // background = 'black';
         foreground = 'white';
-        radial = 'dimgray';
+        // radial = 'dimgray';
     }
     return `
+    @font-face {
+        font-family: 'GothamPro';
+        font-style:  normal;
+        font-weight: 300;
+        src: url(data:font/woff2;charset=utf-8;base64,${light}) format('woff2');
+    }
+
     @font-face {
         font-family: 'GothamPro';
         font-style:  normal;
@@ -44,9 +52,8 @@ function getCss(theme: string, fontSize: string) {
       }
 
     body {
-        background: url(data:image/svg;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MjgiIHZpZXdCb3g9IjAgMCAxMjAwIDYyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTS0wLjAxOTI4NzEgMEgxMjAwVjYyOEgtMC4wMTkyODcxVjBaIiBmaWxsPSIjMTg1RENFIi8+CjxyZWN0IHg9IjYzOC4zNDgiIHk9Ii0yNDMuMzczIiB3aWR0aD0iNDI0Ljk4MiIgaGVpZ2h0PSIxMDMzLjIyIiB0cmFuc2Zvcm09InJvdGF0ZSgyNC45Njg4IDYzOC4zNDggLTI0My4zNzMpIiBmaWxsPSIjNENCRkZFIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4K);
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI2MjgiIHZpZXdCb3g9IjAgMCAxMjAwIDYyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTS0wLjAxOTI4NzEgMEgxMjAwVjYyOEgtMC4wMTkyODcxVjBaIiBmaWxsPSIjMTg1RENFIi8+CjxyZWN0IHg9IjYzOC4zNDgiIHk9Ii0yNDMuMzczIiB3aWR0aD0iNDI0Ljk4MiIgaGVpZ2h0PSIxMDMzLjIyIiB0cmFuc2Zvcm09InJvdGF0ZSgyNC45Njg4IDYzOC4zNDggLTI0My4zNzMpIiBmaWxsPSIjNENCRkZFIiBmaWxsLW9wYWNpdHk9IjAuNSIvPgo8L3N2Zz4K');
+        background-size: cover;
         height: 100vh;
         display: flex;
         text-align: center;
@@ -75,6 +82,7 @@ function getCss(theme: string, fontSize: string) {
 
     .logo {
         margin: 0 75px;
+        max-width: 60%;
     }
 
     .plus {
@@ -87,6 +95,11 @@ function getCss(theme: string, fontSize: string) {
         margin: 150px;
     }
 
+    .spacer--small {
+        margin: 40px;
+    }
+
+
     .emoji {
         height: 1em;
         width: 1em;
@@ -94,12 +107,21 @@ function getCss(theme: string, fontSize: string) {
         vertical-align: -0.1em;
     }
     
+    .heading--small {
+        font-family: 'GothamPro', sans-serif;
+        font-size: 66px;
+        font-style: normal;
+        font-weight: 300;
+        color: ${foreground};
+        line-height: 1.3;
+    }
+    
     .heading {
-        font-family: 'Inter', sans-serif;
+        font-family: 'GothamPro', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
-        line-height: 1.8;
+        line-height: 1.3;
     }`;
 }
 
@@ -115,13 +137,14 @@ export function getHtml(parsedReq: ParsedRequest) {
     </style>
     <body>
         <div>
-            <div class="spacer">
+            <div class="spacer--small">
             <div class="logo-wrapper">
                 ${images.map((img, i) =>
                     getPlusSign(i) + getImage(img, widths[i], heights[i])
                 ).join('')}
             </div>
             <div class="spacer">
+            <div class="heading--small">RNS Announcement</div>
             <div class="heading">${emojify(
                 md ? marked(text) : sanitizeHtml(text)
             )}
