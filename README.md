@@ -41,7 +41,7 @@ There are a few query parameters that we accept in order to dynamically generate
 8. `height`: `number` - `blog` type only. Applys to custom image, i.e. `250`
 9. `md`: `'1' | '0'` - on/off - whether text fields are interpreted as markdown
 
-The query parameter options **must always be URI Encoded**, i.e. spaces are `%20`, forward slashes are `%2F`, etc. If building a URL by hand, you can use the `encodeURIcomponent()` function in the dev tools or the GCHQ's [CyberChef](https://gchq.github.io/CyberChef/#recipe=URL_Encode(false)&input=) tool.
+The query parameter options **must always be URI Encoded**, i.e. spaces are `%20`, forward slashes are `%2F`, etc. If building a URL by hand, you can use the `encodeURIComponent()` function in the dev tools or the GCHQ's [CyberChef](https://gchq.github.io/CyberChef/#recipe=URL_Encode(false)&input=) tool.
 
 ```html
 <head>
