@@ -42,7 +42,13 @@ interface DropdownProps {
   small: boolean
 }
 
-const Dropdown = ({ options, value, onchange, small, disabled }: DropdownProps) => {
+const Dropdown = ({
+  options,
+  value,
+  onchange,
+  small,
+  disabled,
+}: DropdownProps) => {
   const wrapper = small ? "select-wrapper small" : "select-wrapper"
   const arrow = small ? "select-arrow small" : "select-arrow"
   return H(
@@ -66,7 +72,12 @@ interface TextInputProps {
   oninput: (val: string) => void
 }
 
-const TextInput = ({ value, placeholder, oninput, disabled }: TextInputProps) => {
+const TextInput = ({
+  value,
+  placeholder,
+  oninput,
+  disabled,
+}: TextInputProps) => {
   return H(
     "div",
     { className: "input-outer-wrapper" },
@@ -282,7 +293,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
             "div",
             H(TextInput, {
               value: "",
-              disabled: state.template !== 'blog',
+              disabled: state.template !== "blog",
               placeholder: "image url",
               onchange: (val: string) => {
                 setLoadingState({ image: val })
@@ -294,7 +305,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
               H(Dropdown, {
                 options: widthOptions,
                 value: width,
-                disabled: state.template !== 'blog',
+                disabled: state.template !== "blog",
                 small: true,
                 onchange: (val: string) => {
                   setLoadingState({ width: val })
@@ -303,7 +314,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
               H(Dropdown, {
                 options: heightOptions,
                 value: height,
-                disabled: state.template !== 'blog',
+                disabled: state.template !== "blog",
                 small: true,
                 onchange: (val: string) => {
                   setLoadingState({ height: val })

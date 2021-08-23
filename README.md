@@ -54,6 +54,16 @@ The query parameter options **must always be URI Encoded**, i.e. spaces are `%20
 
 There is a web playground where one can experiment with all available fields located at [og-image-types-checkly.vercel.app](https://og-image-git-ndom91-add-base-img-types-checkly.vercel.app)
 
+## Contributing
+
+To contribute, you'll want to first clone the repository and install its dependencies.
+
+`$ git clone https://github.com/checkly/og-image.git`
+`$ cd og-image && npm install`
+
+Next, you can start a normal development server with `npm run dev:local`. This will open the web playground at [`localhost:3005`](http://localhost:3005), and if you visit an image URL directly (i.e. `http://localhost:3005/docs.png?template=docs&title=Hello%20World`), it will serve the png version of the image. However, if you run the dev server via `npm run dev:local:debug`, it will include an environment variable which tells the development server to serve you the raw HTML version of the images when visited directly. So instead of getting the png, you will get the HTML and be able to debug styling issues.
+
+
 ## Authors
 
 - Steven ([@styfle](https://twitter.com/styfle)) - [Vercel](https://vercel.com)
