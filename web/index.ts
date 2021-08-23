@@ -37,11 +37,12 @@ interface DropdownOption {
 interface DropdownProps {
   options: DropdownOption[]
   value: string
+  disabled: boolean
   onchange: (val: string) => void
   small: boolean
 }
 
-const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
+const Dropdown = ({ options, value, onchange, small, disabled }: DropdownProps) => {
   const wrapper = small ? "select-wrapper small" : "select-wrapper"
   const arrow = small ? "select-arrow small" : "select-arrow"
   return H(
@@ -49,7 +50,7 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
     { className: wrapper },
     H(
       "select",
-      { onchange: (e: any) => onchange(e.target.value) },
+      { disabled, onchange: (e: any) => onchange(e.target.value) },
       options.map((o) =>
         H("option", { value: o.value, selected: value === o.value }, o.text)
       )
@@ -61,10 +62,11 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
 interface TextInputProps {
   value: string
   placeholder: string
+  disabled: boolean
   oninput: (val: string) => void
 }
 
-const TextInput = ({ value, placeholder, oninput }: TextInputProps) => {
+const TextInput = ({ value, placeholder, oninput, disabled }: TextInputProps) => {
   return H(
     "div",
     { className: "input-outer-wrapper" },
@@ -75,6 +77,7 @@ const TextInput = ({ value, placeholder, oninput }: TextInputProps) => {
         type: "text",
         value,
         placeholder,
+        disabled,
         oninput: (e: any) => oninput(e.target.value),
       })
     )
@@ -185,7 +188,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
     fileType = "png",
     fontSize = "50px",
     template = "docs",
-    titleText = "**Scraping & asserting on a page**",
+    titleText = "Scraping & asserting on a page",
     subtitleText = "Any standard Node.js script that successfully finishes an execution is a valid, passing browser check.",
     breadcrumbsText = "Checkly Docs / Headless Automation / Basics Debugging",
     image = "",
@@ -274,11 +277,12 @@ const App = (_: any, state: AppState, setState: SetState) => {
           }),
         }),
         H(Field, {
-          label: "Image",
+          label: "Blog Image",
           input: H(
             "div",
             H(TextInput, {
               value: "",
+              disabled: state.template !== 'blog',
               placeholder: "image url",
               onchange: (val: string) => {
                 setLoadingState({ image: val })
@@ -290,6 +294,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
               H(Dropdown, {
                 options: widthOptions,
                 value: width,
+                disabled: state.template !== 'blog',
                 small: true,
                 onchange: (val: string) => {
                   setLoadingState({ width: val })
@@ -298,6 +303,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
               H(Dropdown, {
                 options: heightOptions,
                 value: height,
+                disabled: state.template !== 'blog',
                 small: true,
                 onchange: (val: string) => {
                   setLoadingState({ height: val })

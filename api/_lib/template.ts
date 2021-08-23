@@ -55,7 +55,7 @@ function getCss(templateImage: string, template: string, fontSize: string, image
 
     .container {
         height: 100vh;
-        padding: 0 70px;
+        padding: ${template === "site" ? "0" : "0 70px"};
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -64,6 +64,8 @@ function getCss(templateImage: string, template: string, fontSize: string, image
     .text-wrapper {
       flex-basis: ${template === 'blog' ? '60%' : '75%'};
       display: flex;
+      ${template === 'site' ? 'align-items: center;': ''}
+      margin: ${template === "site" ? "0 auto" : "0"};
       flex-direction: column;
     }
 
@@ -123,7 +125,7 @@ function getCss(templateImage: string, template: string, fontSize: string, image
         font-weight: 600;
         color: #1F2D3D;
         letter-spacing: 0.4px;
-        text-align: ${template === "site" ? "center" : "left"};
+        margin: ${template === "site" ? "0 auto" : "0"};
     }
 
     .sub-heading {
