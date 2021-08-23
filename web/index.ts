@@ -137,11 +137,6 @@ const fontSizeOptions: DropdownOption[] = Array.from({ length: 10 })
   .filter((n) => n > 0)
   .map((n) => ({ text: n + "px", value: n + "px" }))
 
-const markdownOptions: DropdownOption[] = [
-  { text: "Plain Text", value: "0" },
-  { text: "Markdown", value: "1" },
-]
-
 const widthOptions = [
   { text: "width", value: "auto" },
   { text: "auto", value: "auto" },
@@ -190,7 +185,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
     fileType = "png",
     fontSize = "50px",
     template = "docs",
-    md = true,
     titleText = "**Scraping & asserting on a page**",
     subtitleText = "Any standard Node.js script that successfully finishes an execution is a valid, passing browser check.",
     breadcrumbsText = "Checkly Docs / Headless Automation / Basics Debugging",
@@ -201,7 +195,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
     messageToast = "",
     loading = true,
   } = state
-  const mdValue = md ? "1" : "0"
   const url = new URL(window.location.origin)
   url.pathname = `${template}.${fileType}`
   url.searchParams.append("titleText", encodeURIComponent(titleText))
@@ -213,7 +206,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
       encodeURIComponent(breadcrumbsText)
     )
   url.searchParams.append("template", template)
-  url.searchParams.append("md", mdValue)
   url.searchParams.append("fontSize", fontSize)
   image && url.searchParams.append("image", image)
   width && url.searchParams.append("width", width)
@@ -249,14 +241,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
             options: fontSizeOptions,
             value: fontSize,
             onchange: (val: string) => setLoadingState({ fontSize: val }),
-          }),
-        }),
-        H(Field, {
-          label: "Text Type",
-          input: H(Dropdown, {
-            options: markdownOptions,
-            value: mdValue,
-            onchange: (val: string) => setLoadingState({ md: val === "1" }),
           }),
         }),
         H(Field, {

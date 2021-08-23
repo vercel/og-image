@@ -1,5 +1,4 @@
 import { readFileSync } from "fs"
-import marked from "marked"
 import { sanitizeHtml } from "./sanitizer"
 import { ParsedRequest } from "./types"
 const twemoji = require("twemoji")
@@ -16,7 +15,7 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
   "base64"
 )
 
-function getCss(templateImage: string, template: string, fontSize: string) {
+function getCss(templateImage: string, template: string, fontSize: string, image: string) {
   return `
     p,
     body {
@@ -54,46 +53,40 @@ function getCss(templateImage: string, template: string, fontSize: string) {
         justify-content: space-between;
     }
 
-    .intro {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .wrapper {
-        padding: ${template === "blog" ? "70px 50px" : "60px 50px"};
+    .container {
+        height: 100vh;
+        padding: 0 70px;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
     .text-wrapper {
+      flex-basis: 60%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .titles-wrapper {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
       margin: ${template === "site" ? "0 auto" : "0"};
     }
 
-    .intro .heading {
-        display: none;
-    }
-
-    code {
-        color: #FF4949;
-        font-family: 'Vera';
-        white-space: pre-wrap;
-        letter-spacing: -5px;
-    }
-
-    code:before, code:after {
-        content: '\`';
-    }
-
-    .logo-wrapper {
+    .blog__image {
+        flex-basis: 40%;
         display: flex;
-        margin: 0 40px;
         align-items: center;
-        align-content: center;
+        justify-content: center;
+    }
+
+    .blog__image > .logo {
+        border: ${template === 'blog' && image ? '1px solid #E0E6ED' : 'none'};
+        box-sizing: border-box;
+        border-radius: 3px;
     }
 
     .plus {
@@ -110,13 +103,16 @@ function getCss(templateImage: string, template: string, fontSize: string) {
     }
 
     .breadcrumbs {
-        font-family: 'Poppins', sans-serif;
+        position: absolute;
+        top: 20px;
+        left: 70px;
         display: flex;
+        font-family: 'Poppins', sans-serif;
         justify-content: flex-start;
         align-items: center;
         color: #999;
         letter-spacing: 0.4px;
-        padding-top: 0px;
+        margin-top: 10px;
         font-size: 35px;
     }
 
@@ -124,10 +120,9 @@ function getCss(templateImage: string, template: string, fontSize: string) {
         font-family: 'Poppins', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
-        color: #000;
-        line-height: 1.5;
+        font-weight: 600;
+        color: #1F2D3D;
         letter-spacing: 0.4px;
-        padding-top: ${template === "site" ? "100px" : "80px"};
         text-align: ${template === "site" ? "center" : "left"};
     }
 
@@ -146,12 +141,10 @@ export function getHtml(parsedReq: ParsedRequest) {
   const {
     template,
     templateImage,
-    md,
     fontSize,
     image,
     width,
     height,
-    intro,
     titleText,
     subtitleText,
     breadcrumbsText,
@@ -162,42 +155,34 @@ export function getHtml(parsedReq: ParsedRequest) {
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(templateImage, template, fontSize)}
+        ${getCss(templateImage, template, fontSize, image)}
     </style>
     <body>
-        <div class="${intro ? "intro" : "wrapper"}">
-            <div class="text-wrapper">
-              ${
-                (template === "learn" || template === "docs") && breadcrumbsText
-                  ? `<div class="breadcrumbs">${emojify(
-                      md
-                        ? marked(breadcrumbsText)
-                        : sanitizeHtml(breadcrumbsText)
-                    )}
-              </div>`
-                  : ""
-              }
-              <div class="heading">${emojify(
-                md ? marked(titleText) : sanitizeHtml(titleText)
-              )}
-              </div>
-              ${
-                subtitleText
-                  ? `<div class="sub-heading">${emojify(
-                      md ? marked(subtitleText) : sanitizeHtml(subtitleText)
-                    )}
-              </div>`
-                  : ""
-              }
+      <div class="container">
+        <div class="text-wrapper">
+          <div class="breadcrumbs">
+          ${((template === "learn" || template === "docs") && breadcrumbsText) ? emojify(
+            sanitizeHtml(breadcrumbsText)
+          ) : ''} 
+          </div>
+          <div class="titles-wrapper">
+            <div class="heading">${emojify(sanitizeHtml(titleText))} </div>
+            <div class="sub-heading">
+              ${subtitleText && emojify(
+                sanitizeHtml(subtitleText)
+              )} 
             </div>
-            ${
-              template === "blog" && image
-                ? `<div class="logo-wrapper">
-                ${getImage(image, width, height, intro)}
-            </div>`
-                : ""
-            }
+          </div>
         </div>
+        ${(template === "blog" &&
+          image) ?
+          `<div class="blog__image"> ${getImage(
+            image,
+            width,
+            height
+          )} </div>` : ''
+        }
+      </div>
     </body>
 </html>`
 }
@@ -205,14 +190,13 @@ export function getHtml(parsedReq: ParsedRequest) {
 function getImage(
   src: string,
   width = "auto",
-  height = "240",
-  isIntro = false
+  height = "240"
 ) {
   return `<img
         class="logo"
         alt="Generated Image"
         src="${sanitizeHtml(src)}"
         width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(isIntro ? "80" : height)}"
+        height="${sanitizeHtml(height)}"
     />`
 }

@@ -5,12 +5,10 @@ export interface ParsedRequest {
   template: Template | string
   templateImage: string
   fileType: FileType
-  md: boolean
   fontSize: string
   image: string
   width: string
   height: string
-  intro: boolean
   titleText: string
   subtitleText: string
   breadcrumbsText: string
