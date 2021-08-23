@@ -15,7 +15,7 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
   "base64"
 )
 
-function getCss(templateImage: string, template: string, fontSize: string, image: string) {
+function getCss(templateImage: string, template: string, fontSize: string, width: string, height: string) {
   return `
     p,
     body {
@@ -86,7 +86,7 @@ function getCss(templateImage: string, template: string, fontSize: string, image
     }
 
     .blog__image > .logo {
-        border: ${template === 'blog' && image ? '1px solid #E0E6ED' : 'none'};
+        border: ${(height === '250' && width === '250') ? 'none' : '1px solid #E0E6ED'};
         box-sizing: border-box;
         border-radius: 3px;
     }
@@ -125,7 +125,7 @@ function getCss(templateImage: string, template: string, fontSize: string, image
         font-weight: 600;
         color: #1F2D3D;
         letter-spacing: 0.4px;
-        margin: ${template === "site" ? "0 auto" : "0"};
+        margin: ${template === "site" ? "20px auto" : "0"};
     }
 
     .sub-heading {
@@ -155,7 +155,7 @@ export function getHtml(parsedReq: ParsedRequest) {
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(templateImage, template, fontSize, image)}
+        ${getCss(templateImage, template, fontSize, height, width)}
     </style>
     <body>
       <div class="container">
