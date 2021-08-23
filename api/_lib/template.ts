@@ -5,15 +5,7 @@ const twemoji = require("twemoji")
 const twOptions = { folder: "svg", ext: ".svg" }
 const emojify = (text: string) => twemoji.parse(text, twOptions)
 
-const rglr = readFileSync(
-  `${__dirname}/../_fonts/Poppins-Regular.ttf`
-).toString("base64")
-const bold = readFileSync(`${__dirname}/../_fonts/Poppins-Bold.ttf`).toString(
-  "base64"
-)
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
-  "base64"
-)
+const inter = readFileSync(`${__dirname}/../_fonts/Inter.var.woff2`).toString("base64")
 
 function getCss(templateImage: string, template: string, fontSize: string, width: string, height: string) {
   return `
@@ -24,25 +16,11 @@ function getCss(templateImage: string, template: string, fontSize: string, width
     }
 
     @font-face {
-        font-family: 'Poppins';
-        font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/ttf;charset=utf-8;base64,${rglr}) format('ttf');
-    }
-
-    @font-face {
-        font-family: 'Poppins';
-        font-style:  normal;
-        font-weight: bold;
-        src: url(data:font/ttf;charset=utf-8;base64,${bold}) format('ttf');
-    }
-
-    @font-face {
-        font-family: 'Vera';
+        font-family: 'Inter';
         font-style: normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
-      }
+        font-weight: 100 900;
+        src: url(data:font/ttf;charset=utf-8;base64,${inter}) format('woff2');
+    }
 
     body {
         background-image: url(${templateImage});
@@ -90,7 +68,7 @@ function getCss(templateImage: string, template: string, fontSize: string, width
         top: 30px;
         left: 50px;
         display: flex;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Inter', sans-serif;
         justify-content: flex-start;
         align-items: center;
         color: #999;
@@ -100,7 +78,7 @@ function getCss(templateImage: string, template: string, fontSize: string, width
     }
 
     .text__titles--title {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         font-weight: 600;
@@ -116,10 +94,10 @@ function getCss(templateImage: string, template: string, fontSize: string, width
     }
 
     .text__titles--subtitle {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Inter', sans-serif;
         color: #777;
         margin-top: 10px;
-        font-size: 2.5rem;
+        font-size: 2rem;
         text-align: ${template === "site" ? "center" : "left"};
 
         display: -webkit-box;
