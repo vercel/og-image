@@ -62,7 +62,7 @@ function getCss(templateImage: string, template: string, fontSize: string, image
     }
 
     .text-wrapper {
-      flex-basis: 60%;
+      flex-basis: ${template === 'blog' ? '60%' : '75%'};
       display: flex;
       flex-direction: column;
     }
@@ -127,11 +127,9 @@ function getCss(templateImage: string, template: string, fontSize: string, image
     }
 
     .sub-heading {
-        ${(template === "docs" || template === "learn") && "max-width: 60%;"};
         font-family: 'Poppins', sans-serif;
         color: #777;
-        letter-spacing: 0.4px;
-        padding-top: 0px;
+        margin-top: 10px;
         font-size: 2.5rem;
         text-align: ${template === "site" ? "center" : "left"};
     }`
