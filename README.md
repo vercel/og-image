@@ -14,14 +14,14 @@ This fork has been significantly modified from [vercel/og-image](https://github.
 
 There are a few query parameters that we accept in order to dynamically generate the og:images, and those are:
 
-1. `template`: `'site' | 'learn' | 'docs' | 'blog'`
-2. `breadcrumbsText`: `string` (`docs` and `learn` type only!)
-3. `titleText`: `string`
-4. `subtitleText`: `string`
-5. `fontSize`: `string` - default `96px`
-6. `image`: `string` - `blog` type only. URI Encoded URL to image
-7. `width`: `number` - `blog` type only. Applys to custom image, i.e. `450`
-8. `height`: `number` - `blog` type only. Applys to custom image, i.e. `250`
+1. `template` - `'site'` | `'learn'` | `'docs'` | `'blog'`
+2. `breadcrumbsText` - `string` (`docs` and `learn` template only)
+3. `titleText` - `string`
+4. `subtitleText` - `string`
+5. `fontSize` - `string` - default `96px`
+6. `image` - `string` URL to image (`blog` template only)
+7. `width` - `number` Applys to custom image, i.e. `450` (`blog` template only)
+8. `height` - `number` Applys to custom image, i.e. `250` (`blog` template only)
 
 The query parameter options **must always be URI Encoded**, i.e. spaces are `%20`, forward slashes are `%2F`, etc. If building a URL by hand, you can use the `encodeURIComponent()` function in the browser dev tools or the GCHQ's [CyberChef](https://gchq.github.io/CyberChef/#recipe=URL_Encode(false)&input=) tool.
 
@@ -40,10 +40,14 @@ There is a playground available with which one can experiment with all available
 
 To contribute, you'll want to first clone the repository and install its dependencies.
 
-`$ git clone https://github.com/checkly/og-image.git`
-`$ cd og-image && npm install`
+```
+$ git clone https://github.com/checkly/og-image.git
+$ cd og-image && npm install
+```
 
-Next, you can start a normal development server with `npm run dev:local`. This will open the web playground at [`localhost:3005`](http://localhost:3005), and if you visit an image URL directly (i.e. `http://localhost:3005/docs.png?template=docs&title=Hello%20World`), it will serve the png version of the image. However, if you run the dev server via `npm run dev:local:debug`, it will include an environment variable which tells the development server to serve you the raw HTML version of the images when visited directly. So instead of getting the png, you will get the HTML and be able to debug styling issues.
+Next, you can start a normal development server with `npm run dev:local`, this will open the web playground at [`localhost:3005`](http://localhost:3005). If you visit an image URL directly (i.e. `http://localhost:3005/docs.png?template=docs&title=Hello%20World`), it will serve the png version of the image. 
+ 
+However, if you run the dev server via `npm run dev:local:debug`, it will **start the development server with a flag to serve the raw HTML** version of the images when requested directly. So instead of getting the png image, you will get the HTML and can more easily debug styling issues.
 
 
 ## 👥 Authors
