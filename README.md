@@ -2,16 +2,13 @@
 
 # [Open Graph Image as a Service](https://og-image.vercel.app)
 
-<a href="https://twitter.com/vercel">
-    <img align="right" src="https://og-image.vercel.app/tweet.png" height="300" />
-</a>
-
 Serverless service that generates dynamic Open Graph images that you can embed in your `<meta>` tags.
 
 For each keystroke, headless chromium is used to render an HTML page and take a screenshot of the result which gets cached.
 
-See the image embedded in the tweet for a real use case.
+This fork has been significantly modified from [vercel/og-image](https://github.com/vercel/og-image). The goal is to dynamically create the following og-image types.
 
+![image](https://user-images.githubusercontent.com/7415984/130135123-820a6de1-ca17-43dd-b4b5-239096b3f1f1.png)
 
 ## What is an Open Graph Image?
 
@@ -30,39 +27,46 @@ It looks like the following:
 </head>
 ```
 
-## Why use this service?
+## Usage
 
-The short answer is that it would take a long time to painstakingly design an image for every single blog post and every single documentation page. And we don't want the exact same image for every blog post because that wouldn't make the article stand out when it was shared to Twitter. 
+There are a few query parameters that we accept in order to dynamically generate the og:images, and those are:
 
-That's where `og-image.vercel.app` comes in. We can simply pass the title of our blog post to our generator service and it will generate the image for us on the fly!
+1. `template`: `'site' | 'learn' | 'docs' | 'blog'`
+2. `breadcrumbsText`: `string` (`docs` and `learn` type only!)
+3. `titleText`: `string`
+4. `subtitleText`: `string`
+5. `fontSize`: `string` - default `96px`
+6. `image`: `string` - `blog` type only. URI Encoded URL to image
+7. `width`: `number` - `blog` type only. Applys to custom image, i.e. `450`
+8. `height`: `number` - `blog` type only. Applys to custom image, i.e. `250`
+9. `md`: `'1' | '0'` - on/off - whether text fields are interpreted as markdown
 
-It looks like the following:
+The query parameter options **must always be URI Encoded**, i.e. spaces are `%20`, forward slashes are `%2F`, etc. If building a URL by hand, you can use the `encodeURIComponent()` function in the dev tools or the GCHQ's [CyberChef](https://gchq.github.io/CyberChef/#recipe=URL_Encode(false)&input=) tool.
 
 ```html
 <head>
   <title>Hello World</title>
-  <meta property="og:image" content="https://og-image.vercel.app/Hello%20World.png" />
+  <meta property="og:image" content="https://og-image-git-ndom91-add-base-img-types-checkly.vercel.app/docs.png?titleText=**Scraping%2520%2526%2520asserting%2520on%2520a%2520page**&subtitleText=Any%2520standard%2520Node.js%2520script%2520that%2520successfully%2520finishes%2520an%2520execution%2520is%2520a%2520valid%252C%2520passing%2520browser%2520check.&breadcrumbsText=Checkly%2520Docs%2520%252F%2520Headless%2520Automation%2520%252F%2520Basics%2520Debugging&template=docs&md=1&fontSize=50px" />
 </head>
 ```
 
-Now try changing the text `Hello%20World` to the title of your choosing and watch the magic happen ✨
+![Docs Example](https://user-images.githubusercontent.com/7415984/130284244-d6711cc7-097c-45db-8423-5946691c87ab.png)
 
-## Deploy your own
+There is a web playground where one can experiment with all available fields located at [og-image-types-checkly.vercel.app](https://og-image-git-ndom91-add-base-img-types-checkly.vercel.app)
 
-You'll want to fork this repository and deploy your own image generator.
+## Contributing
 
-1. Click the fork button at the top right of GitHub
-2. Clone the repo to your local machine with `git clone URL_OF_FORKED_REPO_HERE`
-3. Change directory with `cd og-image`
-4. Make changes by swapping out images, changing colors, etc (see [contributing](https://github.com/vercel/og-image/blob/main/CONTRIBUTING.md) for more info)
-5. Remove all configuration inside `vercel.json` besides `rewrites`
-6. Run locally with `vercel dev` and visit [localhost:3000](http://localhost:3000)  (if nothing happens, run `npm install -g vercel`)
-7. Deploy to the cloud by running `vercel` and you'll get a unique URL
-8. Setup [GitHub](https://vercel.com/github) to auto-deploy on push
+To contribute, you'll want to first clone the repository and install its dependencies.
 
-Once you have an image generator that sparks joy, you can setup [automatic GitHub](https://vercel.com/github) deployments so that pushing to master will deploy to production! 🚀
+`$ git clone https://github.com/checkly/og-image.git`
+`$ cd og-image && npm install`
+
+Next, you can start a normal development server with `npm run dev:local`. This will open the web playground at [`localhost:3005`](http://localhost:3005), and if you visit an image URL directly (i.e. `http://localhost:3005/docs.png?template=docs&title=Hello%20World`), it will serve the png version of the image. However, if you run the dev server via `npm run dev:local:debug`, it will include an environment variable which tells the development server to serve you the raw HTML version of the images when visited directly. So instead of getting the png, you will get the HTML and be able to debug styling issues.
+
 
 ## Authors
 
 - Steven ([@styfle](https://twitter.com/styfle)) - [Vercel](https://vercel.com)
 - Evil Rabbit ([@evilrabbit](https://twitter.com/evilrabbit_)) - [Vercel](https://vercel.com)
+- Maxi Gimenez ([@maxigimenez](https://github.com/maxigimenez)) - [Checkly](https://checklyhq.com)
+- Nico Domino ([@ndom91](https://github.com/ndom91)) - [Checkly](https://checklyhq.com)

@@ -1,96 +1,34 @@
+import { readFileSync } from "fs"
+import { sanitizeHtml } from "./sanitizer"
+import { ParsedRequest } from "./types"
+const twemoji = require("twemoji")
+const twOptions = { folder: "svg", ext: ".svg" }
+const emojify = (text: string) => twemoji.parse(text, twOptions)
 
-import { readFileSync } from 'fs';
-import marked from 'marked';
-import { sanitizeHtml } from './sanitizer';
-import { ParsedRequest } from './types';
-const twemoji = require('twemoji');
-const twOptions = { folder: 'svg', ext: '.svg' };
-const emojify = (text: string) => twemoji.parse(text, twOptions);
+const inter = readFileSync(`${__dirname}/../_fonts/Inter.var.woff2`).toString("base64")
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Poppins-Regular.ttf`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Poppins-Bold.ttf`).toString('base64');
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
-const bgImg = readFileSync(`${__dirname}/../_imgs/background.png`).toString('base64');
-
-function getCss(_theme: string, fontSize: string) {
-    return `
+function getCss(templateImage: string, template: string, fontSize: string, width: string, height: string) {
+  return `
+    p,
     body {
         padding: 0;
         margin: 0;
     }
 
     @font-face {
-        font-family: 'Poppins';
-        font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/ttf;charset=utf-8;base64,${rglr}) format('ttf');
-    }
-
-    @font-face {
-        font-family: 'Poppins';
-        font-style:  normal;
-        font-weight: bold;
-        src: url(data:font/ttf;charset=utf-8;base64,${bold}) format('ttf');
-    }
-
-    @font-face {
-        font-family: 'Vera';
+        font-family: 'Inter';
         font-style: normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
-      }
+        font-weight: 100 900;
+        src: url(data:font/ttf;charset=utf-8;base64,${inter}) format('woff2');
+    }
 
     body {
-        background-image: url(data:image/png;base64,${bgImg});
-        background-size: 512x 512px;
+        background-image: url(${templateImage});
+        background-size: cover;
         height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-    }
-
-    .intro {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .wrapper {
-        padding: 100px;
-    }
-
-    .intro .heading {
-        display: none;
-    }
-
-    code {
-        color: #FF4949;
-        font-family: 'Vera';
-        white-space: pre-wrap;
-        letter-spacing: -5px;
-    }
-
-    code:before, code:after {
-        content: '\`';
-    }
-
-    .logo-wrapper {
-        display: flex;
-        align-items: center;
-        align-content: center;
-    }
-
-    .logo {
-        margin: 0 0 55px;
-    }
-
-    .plus {
-        color: #BBB;
-        font-family: Times New Roman, Verdana;
-        font-size: 100px;
     }
 
     .emoji {
@@ -100,94 +38,148 @@ function getCss(_theme: string, fontSize: string) {
         vertical-align: -0.1em;
     }
 
-    .heading,
-    .sub-heading {
-        font-family: 'Poppins', sans-serif;
+    .container {
+        height: 100vh;
+        padding: ${template === "site" ? "0" : "0 50px"};
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .text__wrapper {
+      flex-basis: ${template === 'blog' ? '60%' : '75%'};
+      display: flex;
+      ${template === 'site' ? 'align-items: center;': ''}
+      margin: ${template === "site" ? "0 auto" : "0"};
+      flex-direction: column;
+    }
+
+    .text__titles {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      margin: ${template === "site" ? "60px auto 0px auto" : "0"};
+    }
+
+    .text__breadcrumbs {
+        position: absolute;
+        top: 30px;
+        left: 50px;
+        display: flex;
+        font-family: 'Inter', sans-serif;
+        justify-content: flex-start;
+        align-items: center;
+        color: #999;
+        letter-spacing: 0.4px;
+        margin-top: 10px;
+        font-size: 35px;
+    }
+
+    .text__titles--title {
+        font-family: 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
-        color: #000;
-        line-height: 1.5;
+        font-weight: 600;
+        color: #1F2D3D;
         letter-spacing: 0.4px;
-        padding-top: 80px;
+        text-align: ${template === "site" ? "center" : "left"};
+        margin: ${template === "site" ? "0 auto" : "0"};
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
     }
 
-    .sub-heading {
-        letter-spacing: 0.4px;
-        padding-top: 0px;
-        font-size: 55px;
+    .text__titles--subtitle {
+        font-family: 'Inter', sans-serif;
+        color: #777;
+        margin-top: 10px;
+        font-size: 2rem;
+        text-align: ${template === "site" ? "center" : "left"};
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
     }
 
-    .authors {
-        display: flex;
-        font-family: 'Poppins', sans-serif;
-        font-size: 50px;
-        font-style: normal;
-        color: #000;
-        padding: 0 100px 100px;
-    }
-
-    .authors .author {
+    .blog__image {
+        flex-basis: 40%;
         display: flex;
         align-items: center;
-        margin-right: 50px;
+        justify-content: center;
     }
 
-    .authors .author img {
-        margin-right: 5px;
-        border-radius: 9999px;
-        width: 60px;
-        border: 2px solid #fff;
+    .blog__image > .logo {
+        border: ${(height === '250' && width === '250') ? 'none' : '1px solid #E0E6ED'};
         box-sizing: border-box;
-    }`;
+        border-radius: 3px;
+    }`
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights, intro, subTitle, authors, authorsImg } = parsedReq;
-    return `<!DOCTYPE html>
+  const {
+    template,
+    templateImage,
+    fontSize,
+    image,
+    width,
+    height,
+    titleText,
+    subtitleText,
+    breadcrumbsText,
+  } = parsedReq
+  return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize)}
+        ${getCss(templateImage, template, fontSize, height, width)}
     </style>
     <body>
-        <div class="${intro ? 'intro' : 'wrapper'}">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i], intro)
-                ).join('')}
+      <div class="container">
+        <div class="text__wrapper">
+          <div class="text__breadcrumbs">
+          ${((template === "learn" || template === "docs") && breadcrumbsText) ? emojify(
+            sanitizeHtml(breadcrumbsText)
+          ) : ''} 
+          </div>
+          <div class="text__titles">
+            <div class="text__titles--title">${emojify(sanitizeHtml(titleText))} </div>
+            <div class="text__titles--subtitle">
+              ${subtitleText && emojify(
+                sanitizeHtml(subtitleText)
+              )} 
             </div>
-            <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
-            </div>
-            ${subTitle ? `<div class="sub-heading">${emojify(
-                md ? marked(subTitle) : sanitizeHtml(subTitle)
-            )}
-            </div>` : ''}
+          </div>
         </div>
-        ${authors && authors.length ? `<div class="authors">
-            ${authors.map((name, i) =>
-                `<div class="author">
-                    <img src="${authorsImg[i]}" /> ${name}
-                </div>`
-            ).join('')}
-        </div>`: ''}
+        ${(template === "blog" &&
+          image) ?
+          `<div class="blog__image"> ${getImage(
+            image,
+            width,
+            height
+          )} </div>` : ''
+        }
+      </div>
     </body>
-</html>`;
+</html>`
 }
 
-function getImage(src: string, width ='auto', height = '40', isIntro = false) {
-    return `<img
+function getImage(
+  src: string,
+  width = "auto",
+  height = "240"
+) {
+  return `<img
         class="logo"
         alt="Generated Image"
         src="${sanitizeHtml(src)}"
         width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(isIntro ? '80' : height)}"
+        height="${sanitizeHtml(height)}"
     />`
-}
-
-function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
 }

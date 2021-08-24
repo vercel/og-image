@@ -1,14 +1,28 @@
 {
-  "private": true,
-  "engines": {
-    "node": "14.x"
-  },
+  "name": "checkly-og-image",
+  "description": "Dynamic og-image generator for ChecklyHQ",
+  "contributors": [
+    "Maxi Gimenez <maxi@checklyhq.com>",
+    "Nico Domino <nico@checklyhq.com>"
+  ],
+  "homepage": "https://og-image-git-ndom91-add-base-img-types-checkly.vercel.app",
+  "repository": "https://github.com/checkly/og-image",
+  "bugs": "https://github.com/checkly/og-image/issues",
+  "keywords": [
+    "og-image",
+    "playwright"
+  ],
+  "version": "0.1.0",
+  "license": "MIT",
   "scripts": {
-    "build": "tsc -p api/tsconfig.json && tsc -p web/tsconfig.json"
+    "dev:local": "vercel dev --listen 3005",
+    "dev:local:debug": "OG_HTML_DEBUG=1 vercel dev --listen 3005",
+    "build": "tsc -p api/tsconfig.json && tsc -p web/tsconfig.json",
+    "prettier": "prettier ./**/*.ts",
+    "prettier:write": "prettier --write ./**/*.ts"
   },
   "dependencies": {
     "chrome-aws-lambda": "7.0.0",
-    "marked": "2.0.0",
     "puppeteer-core": "7.0.0",
     "twemoji": "13.0.1"
   },
@@ -16,6 +30,12 @@
     "@types/marked": "1.2.2",
     "@types/puppeteer": "5.4.3",
     "@types/puppeteer-core": "5.4.0",
-    "typescript": "4.1.5"
+    "playwright-core": "^1.14.0",
+    "prettier": "^2.3.2",
+    "typescript": "4.1.5",
+    "vercel": "23.1.2"
+  },
+  "prettier": {
+    "semi": false
   }
 }

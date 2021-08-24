@@ -1,17 +1,15 @@
-export type FileType = 'png' | 'jpeg';
-export type Theme = 'light' | 'dark';
+export type FileType = "png" | "jpeg"
+export type Template = "site" | "docs" | "learn" | "blog"
 
 export interface ParsedRequest {
-    fileType: FileType;
-    text: string;
-    theme: Theme;
-    md: boolean;
-    fontSize: string;
-    images: string[];
-    widths: string[];
-    heights: string[];
-    intro: boolean;
-    subTitle: string;
-    authors: string[];
-    authorsImg: string[];
+  template: Template | string
+  templateImage: string
+  fileType: FileType
+  fontSize: string
+  image: string
+  width: string
+  height: string
+  titleText: string
+  subtitleText: string
+  breadcrumbsText: string
 }
