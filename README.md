@@ -6,7 +6,7 @@ Serverless service that generates dynamic Open Graph images that you can embed i
 
 For each keystroke, headless chromium is used to render an HTML page and take a screenshot of the result which gets cached.
 
-This fork has been significantly modified from [vercel/og-image](https://github.com/vercel/og-image). The goal is to dynamically create the following og-image types.
+> This fork has been significantly modified from [vercel/og-image](https://github.com/vercel/og-image). The goal is to dynamically create the following og-image types for Checkly.
 
 ![image](https://user-images.githubusercontent.com/7415984/130135123-820a6de1-ca17-43dd-b4b5-239096b3f1f1.png)
 
@@ -32,9 +32,9 @@ The query parameter options **must always be URI Encoded**, i.e. spaces are `%20
 </head>
 ```
 
-![Docs Example](https://user-images.githubusercontent.com/7415984/130284244-d6711cc7-097c-45db-8423-5946691c87ab.png)
+There is a **web playground** available with which one can experiment with all available fields located at [og-image.checklyhq.com](https://og-image.checklyhq.com). Once there, **clicking on the generated image will copy its URL to your clipboard**.
 
-There is a playground available with which one can experiment with all available fields located at [og-image.checklyhq.com](https://og-image.checklyhq.com). **Clicking on the generated image will copy its URL to your clipboard**.
+![Docs Example](https://user-images.githubusercontent.com/7415984/130284244-d6711cc7-097c-45db-8423-5946691c87ab.png)
 
 ## 👷 Contributing
 
