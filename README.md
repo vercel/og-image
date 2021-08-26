@@ -1,6 +1,6 @@
 <a href="https://vercel.com/new/project?template=vercel/og-image"><img width="128" src="https://vercel.com/button" align="right"></a>
 
-# [Open Graph Image as a Service](https://og-image.vercel.app)
+# [Open Graph Image as a Service](https://og-image.checklyhq.com)
 
 Serverless service that generates dynamic Open Graph images that you can embed in your `<meta>` tags.
 
@@ -28,13 +28,13 @@ The query parameter options **must always be URI Encoded**, i.e. spaces are `%20
 ```html
 <head>
   <title>Hello Checkly World</title>
-  <meta property="og:image" content="https://og-image-git-ndom91-add-base-img-types-checkly.vercel.app/docs.png?titleText=Scraping%2520%2526%2520asserting%2520on%2520a%2520page&subtitleText=Any%2520standard%2520Node.js%2520script%2520that%2520successfully%2520finishes%2520an%2520execution%2520is%2520a%2520valid%252C%2520passing%2520browser%2520check.&breadcrumbsText=Checkly%2520Docs%2520%252F%2520Headless%2520Automation%2520%252F%2520Basics%2520Debugging&template=docs&fontSize=50px" />
+  <meta property="og:image" content="https://og-image.checklyhq.com/docs.png?titleText=Scraping%2520%2526%2520asserting%2520on%2520a%2520page&subtitleText=Any%2520standard%2520Node.js%2520script%2520that%2520successfully%2520finishes%2520an%2520execution%2520is%2520a%2520valid%252C%2520passing%2520browser%2520check.&breadcrumbsText=Checkly%2520Docs%2520%252F%2520Headless%2520Automation%2520%252F%2520Basics%2520Debugging&template=docs&fontSize=50px" />
 </head>
 ```
 
 ![Docs Example](https://user-images.githubusercontent.com/7415984/130284244-d6711cc7-097c-45db-8423-5946691c87ab.png)
 
-There is a playground available with which one can experiment with all available fields located at [og-image-types-checkly.vercel.app](https://og-image-git-ndom91-add-base-img-types-checkly.vercel.app). **Clicking on the generated image will copy its URL to your clipboard**.
+There is a playground available with which one can experiment with all available fields located at [og-image.checklyhq.com](https://og-image.checklyhq.com). **Clicking on the generated image will copy its URL to your clipboard**.
 
 ## 👷 Contributing
 
