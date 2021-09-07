@@ -1,0 +1,35 @@
+const MAINNET_CHAIN_ID = 1;
+const BSC_CHAIN_ID = 56;
+const KOVAN_CHAIN_ID = 42;
+const RINKEBY_CHAIN_ID = 4;
+const MATIC_CHAIN_ID = 137;
+const ROPSTEN_CHAIN_ID = 3;
+
+export const CHAIN_IDS = {
+  MAINNET: MAINNET_CHAIN_ID,
+  BSC: BSC_CHAIN_ID,
+  KOVAN: KOVAN_CHAIN_ID,
+  RINKEBY: RINKEBY_CHAIN_ID,
+  MATIC: MATIC_CHAIN_ID,
+  ROPSTEN: ROPSTEN_CHAIN_ID,
+};
+
+export const NATIVE_CHAIN_TOKEN_FAKE_CONTRACT_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'.toLowerCase();
+
+export const WETH_CONTRACT_MAINNET_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'.toLowerCase();
+export const USDC_CONTRACT_MAINNET_ADDRESS = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'.toLowerCase();
+export const WETH_DECIMALS_MAINNET = 18;
+export const USDC_DECIMALS_MAINNET = 6;
+
+export const WETH_CONTRACT_ROPSTEN_ADDRESS = '0xc778417e063141139fce010982780140aa0cd5ab'.toLowerCase();
+export const USDC_CONTRACT_ROPSTEN_ADDRESS = '0x07865c6E87B9F70255377e024ace6630C1Eaa37F'.toLowerCase();
+export const WETH_DECIMALS_ROPSTEN = 18;
+export const USDC_DECIMALS_ROPSTEN = 6;
+
+export const WBNB_CONTRACT_BSC_ADDRESS = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'.toLowerCase();
+export const BUSD_CONTRACT_BSC_ADDRESS = '0xe9e7cea3dedca5984780bafc599bd69add087d56'.toLowerCase();
+
+export const USDC_CONTRACT_MATIC_POS_ADDRESS = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'.toLowerCase();
+export const WMATIC_CONTRACT_ADDRESS_MATIC = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'.toLowerCase();
+
+export const BASE_TEN = 10;
