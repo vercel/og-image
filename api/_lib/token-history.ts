@@ -105,7 +105,6 @@ const fetchHistoryForTokenPairFromCoinGecko = async (
   quoteAssetTokenAddress: string | undefined,
   chainId: number | undefined,
 ) => {
-  console.log(increment, baseAssetTokenAddress, quoteAssetTokenAddress, chainId)
   if (!baseAssetTokenAddress) {
     return undefined;
   }
@@ -193,11 +192,8 @@ const fetchHistoryForTokenPairFromCoinGecko = async (
   const baseChartDataInUsdPayload = await baseChartDataInUsdPayloadPromise;
   const quoteChartDataInUsdPayload = await quoteChartDataInUsdPayloadPromise;
 
-  console.log(baseChartDataInUsdPayload, quoteChartDataInUsdPayload)
-
   const baseChartDataInUsd: CoinGeckoChartData = baseChartDataInUsdPayload.data;
   const quoteChartDataInUsd: CoinGeckoChartData = quoteChartDataInUsdPayload.data;
-  console.log(baseChartDataInUsd, quoteChartDataInUsd)
 
   const basePriceChartDataInUsd = baseChartDataInUsd.prices.map((tuple) => {
     // here we format the unix timestamp to be to the closest second, so that baseChartDataInUsd unix timestamps and quoteChartDataInUsd unix timestamps line up
@@ -267,7 +263,6 @@ const fetchHistoryForTokenPair = async (
   baseAssetTokenAddress: string | undefined,
   quoteAssetTokenAddress: string | undefined,
 ): Promise<Array<CryptoCompareCandle> | undefined> => {
-  console.log("FETCH HISTORY FOR TOKEN PAIR", baseAssetTokenAddress, quoteAssetTokenAddress)
   if (!baseAssetTokenAddress) {
     return undefined;
   }

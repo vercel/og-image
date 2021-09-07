@@ -197,7 +197,6 @@ function getCss(theme: string, fontSize: string) {
 export async function getHtml(parsedReq: ParsedRequest) {
     const { baseTokenAddr, quoteTokenAddr, baseTokenSymbol, quoteTokenSymbol, chainId, theme } = parsedReq;
     const tokenSwapRes = await getTokenSwapPrice(chainId, baseTokenAddr, quoteTokenAddr);
-    console.log("ROOT", baseTokenAddr, quoteTokenAddr)
     const historyData = await fetchHistoryForTokenPair(
         MATCHA_TRADING_HISTORY_WINDOWS.TWENTY_FOUR_HOURS, 
         chainId, 
@@ -212,9 +211,6 @@ export async function getHtml(parsedReq: ParsedRequest) {
         return formattedVal;
     });
 
-    console.log("HISTORY DAT", historyData, formattedHistoryData);
-
-    
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">

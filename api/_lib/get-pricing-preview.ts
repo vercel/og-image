@@ -58,19 +58,7 @@ const getTokenSwapPrice = async (chainId: number, baseTokenAddr: string, quoteTo
   return {
     data: price
   }
-  
-  // let reqUrl = `${CHAIN_ID_URLS[chainId]}/swap/v1/price?buyToken=${buyToken}&sellAmount=${sellAmount}`;
-  // if (sellToken) {
-  //   reqUrl = `${reqUrl}&sellToken=${sellToken}`;
-  // };
-  // return await fetch(reqUrl).then(x => x.json());
 };
-
-// const getTokenPriceInUsd = async (chainId: number, buyToken: string, sellAmount: number, sellToken?: string) => {
-//   let buyUrl = `${CHAIN_ID_URLS[chainId]}/swap/v1/price?buyToken=${buyToken}&sellAmount=${sellAmount}`;
-//   let sellUrl = `${CHAIN_ID_URLS[chainId]}/swap/v1/price?buyToken=${buyToken}&sellAmount=${sellAmount}`;
-//   return await fetch(buyUrl).then(x => x.json());
-// };
 
 export {
   getTokenSwapPrice,
