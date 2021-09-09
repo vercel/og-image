@@ -66,6 +66,8 @@ export const MATCHA_HELP_WALLETS_URL =
 // TODO(dave4506) update to playlist for matcha tutorials
 export const MATCHA_HELP_YOUTUBE_PLAYLIST =
   'https://www.youtube.com/channel/UCCZ-JZFOI5k81LH5h7SQS5w/videos';
+export const MATCHA_LOGO_URL =
+  'https://matcha-pricing-preview-generator.vercel.app/logo.png';
 export const TWITTER_URL = 'https://twitter.com/matchaxyz';
 export const DISCORD_URL = 'https://link.0x.org/Discord';
 export const TELEGRAM_URL = 'https://t.me/matchaxyz';

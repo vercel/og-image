@@ -57,32 +57,6 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
     );
 }
 
-// interface TextInputProps {
-//     value: string;
-//     oninput: (val: string) => void;
-// }
-
-// const TextInput = ({ value, oninput }: TextInputProps) => {
-//     return H('div',
-//         { className: 'input-outer-wrapper' },
-//         H('div',
-//             { className: 'input-inner-wrapper' },
-//             H('input',
-//                 { type: 'text', value, oninput: (e: any) => oninput(e.target.value) }
-//             )
-//         )
-//     );
-// }
-
-// interface ButtonProps {
-//     label: string;
-//     onclick: () => void;
-// }
-
-// const Button = ({ label, onclick }: ButtonProps) => {
-//     return H('button', { onclick }, label);
-// }
-
 interface FieldProps {
     label: string;
     input: any;
@@ -98,37 +72,10 @@ const Field = ({ label, input }: FieldProps) => {
     );
 }
 
-// interface ToastProps {
-//     show: boolean;
-//     message: string;
-// }
-
-// const Toast = ({ show, message }: ToastProps) => {
-//     const style = { transform:  show ? 'translate3d(0,-0px,-0px) scale(1)' : '' };
-//     return H('div',
-//         { className: 'toast-area' },
-//         H('div',
-//             { className: 'toast-outer', style },
-//             H('div',
-//                 { className: 'toast-inner' },
-//                 H('div',
-//                     { className: 'toast-message'},
-//                     message
-//                 )
-//             )
-//         ),
-//     );
-// }
-
 const themeOptions: DropdownOption[] = [
     { text: 'Light', value: 'light' },
     { text: 'Dark', value: 'dark' },
 ];
-
-// const fileTypeOptions: DropdownOption[] = [
-//     { text: 'PNG', value: 'png' },
-//     { text: 'JPEG', value: 'jpeg' },
-// ];
 
 const tokenOptions = [
     { text: 'ETH', value: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' },
@@ -143,28 +90,6 @@ const chainIds = [
     { text: 'Ropsten', value: 3 },
     { text: 'Polygon', value: 137 },
 ]
-
-// const widthOptions = [
-//     { text: 'width', value: 'auto' },
-//     { text: '50', value: '50' },
-//     { text: '100', value: '100' },
-//     { text: '150', value: '150' },
-//     { text: '200', value: '200' },
-//     { text: '250', value: '250' },
-//     { text: '300', value: '300' },
-//     { text: '350', value: '350' },
-// ];
-
-// const heightOptions = [
-//     { text: 'height', value: 'auto' },
-//     { text: '50', value: '50' },
-//     { text: '100', value: '100' },
-//     { text: '150', value: '150' },
-//     { text: '200', value: '200' },
-//     { text: '250', value: '250' },
-//     { text: '300', value: '300' },
-//     { text: '350', value: '350' },
-// ];
 
 interface AppState extends ParsedRequest {
     loading: boolean;
@@ -242,116 +167,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         onchange: (val: number) => setLoadingState({ chainId: val })
                     })
                 }),
-                // H(Field, {
-                //     label: 'Text Input',
-                //     input: H(TextInput, {
-                //         value: text,
-                //         oninput: (val: string) => {
-                //             console.log('oninput ' + val);
-                //             setLoadingState({ text: val, overrideUrl: url });
-                //         }
-                //     })
-                // }),
-                // H(Field, {
-                //     label: 'Image 1',
-                //     input: H('div',
-                //         H(Dropdown, {
-                //             options: imageOptions,
-                //             value: imageOptions[selectedImageIndex].value,
-                //             onchange: (val: string) =>  {
-                //                 let clone = [...images];
-                //                 clone[0] = val;
-                //                 const selected = imageOptions.map(o => o.value).indexOf(val);
-                //                 setLoadingState({ images: clone, selectedImageIndex: selected });
-                //             }
-                //         }),
-                //         H('div',
-                //             { className: 'field-flex' },
-                //             H(Dropdown, {
-                //                 options: widthOptions,
-                //                 value: widths[0],
-                //                 small: true,
-                //                 onchange: (val: string) =>  {
-                //                     let clone = [...widths];
-                //                     clone[0] = val;
-                //                     setLoadingState({ widths: clone });
-                //                 }
-                //             }),
-                //             H(Dropdown, {
-                //                 options: heightOptions,
-                //                 value: heights[0],
-                //                 small: true,
-                //                 onchange: (val: string) =>  {
-                //                     let clone = [...heights];
-                //                     clone[0] = val;
-                //                     setLoadingState({ heights: clone });
-                //                 }
-                //             })
-                //         )
-                //     ),
-                // }),
-                // ...images.slice(1).map((image, i) => H(Field, {
-                //     label: `Image ${i + 2}`,
-                //     input: H('div',
-                //         H(TextInput, {
-                //             value: image,
-                //             oninput: (val: string) => {
-                //                 let clone = [...images];
-                //                 clone[i + 1] = val;
-                //                 setLoadingState({ images: clone, overrideUrl: url });
-                //             }
-                //         }),
-                //         H('div',
-                //             { className: 'field-flex' },
-                //             H(Dropdown, {
-                //                 options: widthOptions,
-                //                 value: widths[i + 1],
-                //                 small: true,
-                //                 onchange: (val: string) =>  {
-                //                     let clone = [...widths];
-                //                     clone[i + 1] = val;
-                //                     setLoadingState({ widths: clone });
-                //                 }
-                //             }),
-                //             H(Dropdown, {
-                //                 options: heightOptions,
-                //                 value: heights[i + 1],
-                //                 small: true,
-                //                 onchange: (val: string) =>  {
-                //                     let clone = [...heights];
-                //                     clone[i + 1] = val;
-                //                     setLoadingState({ heights: clone });
-                //                 }
-                //             })
-                //         ),
-                //         H('div',
-                //             { className: 'field-flex' },
-                //             H(Button, {
-                //                 label: `Remove Image ${i + 2}`,
-                //                 onclick: (e: MouseEvent) => {
-                //                     e.preventDefault();
-                //                     const filter = (arr: any[]) => [...arr].filter((_, n) => n !== i + 1);
-                //                     const imagesClone = filter(images);
-                //                     const widthsClone = filter(widths);
-                //                     const heightsClone = filter(heights);
-                //                     setLoadingState({ images: imagesClone, widths: widthsClone, heights: heightsClone });
-                //                 }
-                //             })
-                //         )
-                //     )
-                // })),
-                // H(Field, {
-                //     label: `Image ${images.length + 1}`,
-                //     input: H(Button, {
-                //         label: `Add Image ${images.length + 1}`,
-                //         onclick: () => {
-                //             const nextImage = images.length === 1
-                //                 ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
-                //                 : '';
-                //             setLoadingState({ images: [...images, nextImage] })
-                //         }
-                //     }),
-                // }),
             )
         ),
         H('div',
@@ -361,10 +176,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 
             })
         ),
-        // H(Toast, {
-        //     message: messageToast,
-        //     show: showToast,
-        // })
     );
 };
 

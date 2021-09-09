@@ -123,7 +123,7 @@ export const getWrappedNativeCurrencyForChainId = (
 
 export const getChainLabel = (chainId: number) => {
   let label = `Unknown (${chainId})`;
-  let color = 'rgb(31, 31, 65)'
+  let color = '#7578b5'
   if (chainId === CHAIN_IDS.MAINNET) {
     label = 'Ethereum';
   }
