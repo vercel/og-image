@@ -12,6 +12,7 @@ import {
 } from './constants';
 import { MATCHA_LOGO_URL } from './config';
 import { MATCHA_TRADING_HISTORY_WINDOWS, fetchHistoryForTokenPair } from './token-history';
+import { fetchAssetsForBsc, fetchAssetsForPolygon } from './token-lists';
 const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
@@ -173,52 +174,109 @@ function getCss(theme: string, fontSize: string) {
     }`;
 }
 
+// Helper for scaling range
 const convertRange = ( value: number, r1: number[], r2: number[] ) => { 
     return Math.round(( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ]);
 }
 
 const MAX_WIDTH = 290;
-const MAX_HEIGHT = 150;
-const HOST_URL = "https://matcha-pricing-preview-generator.vercel.app"
+const MAX_HEIGHT = 130;
 
 export async function getHtml(parsedReq: ParsedRequest) {
-    const { baseTokenAddr, quoteTokenAddr, baseTokenSymbol, quoteTokenSymbol, chainId, theme } = parsedReq;
+    let { baseTokenAddr, quoteTokenAddr, baseTokenSymbol, quoteTokenSymbol, chainId, theme } = parsedReq;
 
-    // Based on chainId, get stablecoin address for fetch history chart
-    let defaultStablecoinAddr;
-    if (chainId === CHAIN_IDS.MAINNET) {
-        defaultStablecoinAddr = USDC_CONTRACT_MAINNET_ADDRESS;
-    } else if (chainId === CHAIN_IDS.BSC) {
-        defaultStablecoinAddr = BUSD_CONTRACT_BSC_ADDRESS;
-    } else if (chainId === CHAIN_IDS.MATIC) {
-        defaultStablecoinAddr = USDC_CONTRACT_MATIC_POS_ADDRESS;
+    // Fill in missing symbol and addresses
+    let assetFetcher;
+    let fetchMissingAssets = true;
+    let useDefaultStablecoinAddr = !(quoteTokenSymbol || quoteTokenAddr);
+    switch (chainId) {
+        case CHAIN_IDS.MAINNET:
+            if (useDefaultStablecoinAddr) {
+                quoteTokenAddr = USDC_CONTRACT_MAINNET_ADDRESS;
+            };
+            fetchMissingAssets = false;
+            break;
+        case CHAIN_IDS.BSC:
+            if (useDefaultStablecoinAddr) {
+                quoteTokenAddr = BUSD_CONTRACT_BSC_ADDRESS;
+            };
+            assetFetcher = fetchAssetsForBsc;
+            break;
+        case CHAIN_IDS.MATIC:
+            if (useDefaultStablecoinAddr) {
+                quoteTokenAddr = USDC_CONTRACT_MATIC_POS_ADDRESS;
+            };
+            assetFetcher = fetchAssetsForPolygon;
+            break;
     }
-    // if (!defaultStablecoinAddr) return new Error('Chain ID is invalid');
+    // Fill in missing symbol and addr info if needed
+    if (fetchMissingAssets && assetFetcher) {
+        let assets;
+        if (!baseTokenSymbol && baseTokenAddr) {
+            assets = await assetFetcher();
+            const baseAsset = assets.find(
+                (x) => x.tokenAddress === baseTokenAddr,
+            );
+            baseTokenSymbol = baseAsset?.symbol!;
+        }
+        if (!quoteTokenSymbol && quoteTokenAddr) {
+            if (!assets) {
+                assets = await assetFetcher();
+            }
+            const baseAsset = assets.find(
+                (x) => x.tokenAddress === quoteTokenAddr,
+            );
+            quoteTokenSymbol = baseAsset?.symbol!;
+        }
+        if (baseTokenSymbol && !baseTokenAddr) {
+            if (!assets) {
+                assets = await assetFetcher();
+            }
+            const baseAsset = assets.find(
+                (x) => x.symbol === baseTokenSymbol,
+            );
+            baseTokenAddr = baseAsset?.tokenAddress!;
+        }
+        // Fetch quote token address if needed
+        if (quoteTokenSymbol && !quoteTokenAddr) {
+            if (!assets) {
+                assets = await assetFetcher();
+            }
+            const baseAsset = assets.find(
+                (x) => x.symbol === quoteTokenSymbol,
+            );
+            quoteTokenAddr = baseAsset?.tokenAddress!;
+        }
+    }
+    if (!baseTokenSymbol || !quoteTokenSymbol) return '';
+    // Get token price and graph data
     const tokenSwapRes = await getTokenSwapPrice(chainId, baseTokenAddr, quoteTokenAddr);
     const historyData = await fetchHistoryForTokenPair(
         MATCHA_TRADING_HISTORY_WINDOWS.TWENTY_FOUR_HOURS, 
         chainId, 
         baseTokenAddr, 
-        quoteTokenAddr ? quoteTokenAddr : defaultStablecoinAddr,
+        quoteTokenAddr,
     );
+
+    // Get graph x and y range
     let minClose: number = Number.MAX_VALUE;
     let maxClose: number = Number.MIN_VALUE
     let minDate: number = Number.MAX_VALUE;
     let maxDate: number = Number.MIN_VALUE;
-    
-
-    for (let x of historyData!) {
-        maxClose = Math.max(maxClose, x.close);
-        minClose = Math.min(minClose, x.close);
-        maxDate = Math.max(maxDate, x.time);
-        minDate = Math.min(minDate, x.time);
-    };
-
     let convertedPoints = '';
-    for (let d of historyData!) {
-        convertedPoints += `${convertRange(d.time, [minDate, maxDate], [0, MAX_WIDTH])},${MAX_HEIGHT - convertRange(d.close, [minClose, maxClose], [0, MAX_HEIGHT] )} `;
+    if (historyData) {
+        for (let x of historyData!) {
+            maxClose = Math.max(maxClose, x.close);
+            minClose = Math.min(minClose, x.close);
+            maxDate = Math.max(maxDate, x.time);
+            minDate = Math.min(minDate, x.time);
+        };
+    
+        for (let d of historyData!) {
+            convertedPoints += `${convertRange(d.time, [minDate, maxDate], [0, MAX_WIDTH])},${MAX_HEIGHT - convertRange(d.close, [minClose, maxClose], [0, MAX_HEIGHT] )} `;
+        }
     }
-
+    
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">

@@ -14,6 +14,7 @@ export const CHAIN_IDS = {
   ROPSTEN: ROPSTEN_CHAIN_ID,
 };
 
+export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 export const NATIVE_CHAIN_TOKEN_FAKE_CONTRACT_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'.toLowerCase();
 
 export const WETH_CONTRACT_MAINNET_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'.toLowerCase();
