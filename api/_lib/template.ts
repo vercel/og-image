@@ -8,11 +8,12 @@ import {
     USDC_CONTRACT_MAINNET_ADDRESS, 
     BUSD_CONTRACT_BSC_ADDRESS, 
     USDC_CONTRACT_MATIC_POS_ADDRESS,
+    NATIVE_CHAIN_TOKEN_FAKE_CONTRACT_ADDRESS,
     CHAIN_IDS,
 } from './constants';
 import { MATCHA_LOGO_URL } from './config';
 import { MATCHA_TRADING_HISTORY_WINDOWS, fetchHistoryForTokenPair } from './token-history';
-import { fetchAssetsForBsc, fetchAssetsForPolygon } from './token-lists';
+import { fetchAssetsForBsc, fetchAssetsForEthereum, fetchAssetsForPolygon } from './token-lists';
 const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
@@ -94,6 +95,7 @@ function getCss(theme: string, fontSize: string) {
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: 
     }
 
     .base-token {
@@ -167,16 +169,17 @@ function getCss(theme: string, fontSize: string) {
         display: flex;
         justify-content: center;
     }
-    
-    .footer {
-        display: flex;
-        justify-content: space-between;
+
+    .logo {
+        position: fixed;
+        top: 16px;
+        right: 16px;
     }`;
 }
 
 // Helper for scaling range
 const convertRange = ( value: number, r1: number[], r2: number[] ) => { 
-    return Math.round(( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ]);
+    return Math.round(( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / (( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ]) || 1);
 }
 
 const MAX_WIDTH = 290;
@@ -187,14 +190,13 @@ export async function getHtml(parsedReq: ParsedRequest) {
 
     // Fill in missing symbol and addresses
     let assetFetcher;
-    let fetchMissingAssets = true;
     let useDefaultStablecoinAddr = !(quoteTokenSymbol || quoteTokenAddr);
     switch (chainId) {
         case CHAIN_IDS.MAINNET:
             if (useDefaultStablecoinAddr) {
                 quoteTokenAddr = USDC_CONTRACT_MAINNET_ADDRESS;
             };
-            fetchMissingAssets = false;
+            assetFetcher = fetchAssetsForEthereum;
             break;
         case CHAIN_IDS.BSC:
             if (useDefaultStablecoinAddr) {
@@ -210,7 +212,7 @@ export async function getHtml(parsedReq: ParsedRequest) {
             break;
     }
     // Fill in missing symbol and addr info if needed
-    if (fetchMissingAssets && assetFetcher) {
+    if (assetFetcher) {
         let assets;
         if (!baseTokenSymbol && baseTokenAddr) {
             assets = await assetFetcher();
@@ -232,20 +234,28 @@ export async function getHtml(parsedReq: ParsedRequest) {
             if (!assets) {
                 assets = await assetFetcher();
             }
-            const baseAsset = assets.find(
-                (x) => x.symbol === baseTokenSymbol,
-            );
-            baseTokenAddr = baseAsset?.tokenAddress!;
+            if (baseTokenSymbol === 'ETH') {
+                baseTokenAddr = NATIVE_CHAIN_TOKEN_FAKE_CONTRACT_ADDRESS;
+            } else {
+                const baseAsset = assets.find(
+                    (x) => x.symbol === baseTokenSymbol,
+                );
+                baseTokenAddr = baseAsset?.tokenAddress!;
+            }
         }
         // Fetch quote token address if needed
         if (quoteTokenSymbol && !quoteTokenAddr) {
             if (!assets) {
                 assets = await assetFetcher();
             }
-            const baseAsset = assets.find(
-                (x) => x.symbol === quoteTokenSymbol,
-            );
-            quoteTokenAddr = baseAsset?.tokenAddress!;
+            if (quoteTokenSymbol === 'ETH') {
+                quoteTokenAddr = NATIVE_CHAIN_TOKEN_FAKE_CONTRACT_ADDRESS;
+            } else {
+                const baseAsset = assets.find(
+                    (x) => x.symbol === quoteTokenSymbol,
+                );
+                quoteTokenAddr = baseAsset?.tokenAddress!;
+            }
         }
     }
     if (!baseTokenSymbol || !quoteTokenSymbol) return '';
@@ -264,17 +274,15 @@ export async function getHtml(parsedReq: ParsedRequest) {
     let minDate: number = Number.MAX_VALUE;
     let maxDate: number = Number.MIN_VALUE;
     let convertedPoints = '';
-    if (historyData) {
-        for (let x of historyData!) {
-            maxClose = Math.max(maxClose, x.close);
-            minClose = Math.min(minClose, x.close);
-            maxDate = Math.max(maxDate, x.time);
-            minDate = Math.min(minDate, x.time);
-        };
-    
-        for (let d of historyData!) {
-            convertedPoints += `${convertRange(d.time, [minDate, maxDate], [0, MAX_WIDTH])},${MAX_HEIGHT - convertRange(d.close, [minClose, maxClose], [0, MAX_HEIGHT] )} `;
-        }
+    for (let x of historyData!) {
+        maxClose = Math.max(maxClose, x.close);
+        minClose = Math.min(minClose, x.close);
+        maxDate = Math.max(maxDate, x.time);
+        minDate = Math.min(minDate, x.time);
+    };
+
+    for (let d of historyData!) {
+        convertedPoints += `${convertRange(d.time, [minDate, maxDate], [0, MAX_WIDTH])},${MAX_HEIGHT - convertRange(d.close, [minClose, maxClose], [0, MAX_HEIGHT] )} `;
     }
     
     return `<!DOCTYPE html>
@@ -317,8 +325,7 @@ export async function getHtml(parsedReq: ParsedRequest) {
                
             </svg>
         </div>
-        <div class="footer">
-            <div> </div>
+        <div class="logo">
             <div class="row">
                 <img
                     src="${MATCHA_LOGO_URL}"
