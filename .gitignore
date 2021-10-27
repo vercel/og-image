@@ -1,4 +1,4 @@
+.vercel
 node_modules
 api/dist
 public/dist
-.now

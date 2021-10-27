@@ -4,8 +4,8 @@ import { ParsedRequest, Theme } from './types';
 
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
-    const { pathname = '/', query = {} } = parse(req.url || '', true);
-    const { fontSize, images, widths, heights, theme, md } = query;
+    const { pathname, query } = parse(req.url || '/', true);
+    const { fontSize, images, widths, heights, theme, md } = (query || {});
 
     if (Array.isArray(fontSize)) {
         throw new Error('Expected a single fontSize');
@@ -13,9 +13,8 @@ export function parseRequest(req: IncomingMessage) {
     if (Array.isArray(theme)) {
         throw new Error('Expected a single theme');
     }
-    if (!pathname) throw new Error("empty pathname")
-     
-    const arr = pathname.slice(1).split('.');
+    
+    const arr = (pathname || '/').slice(1).split('.');
     let extension = '';
     let text = '';
     if (arr.length === 0) {
@@ -41,15 +40,26 @@ export function parseRequest(req: IncomingMessage) {
     return parsedRequest;
 }
 
-function getArray(stringOrArray: string[] | string): string[] {
-    return Array.isArray(stringOrArray) ? stringOrArray : [stringOrArray];
+function getArray(stringOrArray: string[] | string | undefined): string[] {
+    if (typeof stringOrArray === 'undefined') {
+        return [];
+    } else if (Array.isArray(stringOrArray)) {
+        return stringOrArray;
+    } else {
+        return [stringOrArray];
+    }
 }
 
 function getDefaultImages(images: string[], theme: Theme): string[] {
-    if (images.length > 0 && images[0] && images[0].startsWith('https://assets.zeit.co/image/upload/front/assets/design/')) {
-        return images;
+    const defaultImage = theme === 'light'
+        ? 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg'
+        : 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg';
+
+    if (!images || !images[0]) {
+        return [defaultImage];
     }
-    return theme === 'light'
-    ? ['https://assets.zeit.co/image/upload/front/assets/design/zeit-black-triangle.svg']
-    : ['https://assets.zeit.co/image/upload/front/assets/design/zeit-white-triangle.svg'];
+    if (!images[0].startsWith('https://assets.vercel.com/') && !images[0].startsWith('https://assets.zeit.co/')) {
+        images[0] = defaultImage;
+    }
+    return images;
 }

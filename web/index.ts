@@ -134,16 +134,16 @@ const markdownOptions: DropdownOption[] = [
 ];
 
 const imageLightOptions: DropdownOption[] = [
-    { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-black-triangle.svg' },
-    { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-black-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-color-logo.svg' },
+    { text: 'Vercel', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg' },
+    { text: 'Next.js', value: 'https://assets.vercel.com/image/upload/front/assets/design/nextjs-black-logo.svg' },
+    { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-color-logo.svg' },
 ];
 
 const imageDarkOptions: DropdownOption[] = [
 
-    { text: 'ZEIT', value: 'https://assets.zeit.co/image/upload/front/assets/design/zeit-white-triangle.svg' },
-    { text: 'Next.js', value: 'https://assets.zeit.co/image/upload/front/assets/design/nextjs-white-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.zeit.co/image/upload/front/assets/design/hyper-bw-logo.svg' },
+    { text: 'Vercel', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg' },
+    { text: 'Next.js', value: 'https://assets.vercel.com/image/upload/front/assets/design/nextjs-white-logo.svg' },
+    { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-bw-logo.svg' },
 ];
 
 interface AppState extends ParsedRequest {
@@ -252,6 +252,106 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             setLoadingState({ text: val, overrideUrl: url });
                         }
                     })
+                }),
+                H(Field, {
+                    label: 'Image 1',
+                    input: H('div',
+                        H(Dropdown, {
+                            options: imageOptions,
+                            value: imageOptions[selectedImageIndex].value,
+                            onchange: (val: string) =>  {
+                                let clone = [...images];
+                                clone[0] = val;
+                                const selected = imageOptions.map(o => o.value).indexOf(val);
+                                setLoadingState({ images: clone, selectedImageIndex: selected });
+                            }
+                        }),
+                        H('div',
+                            { className: 'field-flex' },
+                            H(Dropdown, {
+                                options: widthOptions,
+                                value: widths[0],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...widths];
+                                    clone[0] = val;
+                                    setLoadingState({ widths: clone });
+                                }
+                            }),
+                            H(Dropdown, {
+                                options: heightOptions,
+                                value: heights[0],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...heights];
+                                    clone[0] = val;
+                                    setLoadingState({ heights: clone });
+                                }
+                            })
+                        )
+                    ),
+                }),
+                ...images.slice(1).map((image, i) => H(Field, {
+                    label: `Image ${i + 2}`,
+                    input: H('div',
+                        H(TextInput, {
+                            value: image,
+                            oninput: (val: string) => {
+                                let clone = [...images];
+                                clone[i + 1] = val;
+                                setLoadingState({ images: clone, overrideUrl: url });
+                            }
+                        }),
+                        H('div',
+                            { className: 'field-flex' },
+                            H(Dropdown, {
+                                options: widthOptions,
+                                value: widths[i + 1],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...widths];
+                                    clone[i + 1] = val;
+                                    setLoadingState({ widths: clone });
+                                }
+                            }),
+                            H(Dropdown, {
+                                options: heightOptions,
+                                value: heights[i + 1],
+                                small: true,
+                                onchange: (val: string) =>  {
+                                    let clone = [...heights];
+                                    clone[i + 1] = val;
+                                    setLoadingState({ heights: clone });
+                                }
+                            })
+                        ),
+                        H('div',
+                            { className: 'field-flex' },
+                            H(Button, {
+                                label: `Remove Image ${i + 2}`,
+                                onclick: (e: MouseEvent) => {
+                                    e.preventDefault();
+                                    const filter = (arr: any[]) => [...arr].filter((_, n) => n !== i + 1);
+                                    const imagesClone = filter(images);
+                                    const widthsClone = filter(widths);
+                                    const heightsClone = filter(heights);
+                                    setLoadingState({ images: imagesClone, widths: widthsClone, heights: heightsClone });
+                                }
+                            })
+                        )
+                    )
+                })),
+                H(Field, {
+                    label: `Image ${images.length + 1}`,
+                    input: H(Button, {
+                        label: `Add Image ${images.length + 1}`,
+                        onclick: () => {
+                            const nextImage = images.length === 1
+                                ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
+                                : '';
+                            setLoadingState({ images: [...images, nextImage] })
+                        }
+                    }),
                 }),
             )
         ),
