@@ -1,21 +1,15 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { parseRequest } from './_lib/parser';
 import { Template } from './_lib/template';
-import { renderToStaticMarkup } from 'react-dom/server'
-
-const isHtmlDebug = process.env.OG_HTML_DEBUG === '1';
+import { renderToStaticMarkup } from 'react-dom/server';
+import sharp from 'sharp'
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
         const parsedReq = parseRequest(req);
-        const html = renderToStaticMarkup(Template(parsedReq));
-        if (isHtmlDebug) {
-            res.setHeader('Content-Type', 'text/html');
-            res.end(html);
-            return;
-        }
+        const svg = renderToStaticMarkup(Template(parsedReq));
         const { fileType } = parsedReq;
-        const file = Buffer.from('foo'); // TODO replaceme
+        const file = await sharp(Buffer.from(svg)).resize(1280, 640).toFormat(fileType).toBuffer();
         res.statusCode = 200;
         res.setHeader('Content-Type', `image/${fileType}`);
         res.setHeader('Cache-Control', `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`);
