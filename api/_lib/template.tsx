@@ -1,10 +1,16 @@
-//import { readFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import { ParsedRequest } from './types';
 import React from 'react';
 
-//const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-//const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
-//const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
+const arr = [
+    readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`),
+    readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`),
+    readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`),
+    readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`),
+    readFileSync(`${__dirname}/../../fonts.conf`),
+    readFileSync(`${__dirname}/../../package.json`),
+]
+console.log('Included files: ', arr.length);
 
 export function Template(parsedReq: ParsedRequest) {
     //const { text, fontSize, images, widths, heights } = parsedReq;

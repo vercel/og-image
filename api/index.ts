@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { parseRequest } from './_lib/parser';
 import { Template } from './_lib/template';
 import { renderToStaticMarkup } from 'react-dom/server';
-import sharp from 'sharp'
+import sharp from 'sharp';
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
