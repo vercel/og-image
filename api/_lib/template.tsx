@@ -2,6 +2,8 @@ import { readFileSync } from 'fs';
 import { ParsedRequest } from './types';
 import React from 'react';
 
+process.env.FONTCONFIG_PATH='/var/task/api/_fonts';
+
 const arr = [
     readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`),
     readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`),
