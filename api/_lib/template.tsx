@@ -11,7 +11,7 @@ export function Template(parsedReq: ParsedRequest) {
     console.log(parsedReq);
     return (<svg width="1280" height="640">
     <defs>
-     <linearGradient id="rainbow" x1="0" x2="0" y1="0" y2="50%" gradientUnits="userSpaceOnUse" >
+     <linearGradient id="rainbow" x1="0" x2="0" y1="0" y2="40%" gradientUnits="userSpaceOnUse" >
        <stop stopColor="#FF5B99" offset="0%"/>
        <stop stopColor="#FF5447" offset="20%"/>
        <stop stopColor="#FF7B21" offset="40%"/>
