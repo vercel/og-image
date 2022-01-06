@@ -1,16 +1,5 @@
-import { readFileSync } from 'fs';
 import { ParsedRequest } from './types';
 import React from 'react';
-
-process.env.FONTCONFIG_PATH='/var/task/api/_fonts';
-
-const arr = [
-    readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`),
-    readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`),
-    readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`),
-    readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`),
-]
-console.log('Included files: ', arr.length);
 
 export function Template(parsedReq: ParsedRequest) {
     //const { text, fontSize, images, widths, heights } = parsedReq;
