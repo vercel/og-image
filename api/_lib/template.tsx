@@ -9,8 +9,7 @@ const arr = [
     readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`),
     readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`),
     readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`),
-    readFileSync(`${__dirname}/../../fonts.conf`),
-    readFileSync(`${__dirname}/../../package.json`),
+    readFileSync(`${__dirname}/../_fonts/fonts.conf`),
 ]
 console.log('Included files: ', arr.length);
 
