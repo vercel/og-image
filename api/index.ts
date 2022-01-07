@@ -3,36 +3,46 @@ import { join } from 'path';
 import { parseRequest } from './_lib/parser';
 import { Template } from './_lib/template';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Canvas, GlobalFonts, Path2D, Image } from '@napi-rs/canvas'
+import { render } from '@resvg/resvg-js'
 
-GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Inter-Regular.ttf'));
-GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Inter-Bold.ttf'));
-GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Licorice-Regular.ttf'));
+const fontFiles = [
+  join(__dirname, '_fonts', 'Inter-Regular.ttf'),
+  join(__dirname, '_fonts', 'Inter-Bold.ttf'),
+  join(__dirname, '_fonts', 'Licorice-Regular.ttf'),
+]
+
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
         const parsedReq = parseRequest(req);
-        const svg = renderToStaticMarkup(Template(parsedReq));
-        const { fileType } = parsedReq;
-        const img = new Image()
-        img.src = Buffer.from(svg);
-        img.width = 1280;
-        img.height = 640;
+        const { fileType, theme } = parsedReq;
 
-        const path = new Path2D(
-        'M37 0l37 64H0L37 0zM159.6 34c0-10.3-7.6-17.5-18.5-17.5s-18.5 7.2-18.5 17.5c0 10.1 8.2 17.5 19.5 17.5 6.2 0 11.8-2.3 15.4-6.5l-6.8-3.9c-2.1 2.1-5.2 3.4-8.6 3.4-5 0-9.3-2.7-10.8-6.8l-.3-.7h28.3c.2-1 .3-2 .3-3zm-28.7-3l.2-.6c1.3-4.3 5.1-6.9 9.9-6.9 4.9 0 8.6 2.6 9.9 6.9l.2.6h-20.2zM267.3 34c0-10.3-7.6-17.5-18.5-17.5s-18.5 7.2-18.5 17.5c0 10.1 8.2 17.5 19.5 17.5 6.2 0 11.8-2.3 15.4-6.5l-6.8-3.9c-2.1 2.1-5.2 3.4-8.6 3.4-5 0-9.3-2.7-10.8-6.8l-.3-.7H267c.2-1 .3-2 .3-3zm-28.7-3l.2-.6c1.3-4.3 5.1-6.9 9.9-6.9 4.9 0 8.6 2.6 9.9 6.9l.2.6h-20.2zM219.3 28.3l6.8-3.9c-3.2-5-8.9-7.8-15.8-7.8-10.9 0-18.5 7.2-18.5 17.5s7.6 17.5 18.5 17.5c6.9 0 12.6-2.8 15.8-7.8l-6.8-3.9c-1.8 3-5 4.7-9 4.7-6.3 0-10.5-4.2-10.5-10.5s4.2-10.5 10.5-10.5c3.9 0 7.2 1.7 9 4.7zM282.3 5.6h-8v45h8v-45zM128.5 5.6h-9.2L101.7 36 84.1 5.6h-9.3L101.7 52l26.8-46.4zM185.1 25.8c.9 0 1.8.1 2.7.3v-8.5c-6.8.2-13.2 4-13.2 8.7v-8.7h-8v33h8V36.3c0-6.2 4.3-10.5 10.5-10.5z'
-        )
-        console.log('has path', !!path);
-
-        const canvas = new Canvas(img.width, img.height);
-        const ctx = canvas.getContext('2d');
-        ctx.font = '30px Licorice';
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        ctx.fillText('Licorice - Develop.', 300, 300);
-        ctx.fillText('Licorice - Preview.', 300, 400);
-        ctx.fillText('Licorice - Ship.', 300, 500);
-        const buffer = await canvas.encode(fileType as any);
+        if (fileType !== 'png') {
+            throw new Error('Only PNG is supported');
+        }
         
+        const svgStart = Date.now()
+        const svg = renderToStaticMarkup(Template(parsedReq));
+        console.log('Rendered jsx to html in', Date.now() - svgStart, 'ms')
+        
+        const pngStart = Date.now()
+        const buffer = render(svg, {
+            background: theme === 'light' ? '#FFFFFF' : '#000000',
+            fitTo: {
+                mode: 'width',
+                value: 1280,
+            },
+            font: {
+                fontFiles, // Load custom fonts.
+                loadSystemFonts: false, // It will be faster to disable loading system fonts.
+                defaultFontFamily: 'Licorice',
+            },
+            // imageRendering: 1,
+            // shapeRendering: 2,
+            logLevel: 'debug',
+        })
+        console.log('Rendered image in', Date.now() - pngStart, 'ms')
+
         res.statusCode = 200;
         res.setHeader('Content-Type', `image/${fileType}`);
         res.setHeader('Cache-Control', `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`);

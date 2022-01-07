@@ -2,65 +2,83 @@
 # yarn lockfile v1
 
 
-"@napi-rs/canvas-android-arm64@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas-android-arm64/-/canvas-android-arm64-0.1.19.tgz#2f7a54fe74a5300cf276d78687149e818c0f3de4"
-  integrity sha512-HSMvj4FpY/EW1yQ2KcpodCb9NGt8leDZqlFf+ORR+K6e4FQ5N42zbiABkNrzje8qCD37+mCWd2IO9P/onBCYCQ==
+"@resvg/resvg-js-android-arm-eabi@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-android-arm-eabi/-/resvg-js-android-arm-eabi-1.3.0.tgz#eba592cd0f1e74b7cc96e0b0c31922ab1bf04b92"
+  integrity sha512-QjoiWJbXIcP5RkRSiKu5VRkkR6j9FMIShApr1fjuwkVEyijT1l62XQfQKaIhAVX4ash4/lFcwK6qH3H8r0R2FA==
 
-"@napi-rs/canvas-darwin-arm64@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas-darwin-arm64/-/canvas-darwin-arm64-0.1.19.tgz#6abb53dbb6f26efff62f0ec94ff2841f68ffd07b"
-  integrity sha512-ammO0vS5NFzyFWTdiA0mfKyaTgITinCfGo33m/Xw6vX4FlT3gRhvOQZUIwSr7Uxh39TUr0Jb1DQRpUR3zSXKHA==
+"@resvg/resvg-js-android-arm64@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-android-arm64/-/resvg-js-android-arm64-1.3.0.tgz#65a938fa884bc4fcce7854de88f946721a87cb5f"
+  integrity sha512-tEOh+t9/4sXnGI76+Q2hZPtU8R1Df4ZBnVstiS8KOX4vAZAvSYGrc/ds2VO/1kG0hp7OpqoLU+1pYBuvSvlIcg==
 
-"@napi-rs/canvas-darwin-x64@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas-darwin-x64/-/canvas-darwin-x64-0.1.19.tgz#9291e04c569b4c6ad70991c4cab613613622189a"
-  integrity sha512-KZt5Ey1ETlMHYwVd2cyv3nP6hOl9ouspcJKsphLyZMZ4bGjTGk2FK85ieUS5uko5KkAI/7T6SnCSXsTzb5YsUw==
+"@resvg/resvg-js-darwin-arm64@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-darwin-arm64/-/resvg-js-darwin-arm64-1.3.0.tgz#50fa3fe94cba390506532128d149f865a01d8a40"
+  integrity sha512-u3uT8YHB7g+rT6hYCka9L6gjgpSPpIeSnnyFHFST5PSetjvMFwFJTnBcOdX1JRN2PObAVM8vtC/wJckfUqOJBA==
 
-"@napi-rs/canvas-linux-arm-gnueabihf@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas-linux-arm-gnueabihf/-/canvas-linux-arm-gnueabihf-0.1.19.tgz#687ea58909cc62648f7edfe051dbf8f3f8a6bac2"
-  integrity sha512-6ksFDGbILCo9i3Oara0035kUjvP+uT1nEwcIGMj6v+LjV6pK8j/imYv+ilKKQc95t2dfqAbh9LLfg/HpJxGaFQ==
+"@resvg/resvg-js-darwin-x64@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-darwin-x64/-/resvg-js-darwin-x64-1.3.0.tgz#b2436cbab651994455df11bc657246a8a8dc24e4"
+  integrity sha512-wjLoG4KwU5OH1OyZf4oy+lfKIQfP74MyKNW2wNfXV8/8Aks/ak1KZG1p7uT7RvHljRyT/ts52LSTovu5jlFj+w==
 
-"@napi-rs/canvas-linux-arm64-gnu@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas-linux-arm64-gnu/-/canvas-linux-arm64-gnu-0.1.19.tgz#870754652415df5c48033a9abe3389b130bd0efb"
-  integrity sha512-GjIOj1x0IGz8J7Fom2LdZrhKUjbOXrytooi57JPvYFRW0ial9lshW8Adnq78yTH+d7iEapOKUEFAtWWq9r0umw==
+"@resvg/resvg-js-linux-arm-gnueabihf@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-linux-arm-gnueabihf/-/resvg-js-linux-arm-gnueabihf-1.3.0.tgz#364838f71a7e0e349a2fa942ac1509d3bf0c3724"
+  integrity sha512-ocCZrre7LM+Zv2QfyitfW6v4Qvc5LsDa62WwiHy44VO7o/2ukYgBWcfu1pWZizY9LxOk0V6bmjKOdwqGzfHGRA==
 
-"@napi-rs/canvas-linux-arm64-musl@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas-linux-arm64-musl/-/canvas-linux-arm64-musl-0.1.19.tgz#7bee4cd2bd3537c7af89e7106a9a6a654f77a98f"
-  integrity sha512-6ikcZzSDr5Uvk3AzF/E3bw+6l2VATb1YWGC9uJmmtuPG/e8rRk3r3fi2tq+EtoUIT508MJHQYWB7A0Q6Ztybxg==
+"@resvg/resvg-js-linux-arm64-gnu@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-linux-arm64-gnu/-/resvg-js-linux-arm64-gnu-1.3.0.tgz#0dd03ff50cc614e5a19a9babf036ee2123185d0c"
+  integrity sha512-2nQWxe69UArL6Qar+o72SSrY38kOsz4unn+3W2ybl9WqG/xLnYRyySH1UEQTMaFJvtnpnHUJ+Mo2n77cCE8aow==
 
-"@napi-rs/canvas-linux-x64-gnu@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas-linux-x64-gnu/-/canvas-linux-x64-gnu-0.1.19.tgz#9e13d9c1ec93dab34946dae0f8e99de64300b771"
-  integrity sha512-6uHDsXZGuDpZa53NIbkqYng4Cjz5pqVGgfxLDT6T+Lx7I9JeoJi/vBPyB4BLZjdWtY8YhZFWPQIb9bbA6RLMFg==
+"@resvg/resvg-js-linux-arm64-musl@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-linux-arm64-musl/-/resvg-js-linux-arm64-musl-1.3.0.tgz#029c270e571065d91e63abe526e678dffa095762"
+  integrity sha512-0XrLYFS7r/OrVIEmj1vKZT/U3Yph/y+yrBzI/Fio++nQVHgiNXi5X4/DCK7YcGmqtTq4JT94+OW8NIRW00dLqQ==
 
-"@napi-rs/canvas-linux-x64-musl@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas-linux-x64-musl/-/canvas-linux-x64-musl-0.1.19.tgz#9990bfd0ec4beaa1643cf4256502662b13f3c362"
-  integrity sha512-WeOOySiwexF91baetu7R193W9i1hfFMVHF+n6vxhwVxh09ahisL+AKhPNKJlouTizXYTvlinALZOnKmiTf7FHA==
+"@resvg/resvg-js-linux-x64-gnu@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-linux-x64-gnu/-/resvg-js-linux-x64-gnu-1.3.0.tgz#c43c0447d67597621d30c16543029efedb07753b"
+  integrity sha512-aXVmKDmPWre70MT/fZ5mRBI8BKsWt6B58PZSqUOKupuZGmZ5kMJ+NS9IKMTHUkPLL5tCiCaJJRSyiuyF02q+Bg==
 
-"@napi-rs/canvas-win32-x64-msvc@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas-win32-x64-msvc/-/canvas-win32-x64-msvc-0.1.19.tgz#734e5a6aba9bd393dd619e72ed2481498578066a"
-  integrity sha512-5RP4n9NsZsYi+Bg08Nd3VULr1+m2EC72OR0D77XqOIh5SXT+Hje+9x3FKgFCDEhaVAVqh5HUzYVD7BJhrXSsMA==
+"@resvg/resvg-js-linux-x64-musl@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-linux-x64-musl/-/resvg-js-linux-x64-musl-1.3.0.tgz#e6c0a83c0235cd9a74c2fb8d17a21bbb02fd1726"
+  integrity sha512-3UdObhMFEnh7pjmPrcKJ7r2QTlKEa+BHq0RxA7M7K6RQs2nxip7op1YG1XdCX5/EGmbg+dG9PyEnioRRCMmsOA==
 
-"@napi-rs/canvas@0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@napi-rs/canvas/-/canvas-0.1.19.tgz#1e3aedf8316430536f41899036557a3dcbeec618"
-  integrity sha512-bpM/IU+j21y3FrV0Gn+NxPXAid+wTtdNyEQC0DdoycmY8xBSnZ9dgwUzVSjpk6yyrRw1d+mPZjvw0IPc0P1v2g==
+"@resvg/resvg-js-win32-arm64-msvc@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-win32-arm64-msvc/-/resvg-js-win32-arm64-msvc-1.3.0.tgz#da9b0353852e9767905e8714aef84d5b47ae7086"
+  integrity sha512-vTPpPtJtABub1N68M1QJrceBdfDtInwsorCjO4Ch+t9znB7YPP0B3xpXNH3s09unpbX9MO6yzR3U29mUvKFdsw==
+
+"@resvg/resvg-js-win32-ia32-msvc@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-win32-ia32-msvc/-/resvg-js-win32-ia32-msvc-1.3.0.tgz#390e937e60c010a8d970edcb0016b5734ef50af2"
+  integrity sha512-qLLUb3/YaitK02V860/oRZa3KFENADPw544EUA6idowsvoIu1Q9xYI5uBHQCjPXaoAYD7kHuYLl6DFYStvNLYw==
+
+"@resvg/resvg-js-win32-x64-msvc@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js-win32-x64-msvc/-/resvg-js-win32-x64-msvc-1.3.0.tgz#1212d2e8351fb83678e8052dca571d72396974f7"
+  integrity sha512-aivqvtXRzBAdVV6HrP8MrziXa9IiX5sdUF+Dj/8/bkxPT3UutMkN4thTlTNDoaE9yX2VBiheTReOiPpWB6ScyA==
+
+"@resvg/resvg-js@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@resvg/resvg-js/-/resvg-js-1.3.0.tgz#950d440dcb4f6856aaadfda375aa73d016db8695"
+  integrity sha512-oryhplDvtf0qq0o/TOWstTt2FtETNjdT+RKCN1kUys7204xs+zsLNbEg+g0i55rpsqxeSsfTiy37K15MG9rIqQ==
   optionalDependencies:
-    "@napi-rs/canvas-android-arm64" "0.1.19"
-    "@napi-rs/canvas-darwin-arm64" "0.1.19"
-    "@napi-rs/canvas-darwin-x64" "0.1.19"
-    "@napi-rs/canvas-linux-arm-gnueabihf" "0.1.19"
-    "@napi-rs/canvas-linux-arm64-gnu" "0.1.19"
-    "@napi-rs/canvas-linux-arm64-musl" "0.1.19"
-    "@napi-rs/canvas-linux-x64-gnu" "0.1.19"
-    "@napi-rs/canvas-linux-x64-musl" "0.1.19"
-    "@napi-rs/canvas-win32-x64-msvc" "0.1.19"
+    "@resvg/resvg-js-android-arm-eabi" "1.3.0"
+    "@resvg/resvg-js-android-arm64" "1.3.0"
+    "@resvg/resvg-js-darwin-arm64" "1.3.0"
+    "@resvg/resvg-js-darwin-x64" "1.3.0"
+    "@resvg/resvg-js-linux-arm-gnueabihf" "1.3.0"
+    "@resvg/resvg-js-linux-arm64-gnu" "1.3.0"
+    "@resvg/resvg-js-linux-arm64-musl" "1.3.0"
+    "@resvg/resvg-js-linux-x64-gnu" "1.3.0"
+    "@resvg/resvg-js-linux-x64-musl" "1.3.0"
+    "@resvg/resvg-js-win32-arm64-msvc" "1.3.0"
+    "@resvg/resvg-js-win32-ia32-msvc" "1.3.0"
+    "@resvg/resvg-js-win32-x64-msvc" "1.3.0"
 
 "@types/node@14":
   version "14.18.5"

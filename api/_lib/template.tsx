@@ -4,7 +4,7 @@ import React from 'react';
 export function Template(parsedReq: ParsedRequest) {
     //const { text, fontSize, images, widths, heights } = parsedReq;
     console.log(parsedReq);
-    return (<svg width="1280" height="640">
+    return (<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="1280" height="640">
     <defs>
      <linearGradient id="rainbow" x1="0" x2="0" y1="0" y2="40%" gradientUnits="userSpaceOnUse" >
        <stop stopColor="#FF5B99" offset="0%"/>
