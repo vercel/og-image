@@ -5,10 +5,8 @@ import React from 'react';
 process.env.FONTCONFIG_PATH='/var/task/api/_fonts';
 
 const arr = [
-    readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`),
-    readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`),
-    readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`),
-    readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`),
+    readFileSync(`${__dirname}/../_fonts/Inter-Regular.ttf`),
+    readFileSync(`${__dirname}/../_fonts/Inter-Bold.ttf`),
     readFileSync(`${__dirname}/../_fonts/fonts.conf`),
 ]
 console.log('Included files: ', arr.length);
