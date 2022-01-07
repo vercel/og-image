@@ -7,6 +7,7 @@ import { Canvas, GlobalFonts, Path2D, Image } from '@napi-rs/canvas'
 
 GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Inter-Regular.ttf'));
 GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Inter-Bold.ttf'));
+GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Licorice-Regular.ttf'));
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
@@ -24,9 +25,13 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         console.log('has path', !!path);
 
         const canvas = new Canvas(img.width, img.height);
-        const ctx = canvas.getContext('2d')
-        ctx.font = '300 48px Inter';
+        const ctx = canvas.getContext('2d');
+        
         ctx.drawImage(img, 0, 0, img.width, img.height);
+        ctx.font = '30px Licorice';
+        ctx.fillText('Licorice - Develop.', 300, 300);
+        ctx.fillText('Licorice - Preview.', 300, 400);
+        ctx.fillText('Licorice - Ship.', 300, 500);
         const buffer = await canvas.encode(fileType as any);
         
         res.statusCode = 200;
