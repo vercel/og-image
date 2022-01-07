@@ -15,7 +15,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         
         const sharpStart = Date.now()
         const file = await sharp(Buffer.from(svg)).resize(1280, 640).toFormat(fileType).toBuffer()
-        console.log('Rendered svg to png in', Date.now() - sharpStart, 'ms')
+        console.log(`Rendered svg to ${fileType} in`, Date.now() - sharpStart, 'ms')
 
         res.statusCode = 200;
         res.setHeader('Content-Type', `image/${fileType}`);
