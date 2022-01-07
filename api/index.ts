@@ -26,9 +26,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
         const canvas = new Canvas(img.width, img.height);
         const ctx = canvas.getContext('2d');
-        
-        ctx.drawImage(img, 0, 0, img.width, img.height);
         ctx.font = '30px Licorice';
+        ctx.drawImage(img, 0, 0, img.width, img.height);
         ctx.fillText('Licorice - Develop.', 300, 300);
         ctx.fillText('Licorice - Preview.', 300, 400);
         ctx.fillText('Licorice - Ship.', 300, 500);
