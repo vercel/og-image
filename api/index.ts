@@ -3,7 +3,7 @@ import { join } from 'path';
 import { parseRequest } from './_lib/parser';
 import { Template } from './_lib/template';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Canvas, GlobalFonts, Path2D, Image } from '@napi-rs/canvas'
+import { Canvas, GlobalFonts, Image } from '@napi-rs/canvas'
 
 GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Inter-Regular.ttf'));
 GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Inter-Bold.ttf'));
