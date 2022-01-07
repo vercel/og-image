@@ -7,9 +7,16 @@ import sharp from 'sharp';
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
         const parsedReq = parseRequest(req);
-        const svg = renderToStaticMarkup(Template(parsedReq));
         const { fileType } = parsedReq;
-        const file = await sharp(Buffer.from(svg)).resize(1280, 640).toFormat(fileType).toBuffer();
+        
+        const svgStart = Date.now()
+        const svg = renderToStaticMarkup(Template(parsedReq));
+        console.log('Rendered jsx to html in', Date.now() - svgStart, 'ms')
+        
+        const sharpStart = Date.now()
+        const file = await sharp(Buffer.from(svg)).resize(1280, 640).toFormat(fileType).toBuffer()
+        console.log('Rendered svg to png in', Date.now() - sharpStart, 'ms')
+
         res.statusCode = 200;
         res.setHeader('Content-Type', `image/${fileType}`);
         res.setHeader('Cache-Control', `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`);
