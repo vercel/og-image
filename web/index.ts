@@ -197,7 +197,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
         selectedImageIndex = 0,
         overrideUrl = null,
     } = state;
-    console.log(widths[0],'harish')
+
     const mdValue = md ? '1' : '0';
     const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.origin);
