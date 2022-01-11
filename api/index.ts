@@ -3,7 +3,7 @@ import { join } from 'path';
 import { parseRequest } from './_lib/parser';
 import { Template } from './_lib/template';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Canvas, GlobalFonts, Image } from '@napi-rs/canvas'
+import { Canvas, GlobalFonts, Image, convertSVGTextToPath } from '@napi-rs/canvas'
 
 GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Inter-Regular.ttf'));
 GlobalFonts.registerFromPath(join(__dirname, '_fonts', 'Inter-Bold.ttf'));
@@ -20,16 +20,13 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
         const canvasStart = Date.now()
         const img = new Image()
-        img.src = Buffer.from(svg);
+        img.src = convertSVGTextToPath(svg);
         img.width = 1280;
         img.height = 640;
         const canvas = new Canvas(img.width, img.height);
         const ctx = canvas.getContext('2d');
         ctx.font = '30px Licorice';
         ctx.drawImage(img, 0, 0, img.width, img.height);
-        ctx.fillText('Licorice - Develop.', 300, 300);
-        ctx.fillText('Licorice - Preview.', 300, 400);
-        ctx.fillText('Licorice - Ship.', 300, 500);
         const buffer = await canvas.encode(fileType as any);
         console.log(`Rendered canvas to ${fileType} in`, Date.now() - canvasStart, 'ms')
         
