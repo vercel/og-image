@@ -359,7 +359,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             const nextImage = images.length === 1
                                 ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
                                 : '';
-                            setLoadingState({ images: [...images, nextImage],heights: [...heights,'225'],widths: [...widths,'225'] })
+                            const nextSize = images.length === 1 ? '225' : '';
+
+                            setLoadingState({ images: [...images, nextImage],heights: [...heights,nextSize],widths: [...widths,nextSize] })
                         }
                     }),
                 }),
