@@ -189,8 +189,8 @@ const App = (_: any, state: AppState, setState: SetState) => {
         md = true,
         text = '**Hello** World',
         images=[imageLightOptions[0].value],
-        widths=['250'],
-        heights=['250'],
+        widths=['225'],
+        heights=['225'],
         showToast = false,
         messageToast = '',
         loading = true,
@@ -359,7 +359,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             const nextImage = images.length === 1
                                 ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
                                 : '';
-                            setLoadingState({ images: [...images, nextImage],heights: [...heights,'250'],widths: [...widths,'250'] })
+                            setLoadingState({ images: [...images, nextImage],heights: [...heights,'225'],widths: [...widths,'225'] })
                         }
                     }),
                 }),
