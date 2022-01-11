@@ -60,11 +60,14 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
 interface TextInputProps {
     value: string;
     oninput: (val: string) => void;
+    small:Boolean
 }
 
-const TextInput = ({ value, oninput }: TextInputProps) => {
+const TextInput = ({ value, oninput,small }: TextInputProps) => {
+    const wrapper = small ? 'input-outer-wrapper small' : 'input-outer-wrapper';
+
     return H('div',
-        { className: 'input-outer-wrapper' },
+        { className: wrapper},
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
@@ -154,27 +157,6 @@ const imageDarkOptions: DropdownOption[] = [
     { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-bw-logo.svg' },
 ];
 
-const widthOptions = [
-    { text: 'width', value: 'auto' },
-    { text: '50', value: '50' },
-    { text: '100', value: '100' },
-    { text: '150', value: '150' },
-    { text: '200', value: '200' },
-    { text: '250', value: '250' },
-    { text: '300', value: '300' },
-    { text: '350', value: '350' },
-];
-
-const heightOptions = [
-    { text: 'height', value: 'auto' },
-    { text: '50', value: '50' },
-    { text: '100', value: '100' },
-    { text: '150', value: '150' },
-    { text: '200', value: '200' },
-    { text: '250', value: '250' },
-    { text: '300', value: '300' },
-    { text: '350', value: '350' },
-];
 
 interface AppState extends ParsedRequest {
     loading: boolean;
@@ -207,14 +189,15 @@ const App = (_: any, state: AppState, setState: SetState) => {
         md = true,
         text = '**Hello** World',
         images=[imageLightOptions[0].value],
-        widths=[],
-        heights=[],
+        widths=['250'],
+        heights=['250'],
         showToast = false,
         messageToast = '',
         loading = true,
         selectedImageIndex = 0,
         overrideUrl = null,
     } = state;
+    console.log(widths[0],'harish')
     const mdValue = md ? '1' : '0';
     const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.origin);
@@ -299,24 +282,22 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         }),
                         H('div',
                             { className: 'field-flex' },
-                            H(Dropdown, {
-                                options: widthOptions,
+                            H(TextInput, {
                                 value: widths[0],
-                                small: true,
-                                onchange: (val: string) =>  {
+                                small:true,
+                                oninput: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[0] = val;
                                     setLoadingState({ widths: clone });
                                 }
                             }),
-                            H(Dropdown, {
-                                options: heightOptions,
+                            H(TextInput, {
                                 value: heights[0],
-                                small: true,
-                                onchange: (val: string) =>  {
+                                small:true,
+                                oninput: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[0] = val;
-                                    setLoadingState({ heights: clone });
+                                    setLoadingState({ heights: clone });;
                                 }
                             })
                         )
@@ -335,21 +316,19 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         }),
                         H('div',
                             { className: 'field-flex' },
-                            H(Dropdown, {
-                                options: widthOptions,
+                            H(TextInput, {
                                 value: widths[i + 1],
                                 small: true,
-                                onchange: (val: string) =>  {
+                                oninput: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[i + 1] = val;
                                     setLoadingState({ widths: clone });
                                 }
                             }),
-                            H(Dropdown, {
-                                options: heightOptions,
+                            H(TextInput, {
                                 value: heights[i + 1],
                                 small: true,
-                                onchange: (val: string) =>  {
+                                oninput: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[i + 1] = val;
                                     setLoadingState({ heights: clone });
@@ -380,7 +359,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             const nextImage = images.length === 1
                                 ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
                                 : '';
-                            setLoadingState({ images: [...images, nextImage] })
+                            setLoadingState({ images: [...images, nextImage],heights: [...heights,'250'],widths: [...widths,'250'] })
                         }
                     }),
                 }),
