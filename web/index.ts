@@ -91,8 +91,8 @@ interface FieldProps {
 const Field = ({ label, input }: FieldProps) => {
     return H('div',
         { className: 'field' },
-        H('label', 
-            H('div', {className: 'field-label'}, label),
+        H('label',
+            H('div', { className: 'field-label' }, label),
             H('div', { className: 'field-value' }, input),
         ),
     );
@@ -104,7 +104,7 @@ interface ToastProps {
 }
 
 const Toast = ({ show, message }: ToastProps) => {
-    const style = { transform:  show ? 'translate3d(0,-0px,-0px) scale(1)' : '' };
+    const style = { transform: show ? 'translate3d(0,-0px,-0px) scale(1)' : '' };
     return H('div',
         { className: 'toast-area' },
         H('div',
@@ -112,7 +112,7 @@ const Toast = ({ show, message }: ToastProps) => {
             H('div',
                 { className: 'toast-inner' },
                 H('div',
-                    { className: 'toast-message'},
+                    { className: 'toast-message' },
                     message
                 )
             )
@@ -142,16 +142,11 @@ const markdownOptions: DropdownOption[] = [
 ];
 
 const imageLightOptions: DropdownOption[] = [
-    { text: 'Vercel', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg' },
-    { text: 'Next.js', value: 'https://assets.vercel.com/image/upload/front/assets/design/nextjs-black-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-color-logo.svg' },
+    { text: 'Prysm', value: 'https://nccmlpufieusnuqflhrr.supabase.in/storage/v1/object/public/squads-og-logos/light-mode.png' },
 ];
 
 const imageDarkOptions: DropdownOption[] = [
-
-    { text: 'Vercel', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg' },
-    { text: 'Next.js', value: 'https://assets.vercel.com/image/upload/front/assets/design/nextjs-white-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-bw-logo.svg' },
+    { text: 'Prysm', value: 'https://nccmlpufieusnuqflhrr.supabase.in/storage/v1/object/public/squads-og-logos/dark-mode.png' },
 ];
 
 const widthOptions = [
@@ -206,9 +201,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
         theme = 'light',
         md = true,
         text = '**Hello** World',
-        images=[imageLightOptions[0].value],
-        widths=[],
-        heights=[],
+        images = [imageLightOptions[0].value],
+        widths = [],
+        heights = [],
         showToast = false,
         messageToast = '',
         loading = true,
@@ -290,7 +285,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         H(Dropdown, {
                             options: imageOptions,
                             value: imageOptions[selectedImageIndex].value,
-                            onchange: (val: string) =>  {
+                            onchange: (val: string) => {
                                 let clone = [...images];
                                 clone[0] = val;
                                 const selected = imageOptions.map(o => o.value).indexOf(val);
@@ -303,7 +298,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                 options: widthOptions,
                                 value: widths[0],
                                 small: true,
-                                onchange: (val: string) =>  {
+                                onchange: (val: string) => {
                                     let clone = [...widths];
                                     clone[0] = val;
                                     setLoadingState({ widths: clone });
@@ -313,7 +308,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                 options: heightOptions,
                                 value: heights[0],
                                 small: true,
-                                onchange: (val: string) =>  {
+                                onchange: (val: string) => {
                                     let clone = [...heights];
                                     clone[0] = val;
                                     setLoadingState({ heights: clone });
@@ -339,7 +334,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                 options: widthOptions,
                                 value: widths[i + 1],
                                 small: true,
-                                onchange: (val: string) =>  {
+                                onchange: (val: string) => {
                                     let clone = [...widths];
                                     clone[i + 1] = val;
                                     setLoadingState({ widths: clone });
@@ -349,7 +344,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                 options: heightOptions,
                                 value: heights[i + 1],
                                 small: true,
-                                onchange: (val: string) =>  {
+                                onchange: (val: string) => {
                                     let clone = [...heights];
                                     clone[i + 1] = val;
                                     setLoadingState({ heights: clone });
