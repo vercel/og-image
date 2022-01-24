@@ -52,8 +52,8 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
 
 function getDefaultImages(images: string[], theme: Theme): string[] {
   const defaultImage = theme === 'light'
-    ? 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-color-mark.svg'
-    : 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-white-mark.svg';
+    ? 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jasper-color-mark.svg'
+    : 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jasper-white-mark.svg';
 
   if (!images || !images[0]) {
     return [defaultImage];

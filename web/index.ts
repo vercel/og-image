@@ -142,15 +142,15 @@ const markdownOptions: DropdownOption[] = [
 ];
 
 const imageLightOptions: DropdownOption[] = [
-  { text: 'Jarvis - Full logo', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-word-mark-on-white.svg' },
-  { text: 'Jarvis - Icon', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-color-mark.svg' },
-  { text: 'Jarvis - Recipes', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-recipes-logo-on-white.svg' },
+  { text: 'Jasper - Full logo', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jasper-word-mark-on-white.svg' },
+  { text: 'Jasper - Icon', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jasper-color-mark.svg' },
+  { text: 'Jasper - Recipes', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-recipes-logo-on-white.svg' },
 ];
 
 const imageDarkOptions: DropdownOption[] = [
-  { text: 'Jarvis - Full logo', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-word-mark-on-black.svg' },
-  { text: 'Jarvis - Icon', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-color-mark.svg' },
-  { text: 'Jarvis - Recipes', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-recipes-logo-on-black.svg' },
+  { text: 'Jasper - Full logo', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-word-mark-on-black.svg' },
+  { text: 'Jasper - Icon', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-color-mark.svg' },
+  { text: 'Jasper - Recipes', value: 'https://s3-us-east-2.amazonaws.com/jarvis-public-cdn/ms/jarvis-recipes-logo-on-black.svg' },
 ];
 
 const widthOptions = [
