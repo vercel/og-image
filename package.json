@@ -8,12 +8,12 @@
   },
   "dependencies": {
     "chrome-aws-lambda": "7.0.0",
-    "marked": "2.0.0",
+    "marked": "4.0.10",
     "puppeteer-core": "7.0.0",
     "twemoji": "13.0.1"
   },
   "devDependencies": {
-    "@types/marked": "1.2.2",
+    "@types/marked": "4.0.1",
     "@types/puppeteer": "5.4.3",
     "@types/puppeteer-core": "5.4.0",
     "typescript": "4.1.5"
