@@ -60,10 +60,11 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
 interface TextInputProps {
     value: string;
     oninput: (val: string) => void;
-    small:Boolean
+    small: boolean,
+    placeholder?: string
 }
 
-const TextInput = ({ value, oninput,small }: TextInputProps) => {
+const TextInput = ({ value, oninput, small, placeholder }: TextInputProps) => {
     const wrapper = small ? 'input-outer-wrapper small' : 'input-outer-wrapper';
 
     return H('div',
@@ -71,7 +72,7 @@ const TextInput = ({ value, oninput,small }: TextInputProps) => {
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: 'text', value, oninput: (e: any) => oninput(e.target.value) }
+                { type: 'text', value, oninput: (e: any) => oninput(e.target.value), ...(placeholder && {placeholder}) }
             )
         )
     );
@@ -285,6 +286,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             H(TextInput, {
                                 value: widths[0],
                                 small:true,
+                                placeholder: 'width',
                                 oninput: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[0] = val;
@@ -293,11 +295,12 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             }),
                             H(TextInput, {
                                 value: heights[0],
+                                placeholder: 'height',
                                 small:true,
                                 oninput: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[0] = val;
-                                    setLoadingState({ heights: clone });;
+                                    setLoadingState({ heights: clone });
                                 }
                             })
                         )
@@ -319,6 +322,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             H(TextInput, {
                                 value: widths[i + 1],
                                 small: true,
+                                placeholder: 'width',
                                 oninput: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[i + 1] = val;
@@ -328,6 +332,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             H(TextInput, {
                                 value: heights[i + 1],
                                 small: true,
+                                placeholder: 'height',
                                 oninput: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[i + 1] = val;
