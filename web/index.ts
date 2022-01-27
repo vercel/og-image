@@ -285,7 +285,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             { className: 'field-flex' },
                             H(TextInput, {
                                 value: widths[0],
-                                small:true,
+                                small: true,
                                 placeholder: 'width',
                                 oninput: (val: string) =>  {
                                     let clone = [...widths];
@@ -296,7 +296,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             H(TextInput, {
                                 value: heights[0],
                                 placeholder: 'height',
-                                small:true,
+                                small: true,
                                 oninput: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[0] = val;
