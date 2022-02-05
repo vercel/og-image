@@ -60,11 +60,13 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
 interface TextInputProps {
     value: string;
     oninput: (val: string) => void;
-    small: boolean,
-    placeholder?: string
+    small: boolean;
+    placeholder?: string;
+    type?: string
+
 }
 
-const TextInput = ({ value, oninput, small, placeholder }: TextInputProps) => {
+const TextInput = ({ value, oninput, type, small, placeholder }: TextInputProps) => {
     const wrapper = small ? 'input-outer-wrapper small' : 'input-outer-wrapper';
 
     return H('div',
@@ -72,7 +74,7 @@ const TextInput = ({ value, oninput, small, placeholder }: TextInputProps) => {
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: 'text', value, oninput: (e: any) => oninput(e.target.value), ...(placeholder && {placeholder}) }
+                { type: 'text', value, ...(type && { type }), oninput: (e: any) => oninput(e.target.value), ...(placeholder && {placeholder}) }
             )
         )
     );
@@ -190,8 +192,8 @@ const App = (_: any, state: AppState, setState: SetState) => {
         md = true,
         text = '**Hello** World',
         images=[imageLightOptions[0].value],
-        widths=['225'],
-        heights=['225'],
+        widths=[''],
+        heights=[''],
         showToast = false,
         messageToast = '',
         loading = true,
@@ -210,10 +212,10 @@ const App = (_: any, state: AppState, setState: SetState) => {
         url.searchParams.append('images', image);
     }
     for (let width of widths) {
-        url.searchParams.append('widths', width);
+        url.searchParams.append('widths', width.length === 0 ? 'auto' : width);
     }
     for (let height of heights) {
-        url.searchParams.append('heights', height);
+        url.searchParams.append('heights', height.length === 0 ? '225' : height);
     }
 
     return H('div',
@@ -287,6 +289,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                 value: widths[0],
                                 small: true,
                                 placeholder: 'width',
+                                type: 'number',
                                 oninput: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[0] = val;
@@ -296,6 +299,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             H(TextInput, {
                                 value: heights[0],
                                 placeholder: 'height',
+                                type: 'number',
                                 small: true,
                                 oninput: (val: string) =>  {
                                     let clone = [...heights];
@@ -322,6 +326,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             H(TextInput, {
                                 value: widths[i + 1],
                                 small: true,
+                                type: 'number',
                                 placeholder: 'width',
                                 oninput: (val: string) =>  {
                                     let clone = [...widths];
@@ -332,6 +337,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             H(TextInput, {
                                 value: heights[i + 1],
                                 small: true,
+                                type: 'number',
                                 placeholder: 'height',
                                 oninput: (val: string) =>  {
                                     let clone = [...heights];
@@ -364,9 +370,8 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             const nextImage = images.length === 1
                                 ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
                                 : '';
-                            const nextSize = images.length === 1 ? '225' : '';
 
-                            setLoadingState({ images: [...images, nextImage],heights: [...heights,nextSize],widths: [...widths,nextSize] })
+                            setLoadingState({ images: [...images, nextImage],heights: [...heights,''],widths: [...widths,''] })
                         }
                     }),
                 }),
