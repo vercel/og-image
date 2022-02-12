@@ -74,7 +74,7 @@ const TextInput = ({ value, oninput, type, small, placeholder }: TextInputProps)
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: 'text', value, ...(type && { type }), oninput: (e: any) => oninput(e.target.value), ...(placeholder && {placeholder}) }
+                { type: type || 'text', value, oninput: (e: any) => oninput(e.target.value), ...(placeholder && {placeholder}) }
             )
         )
     );
@@ -371,7 +371,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                 ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
                                 : '';
 
-                            setLoadingState({ images: [...images, nextImage],heights: [...heights,''],widths: [...widths,''] })
+                            setLoadingState({ images: [...images, nextImage], heights: [...heights,''], widths: [...widths,''] })
                         }
                     }),
                 }),
