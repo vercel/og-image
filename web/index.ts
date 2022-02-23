@@ -66,7 +66,7 @@ interface TextInputProps {
 
 }
 
-const TextInput = ({ value, oninput, type, small, placeholder }: TextInputProps) => {
+const TextInput = ({ value, oninput, type, small, placeholder = '' }: TextInputProps) => {
     const wrapper = small ? 'input-outer-wrapper small' : 'input-outer-wrapper';
 
     return H('div',
@@ -74,7 +74,7 @@ const TextInput = ({ value, oninput, type, small, placeholder }: TextInputProps)
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: type || 'text', value, oninput: (e: any) => oninput(e.target.value), ...(placeholder && {placeholder}) }
+                { type: type || 'text', value, placeholder, oninput: (e: any) => oninput(e.target.value) }
             )
         )
     );
@@ -287,9 +287,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             { className: 'field-flex' },
                             H(TextInput, {
                                 value: widths[0],
-                                small: true,
-                                placeholder: 'width',
                                 type: 'number',
+                                placeholder: 'width',
+                                small: true,
                                 oninput: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[0] = val;
@@ -298,8 +298,8 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             }),
                             H(TextInput, {
                                 value: heights[0],
-                                placeholder: 'height',
                                 type: 'number',
+                                placeholder: 'height',
                                 small: true,
                                 oninput: (val: string) =>  {
                                     let clone = [...heights];
@@ -325,9 +325,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             { className: 'field-flex' },
                             H(TextInput, {
                                 value: widths[i + 1],
-                                small: true,
                                 type: 'number',
                                 placeholder: 'width',
+                                small: true,
                                 oninput: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[i + 1] = val;
@@ -336,9 +336,9 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             }),
                             H(TextInput, {
                                 value: heights[i + 1],
-                                small: true,
                                 type: 'number',
                                 placeholder: 'height',
+                                small: true,
                                 oninput: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[i + 1] = val;
@@ -370,7 +370,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
                             const nextImage = images.length === 1
                                 ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
                                 : '';
-
                             setLoadingState({ images: [...images, nextImage] })
                         }
                     }),
