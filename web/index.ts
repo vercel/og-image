@@ -63,18 +63,15 @@ interface TextInputProps {
     small: boolean;
     placeholder?: string;
     type?: string
-
 }
 
-const TextInput = ({ value, oninput, type, small, placeholder = '' }: TextInputProps) => {
-    const wrapper = small ? 'input-outer-wrapper small' : 'input-outer-wrapper';
-
+const TextInput = ({ value, oninput, small, type = 'text', placeholder = '' }: TextInputProps) => {
     return H('div',
-        { className: wrapper},
+        { className: 'input-outer-wrapper' + (small ? ' small' : '') },
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: type || 'text', value, placeholder, oninput: (e: any) => oninput(e.target.value) }
+                { type, value, placeholder, oninput: (e: any) => oninput(e.target.value) }
             )
         )
     );
