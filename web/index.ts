@@ -192,8 +192,8 @@ const App = (_: any, state: AppState, setState: SetState) => {
         md = true,
         text = '**Hello** World',
         images=[imageLightOptions[0].value],
-        widths=[''],
-        heights=[''],
+        widths=[],
+        heights=[],
         showToast = false,
         messageToast = '',
         loading = true,
@@ -212,10 +212,10 @@ const App = (_: any, state: AppState, setState: SetState) => {
         url.searchParams.append('images', image);
     }
     for (let width of widths) {
-        url.searchParams.append('widths', width.length === 0 ? 'auto' : width);
+        url.searchParams.append('widths', width);
     }
     for (let height of heights) {
-        url.searchParams.append('heights', height.length === 0 ? '225' : height);
+        url.searchParams.append('heights', height);
     }
 
     return H('div',
@@ -371,7 +371,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
                                 ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
                                 : '';
 
-                            setLoadingState({ images: [...images, nextImage], heights: [...heights,''], widths: [...widths,''] })
+                            setLoadingState({ images: [...images, nextImage] })
                         }
                     }),
                 }),
