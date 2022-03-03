@@ -7,6 +7,7 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
+// const noto = readFileSync(`${__dirname}/../_fonts/NotoSansJP-Medium.otf`).toString('base64');
 const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
@@ -22,6 +23,8 @@ function getCss(theme: string, fontSize: string) {
         radial = 'dimgray';
     }
     return `
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap');
+
     @font-face {
         font-family: 'Inter';
         font-style:  normal;
@@ -93,9 +96,9 @@ function getCss(theme: string, fontSize: string) {
         margin: 0 .05em 0 .1em;
         vertical-align: -0.1em;
     }
-    
+
     .heading {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Noto Sans JP', 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
