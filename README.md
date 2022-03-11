@@ -12,7 +12,6 @@ For each keystroke, headless chromium is used to render an HTML page and take a 
 
 See the image embedded in the tweet for a real use case.
 
-
 ## What is an Open Graph Image?
 
 Have you ever posted a hyperlink to Twitter, Facebook, or Slack and seen an image popup?
