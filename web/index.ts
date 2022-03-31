@@ -133,15 +133,14 @@ const fontSizeOptions: DropdownOption[] = Array.from({ length: 10 })
   .filter((n) => n > 0)
   .map((n) => ({ text: n + "px", value: n + "px" }));
 
-const markdownOptions: DropdownOption[] = [
-  { text: "Plain Text", value: "0" },
-  { text: "Markdown", value: "1" },
-];
-
 const imageOptions: DropdownOption[] = [
   {
     text: "Profile",
-    value: "/profile.jpeg",
+    value: "https://blog.sethcorker.com/profile-picture.jpeg",
+  },
+  {
+    text: "Footer",
+    value: "https://blog.sethcorker.com/header-image.png",
   },
 ];
 
@@ -171,7 +170,8 @@ interface AppState extends ParsedRequest {
   loading: boolean;
   showToast: boolean;
   messageToast: string;
-  selectedImageIndex: number;
+  selectedFooterImageIndex: number;
+  selectedMainImageIndex: number;
   widths: string[];
   heights: string[];
   overrideUrl: URL | null;
@@ -196,32 +196,36 @@ const App = (_: any, state: AppState, setState: SetState) => {
   };
   const {
     fileType = "png",
-    fontSize = "100px",
+    fontSize = "150px",
     theme = "light",
-    md = true,
     kicker = "a kicker",
-    title = "**Hello** World",
-    subtitle = "a subtitle",
+    title = "A title",
+    subtitle = "A subtitle",
     mainImage = imageOptions[0].value,
-    mainImageWidth = widthOptions[0].value,
-    mainImageHeight = widthOptions[0].value,
+    mainImageWidth = widthOptions[7].value,
+    mainImageHeight = widthOptions[7].value,
+    footerImage = imageOptions[1].value,
+    footerImageWidth = widthOptions[0].value,
+    footerImageHeight = widthOptions[1].value,
     showToast = false,
     messageToast = "",
     loading = true,
-    selectedImageIndex = 0,
+    selectedMainImageIndex = 0,
+    selectedFooterImageIndex = 1,
     overrideUrl = null,
   } = state;
-  const mdValue = md ? "1" : "0";
   const url = new URL(window.location.origin);
   url.pathname = `${encodeURIComponent(title)}.${fileType}`;
   url.searchParams.append("kicker", kicker);
   url.searchParams.append("subtitle", subtitle);
   url.searchParams.append("theme", theme);
-  url.searchParams.append("md", mdValue);
   url.searchParams.append("fontSize", fontSize);
   url.searchParams.append("mainImage", mainImage);
   url.searchParams.append("mainImageWidth", mainImageWidth);
   url.searchParams.append("mainImageHeight", mainImageHeight);
+  url.searchParams.append("footerImage", footerImage);
+  url.searchParams.append("footerImageWidth", footerImageWidth);
+  url.searchParams.append("footerImageHeight", footerImageHeight);
 
   return H(
     "div",
@@ -238,7 +242,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
             value: theme,
             onchange: (val: Theme) => {
               let clone = mainImage;
-              clone = imageOptions[selectedImageIndex].value;
+              clone = imageOptions[selectedMainImageIndex].value;
               setLoadingState({ theme: val, mainImage: clone });
             },
           }),
@@ -257,14 +261,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
             options: fontSizeOptions,
             value: fontSize,
             onchange: (val: string) => setLoadingState({ fontSize: val }),
-          }),
-        }),
-        H(Field, {
-          label: "Text Type",
-          input: H(Dropdown, {
-            options: markdownOptions,
-            value: mdValue,
-            onchange: (val: string) => setLoadingState({ md: val === "1" }),
           }),
         }),
         H(Field, {
@@ -300,12 +296,12 @@ const App = (_: any, state: AppState, setState: SetState) => {
             "div",
             H(Dropdown, {
               options: imageOptions,
-              value: imageOptions[selectedImageIndex].value,
+              value: imageOptions[selectedMainImageIndex].value,
               onchange: (val: string) => {
                 const selected = imageOptions.map((o) => o.value).indexOf(val);
                 setLoadingState({
                   mainImage: val,
-                  selectedImageIndex: selected,
+                  selectedMainImageIndex: selected,
                 });
               },
             }),
@@ -326,6 +322,43 @@ const App = (_: any, state: AppState, setState: SetState) => {
                 small: true,
                 onchange: (val: string) => {
                   setLoadingState({ mainImageHeight: val });
+                },
+              })
+            )
+          ),
+        }),
+        H(Field, {
+          label: "Footer Image",
+          input: H(
+            "div",
+            H(Dropdown, {
+              options: imageOptions,
+              value: imageOptions[selectedFooterImageIndex].value,
+              onchange: (val: string) => {
+                const selected = imageOptions.map((o) => o.value).indexOf(val);
+                setLoadingState({
+                  footerImage: val,
+                  selectedFooterImageIndex: selected,
+                });
+              },
+            }),
+            H(
+              "div",
+              { className: "field-flex" },
+              H(Dropdown, {
+                options: widthOptions,
+                value: footerImageWidth,
+                small: true,
+                onchange: (val: string) => {
+                  setLoadingState({ footerImageWidth: val });
+                },
+              }),
+              H(Dropdown, {
+                options: heightOptions,
+                value: footerImageHeight,
+                small: true,
+                onchange: (val: string) => {
+                  setLoadingState({ footerImageHeight: val });
                 },
               })
             )

@@ -17,10 +17,12 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
   "base64"
 );
 
+const md = true;
+
 function getCss(theme: string, fontSize: string) {
   const rawFontSize = parseInt(fontSize.replace("px", ""));
-  const kickerFontSize = `${rawFontSize * 0.3}px`;
-  const subtitleFontSize = `${rawFontSize * 0.5}px`;
+  const kickerFontSize = `${rawFontSize * 0.4}px`;
+  const subtitleFontSize = `${rawFontSize * 0.6}px`;
 
   let background = "white";
   let foreground = "black";
@@ -59,8 +61,8 @@ function getCss(theme: string, fontSize: string) {
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        border: 10px solid;
-        border-width: 10px;
+        border: 2vw solid;
+        border-width: 2vw;
         border-image-source: linear-gradient(to left, #AA604F, #4B3A9D);
         border-image-slice: 1;
         box-sizing: border-box;
@@ -68,14 +70,17 @@ function getCss(theme: string, fontSize: string) {
     }
 
     code {
-        color: #D400FF;
         font-family: 'Vera';
         white-space: pre-wrap;
         letter-spacing: -5px;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        background-color: #ebf8ff;
+        colo: #2d3748;
     }
 
-    code:before, code:after {
-        content: '\`';
+    p {
+      margin: 0;
     }
 
     .logo-wrapper {
@@ -86,17 +91,17 @@ function getCss(theme: string, fontSize: string) {
         justify-items: center;
     }
 
-    .logo {
+    .logo-wrapper > .logo {
         margin: 0 75px;
         box-shadow: 0px 0px 25px -10px black;
         border-radius: 50%;
         border: 5px solid white;
     }
 
-    .plus {
-        color: #BBB;
-        font-family: Times New Roman, Verdana;
-        font-size: 100px;
+    .footer-wrapper {
+      position: absolute;
+      right: calc(2vw + 2rem);
+      bottom: calc(2vw + 1rem);
     }
 
     .container {
@@ -143,11 +148,13 @@ export function getHtml(parsedReq: ParsedRequest) {
     subtitle,
     kicker,
     theme,
-    md,
     fontSize,
     mainImage,
     mainImageWidth,
     mainImageHeight,
+    footerImage,
+    footerImageWidth,
+    footerImageHeight,
   } = parsedReq;
   return `<!DOCTYPE html>
 <html>
@@ -163,26 +170,29 @@ export function getHtml(parsedReq: ParsedRequest) {
                 <div class="logo-wrapper">
                     ${getImage(mainImage, mainImageWidth, mainImageHeight)}
                 </div>
-            <div class="spacer">
-            ${
-              kicker
-                ? `<div class="kicker">${emojify(
-                    md ? marked(kicker) : sanitizeHtml(kicker)
-                  )}</div>`
-                : ""
-            }
-            <div class="heading">${emojify(
-              md ? marked(title) : sanitizeHtml(title)
-            )}
+              <div class="spacer">
+              ${
+                kicker
+                  ? `<div class="kicker">${emojify(
+                      md ? marked(kicker) : sanitizeHtml(kicker)
+                    )}</div>`
+                  : ""
+              }
+              <div class="heading">${emojify(
+                md ? marked(title) : sanitizeHtml(title)
+              )}
+              </div>
+              ${
+                subtitle
+                  ? `<div class="subtitle">${emojify(
+                      md ? marked(subtitle) : sanitizeHtml(subtitle)
+                    )}</div>`
+                  : ""
+              }
+              </div>
+            <div class="footer-wrapper">
+              ${getImage(footerImage, footerImageWidth, footerImageHeight)}
             </div>
-            ${
-              subtitle
-                ? `<div class="subtitle">${emojify(
-                    md ? marked(subtitle) : sanitizeHtml(subtitle)
-                  )}</div>`
-                : ""
-            }
-        </div>
     </body>
 </html>`;
 }

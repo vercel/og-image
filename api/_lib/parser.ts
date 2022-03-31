@@ -10,8 +10,10 @@ export function parseRequest(req: IncomingMessage) {
     mainImage,
     mainImageHeight,
     mainImageWidth,
+    footerImage,
+    footerImageHeight,
+    footerImageWidth,
     theme,
-    md,
     kicker,
     subtitle,
   } = query || {};
@@ -37,6 +39,15 @@ export function parseRequest(req: IncomingMessage) {
   if (Array.isArray(mainImageWidth)) {
     throw new Error("Expected a single image width");
   }
+  if (Array.isArray(footerImage)) {
+    throw new Error("Expected a single image");
+  }
+  if (Array.isArray(footerImageHeight)) {
+    throw new Error("Expected a single image height");
+  }
+  if (Array.isArray(footerImageWidth)) {
+    throw new Error("Expected a single image width");
+  }
 
   const arr = (pathname || "/").slice(1).split(".");
   let extension = "";
@@ -54,11 +65,13 @@ export function parseRequest(req: IncomingMessage) {
     fileType: extension === "jpeg" ? extension : "png",
     title: decodeURIComponent(title),
     theme: theme === "dark" ? "dark" : "light",
-    md: md === "1" || md === "true",
     fontSize: fontSize || "96px",
-    mainImage,
+    mainImage: decodeURIComponent(mainImage),
     mainImageHeight,
     mainImageWidth,
+    footerImage: decodeURIComponent(footerImage),
+    footerImageHeight,
+    footerImageWidth,
     kicker: decodeURIComponent(kicker),
     subtitle: decodeURIComponent(subtitle),
   };
