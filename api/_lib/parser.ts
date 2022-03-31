@@ -26,28 +26,28 @@ export function parseRequest(req: IncomingMessage) {
   if (Array.isArray(theme)) {
     throw new Error("Expected a single theme");
   }
-  if (Array.isArray(kicker)) {
+  if (Array.isArray(kicker) || !kicker) {
     throw new Error("Expected a single kicker");
   }
-  if (Array.isArray(subtitle)) {
+  if (Array.isArray(subtitle) || !subtitle) {
     throw new Error("Expected a single subtitle");
   }
-  if (Array.isArray(mainImage)) {
+  if (Array.isArray(mainImage) || !mainImage) {
     throw new Error("Expected a single image");
   }
-  if (Array.isArray(mainImageHeight)) {
+  if (Array.isArray(mainImageHeight) || !mainImageHeight) {
     throw new Error("Expected a single image height");
   }
-  if (Array.isArray(mainImageWidth)) {
+  if (Array.isArray(mainImageWidth) || !mainImageWidth) {
     throw new Error("Expected a single image width");
   }
-  if (Array.isArray(footerImage)) {
+  if (Array.isArray(footerImage) || !footerImage) {
     throw new Error("Expected a single image");
   }
-  if (Array.isArray(footerImageHeight)) {
+  if (Array.isArray(footerImageHeight) || !footerImageHeight) {
     throw new Error("Expected a single image height");
   }
-  if (Array.isArray(footerImageWidth)) {
+  if (Array.isArray(footerImageWidth) || !footerImageWidth) {
     throw new Error("Expected a single image width");
   }
 
@@ -83,8 +83,8 @@ export function parseRequest(req: IncomingMessage) {
     footerImageWidth,
     kicker: decodeURIComponent(kicker),
     subtitle: decodeURIComponent(subtitle),
-    width: parseInt(width, 10) || undefined,
-    height: parseInt(height, 10) || undefined,
+    width: parseInt(`${width}`, 10) || undefined,
+    height: parseInt(`${height}`, 10) || undefined,
   };
 
   return parsedRequest;
