@@ -14,4 +14,6 @@ export interface ParsedRequest {
   kicker: string;
   title: string;
   subtitle: string;
+  width?: number;
+  height?: number;
 }

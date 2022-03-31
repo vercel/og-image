@@ -14,13 +14,22 @@ async function getPage(isDev: boolean) {
   return _page;
 }
 
+interface ScreenshotOptions {
+  width?: number;
+  height?: number;
+}
+
 export async function getScreenshot(
   html: string,
   type: FileType,
-  isDev: boolean
+  isDev: boolean,
+  options?: ScreenshotOptions
 ) {
   const page = await getPage(isDev);
-  await page.setViewport({ width: 2048, height: 1170 });
+  await page.setViewport({
+    width: options ? options.width || 2048 : 2048,
+    height: options ? options.height || 1170 : 1170,
+  });
   await page.setContent(html);
   const file = await page.screenshot({ type });
   return file;

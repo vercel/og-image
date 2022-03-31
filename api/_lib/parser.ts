@@ -16,6 +16,8 @@ export function parseRequest(req: IncomingMessage) {
     theme,
     kicker,
     subtitle,
+    width,
+    height,
   } = query || {};
 
   if (Array.isArray(fontSize)) {
@@ -49,6 +51,13 @@ export function parseRequest(req: IncomingMessage) {
     throw new Error("Expected a single image width");
   }
 
+  if (Array.isArray(width)) {
+    throw new Error("Expected a single height");
+  }
+  if (Array.isArray(height)) {
+    throw new Error("Expected a single width");
+  }
+
   const arr = (pathname || "/").slice(1).split(".");
   let extension = "";
   let title = "";
@@ -74,6 +83,8 @@ export function parseRequest(req: IncomingMessage) {
     footerImageWidth,
     kicker: decodeURIComponent(kicker),
     subtitle: decodeURIComponent(subtitle),
+    width: parseInt(width, 10) || undefined,
+    height: parseInt(height, 10) || undefined,
   };
 
   return parsedRequest;
