@@ -1,10 +1,9 @@
-import { readFileSync } from "fs";
-import marked from "marked";
-import { sanitizeHtml } from "./sanitizer";
-import { ParsedRequest } from "./types";
-
-const twemoji = require("twemoji");
-const twOptions = { folder: "svg", ext: ".svg" };
+import { readFileSync } from 'fs';
+import { marked } from 'marked';
+import { sanitizeHtml } from './sanitizer';
+import { ParsedRequest } from './types';
+const twemoji = require('twemoji');
+const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 const rglr = readFileSync(
@@ -171,24 +170,22 @@ export function getHtml(parsedReq: ParsedRequest) {
                     ${getImage(mainImage, mainImageWidth, mainImageHeight)}
                 </div>
               <div class="spacer">
-              ${
-                kicker
-                  ? `<div class="kicker">${emojify(
-                      md ? marked(kicker) : sanitizeHtml(kicker)
-                    )}</div>`
-                  : ""
-              }
+              ${kicker
+      ? `<div class="kicker">${emojify(
+        md ? marked(kicker) : sanitizeHtml(kicker)
+      )}</div>`
+      : ""
+    }
               <div class="heading">${emojify(
-                md ? marked(title) : sanitizeHtml(title)
-              )}
+      md ? marked(title) : sanitizeHtml(title)
+    )}
               </div>
-              ${
-                subtitle
-                  ? `<div class="subtitle">${emojify(
-                      md ? marked(subtitle) : sanitizeHtml(subtitle)
-                    )}</div>`
-                  : ""
-              }
+              ${subtitle
+      ? `<div class="subtitle">${emojify(
+        md ? marked(subtitle) : sanitizeHtml(subtitle)
+      )}</div>`
+      : ""
+    }
               </div>
             <div class="footer-wrapper">
               ${getImage(footerImage, footerImageWidth, footerImageHeight)}

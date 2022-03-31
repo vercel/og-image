@@ -61,23 +61,31 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
 interface TextInputProps {
   value: string;
   oninput: (val: string) => void;
+  small: boolean;
+  placeholder?: string;
+  type?: string
 }
 
-const TextInput = ({ value, oninput }: TextInputProps) => {
-  return H(
-    "div",
-    { className: "input-outer-wrapper" },
-    H(
-      "div",
-      { className: "input-inner-wrapper" },
-      H("input", {
-        type: "text",
-        value,
-        oninput: (e: any) => oninput(e.target.value),
-      })
+const TextInput = ({ value, oninput, small, type = 'text', placeholder = '' }: TextInputProps) => {
+  return H('div',
+    { className: 'input-outer-wrapper' + (small ? ' small' : '') },
+    H('div',
+      { className: 'input-inner-wrapper' },
+      H('input',
+        { type, value, placeholder, oninput: (e: any) => oninput(e.target.value) }
+      )
     )
   );
-};
+}
+
+interface ButtonProps {
+  label: string;
+  onclick: () => void;
+}
+
+const Button = ({ label, onclick }: ButtonProps) => {
+  return H('button', { onclick }, label);
+}
 
 interface FieldProps {
   label: string;
@@ -144,27 +152,6 @@ const imageOptions: DropdownOption[] = [
   },
 ];
 
-const widthOptions = [
-  { text: "width", value: "auto" },
-  { text: "50", value: "50" },
-  { text: "100", value: "100" },
-  { text: "150", value: "150" },
-  { text: "200", value: "200" },
-  { text: "250", value: "250" },
-  { text: "300", value: "300" },
-  { text: "350", value: "350" },
-];
-
-const heightOptions = [
-  { text: "height", value: "auto" },
-  { text: "50", value: "50" },
-  { text: "100", value: "100" },
-  { text: "150", value: "150" },
-  { text: "200", value: "200" },
-  { text: "250", value: "250" },
-  { text: "300", value: "300" },
-  { text: "350", value: "350" },
-];
 
 interface AppState extends ParsedRequest {
   loading: boolean;
@@ -195,211 +182,270 @@ const App = (_: any, state: AppState, setState: SetState) => {
     setState({ ...newState, loading: true });
   };
   const {
-    fileType = "png",
-    fontSize = "150px",
-    theme = "light",
-    kicker = "a kicker",
-    title = "A title",
-    subtitle = "A subtitle",
-    mainImage = imageOptions[0].value,
-    mainImageWidth = widthOptions[7].value,
-    mainImageHeight = widthOptions[7].value,
-    footerImage = imageOptions[1].value,
-    footerImageWidth = widthOptions[0].value,
-    footerImageHeight = widthOptions[1].value,
+    fileType = 'png',
+    fontSize = '100px',
+    theme = 'light',
+    md = true,
+    text = '**Hello** World',
+    images = [imageLightOptions[0].value],
+    widths = [],
+    heights = [],
     showToast = false,
-    messageToast = "",
+    messageToast = '',
     loading = true,
-    selectedMainImageIndex = 0,
-    selectedFooterImageIndex = 1,
+    selectedImageIndex = 0,
     overrideUrl = null,
   } = state;
-  const url = new URL(window.location.origin);
-  url.pathname = `${encodeURIComponent(title)}.${fileType}`;
-  url.searchParams.append("kicker", kicker);
-  url.searchParams.append("subtitle", subtitle);
-  url.searchParams.append("theme", theme);
-  url.searchParams.append("fontSize", fontSize);
-  url.searchParams.append("mainImage", mainImage);
-  url.searchParams.append("mainImageWidth", mainImageWidth);
-  url.searchParams.append("mainImageHeight", mainImageHeight);
-  url.searchParams.append("footerImage", footerImage);
-  url.searchParams.append("footerImageWidth", footerImageWidth);
-  url.searchParams.append("footerImageHeight", footerImageHeight);
 
-  return H(
-    "div",
-    { className: "split" },
-    H(
-      "div",
-      { className: "pull-left" },
-      H(
-        "div",
+  const mdValue = md ? '1' : '0';
+  const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
+  const url = new URL(window.location.origin);
+  url.pathname = `${encodeURIComponent(text)}.${fileType}`;
+  url.searchParams.append('theme', theme);
+  url.searchParams.append('md', mdValue);
+  url.searchParams.append('fontSize', fontSize);
+  for (let image of images) {
+    url.searchParams.append('images', image);
+  }
+  for (let width of widths) {
+    url.searchParams.append('widths', width);
+  }
+  if (newState.overrideUrl) {
+    timeout = window.setTimeout(() => setState({ overrideUrl: null }), 200);
+  }
+
+  return H('div',
+    { className: 'split' },
+    H('div',
+      { className: 'pull-left' },
+      H('div',
         H(Field, {
-          label: "Theme",
+          label: 'Theme',
           input: H(Dropdown, {
             options: themeOptions,
             value: theme,
             onchange: (val: Theme) => {
-              let clone = mainImage;
-              clone = imageOptions[selectedMainImageIndex].value;
-              setLoadingState({ theme: val, mainImage: clone });
-            },
-          }),
+              const options = val === 'light' ? imageLightOptions : imageDarkOptions
+              let clone = [...images];
+              clone[0] = options[selectedImageIndex].value;
+              setLoadingState({ theme: val, images: clone });
+            }
+          })
         }),
         H(Field, {
-          label: "File Type",
+          label: 'File Type',
           input: H(Dropdown, {
             options: fileTypeOptions,
             value: fileType,
-            onchange: (val: FileType) => setLoadingState({ fileType: val }),
-          }),
+            onchange: (val: FileType) => setLoadingState({ fileType: val })
+          })
         }),
         H(Field, {
-          label: "Font Size",
+          label: 'Font Size',
           input: H(Dropdown, {
             options: fontSizeOptions,
             value: fontSize,
-            onchange: (val: string) => setLoadingState({ fontSize: val }),
-          }),
+            onchange: (val: string) => setLoadingState({ fontSize: val })
+          })
         }),
         H(Field, {
-          label: "Kicker",
+          label: 'Text Type',
+          input: H(Dropdown, {
+            options: markdownOptions,
+            value: mdValue,
+            onchange: (val: string) => setLoadingState({ md: val === '1' })
+          })
+        }),
+        H(Field, {
+          label: 'Text Input',
           input: H(TextInput, {
-            value: kicker,
+            value: text,
             oninput: (val: string) => {
-              setLoadingState({ kicker: val, overrideUrl: url });
-            },
-          }),
+              console.log('oninput ' + val);
+              setLoadingState({ text: val, overrideUrl: url });
+            }
+          })
         }),
         H(Field, {
-          label: "Title",
-          input: H(TextInput, {
-            value: title,
-            oninput: (val: string) => {
-              setLoadingState({ title: val, overrideUrl: url });
-            },
-          }),
-        }),
-        H(Field, {
-          label: "Subtitle",
-          input: H(TextInput, {
-            value: subtitle,
-            oninput: (val: string) => {
-              setLoadingState({ subtitle: val, overrideUrl: url });
-            },
-          }),
-        }),
-        H(Field, {
-          label: "Main Image",
-          input: H(
-            "div",
+          label: 'Image 1',
+          input: H('div',
             H(Dropdown, {
               options: imageOptions,
-              value: imageOptions[selectedMainImageIndex].value,
+              value: imageOptions[selectedImageIndex].value,
               onchange: (val: string) => {
-                const selected = imageOptions.map((o) => o.value).indexOf(val);
-                setLoadingState({
-                  mainImage: val,
-                  selectedMainImageIndex: selected,
-                });
-              },
+                let clone = [...images];
+                clone[0] = val;
+                const selected = imageOptions.map(o => o.value).indexOf(val);
+                setLoadingState({ images: clone, selectedImageIndex: selected });
+              }
             }),
-            H(
-              "div",
-              { className: "field-flex" },
-              H(Dropdown, {
-                options: widthOptions,
-                value: mainImageWidth,
+            H('div',
+              { className: 'field-flex' },
+              H(TextInput, {
+                value: widths[0],
+                type: 'number',
+                placeholder: 'width',
                 small: true,
-                onchange: (val: string) => {
-                  setLoadingState({ mainImageWidth: val });
-                },
+                oninput: (val: string) => {
+                  let clone = [...widths];
+                  clone[0] = val;
+                  setLoadingState({ widths: clone });
+                }
               }),
-              H(Dropdown, {
-                options: heightOptions,
-                value: mainImageHeight,
+              H(TextInput, {
+                value: heights[0],
+                type: 'number',
+                placeholder: 'height',
                 small: true,
-                onchange: (val: string) => {
-                  setLoadingState({ mainImageHeight: val });
-                },
+                oninput: (val: string) => {
+                  let clone = [...heights];
+                  clone[0] = val;
+                  setLoadingState({ heights: clone });
+                }
               })
             )
           ),
         }),
-        H(Field, {
-          label: "Footer Image",
-          input: H(
-            "div",
-            H(Dropdown, {
-              options: imageOptions,
-              value: imageOptions[selectedFooterImageIndex].value,
-              onchange: (val: string) => {
-                const selected = imageOptions.map((o) => o.value).indexOf(val);
-                setLoadingState({
-                  footerImage: val,
-                  selectedFooterImageIndex: selected,
-                });
-              },
+        ...images.slice(1).map((image, i) => H(Field, {
+          label: `Image ${i + 2}`,
+          input: H('div',
+            H(TextInput, {
+              value: image,
+              oninput: (val: string) => {
+                let clone = [...images];
+                clone[i + 1] = val;
+                setLoadingState({ images: clone, overrideUrl: url });
+              }
             }),
-            H(
-              "div",
-              { className: "field-flex" },
-              H(Dropdown, {
-                options: widthOptions,
-                value: footerImageWidth,
+            H('div',
+              { className: 'field-flex' },
+              H(TextInput, {
+                value: widths[i + 1],
+                type: 'number',
+                placeholder: 'width',
                 small: true,
-                onchange: (val: string) => {
-                  setLoadingState({ footerImageWidth: val });
-                },
+                oninput: (val: string) => {
+                  let clone = [...widths];
+                  clone[i + 1] = val;
+                  setLoadingState({ widths: clone });
+                }
               }),
-              H(Dropdown, {
-                options: heightOptions,
-                value: footerImageHeight,
+              H(TextInput, {
+                value: heights[i + 1],
+                type: 'number',
+                placeholder: 'height',
                 small: true,
-                onchange: (val: string) => {
-                  setLoadingState({ footerImageHeight: val });
-                },
+                oninput: (val: string) => {
+                  let clone = [...heights];
+                  clone[i + 1] = val;
+                  setLoadingState({ heights: clone });
+                }
+              })
+            ),
+            H('div',
+              { className: 'field-flex' },
+              H(Button, {
+                label: `Remove Image ${i + 2}`,
+                onclick: (e: MouseEvent) => {
+                  e.preventDefault();
+                  const filter = (arr: any[]) => [...arr].filter((_, n) => n !== i + 1);
+                  const imagesClone = filter(images);
+                  const widthsClone = filter(widths);
+                  const heightsClone = filter(heights);
+                  setLoadingState({ images: imagesClone, widths: widthsClone, heights: heightsClone });
+                }
               })
             )
-          ),
+          )
+        })),
+        H(Field, {
+          label: `Image ${images.length + 1}`,
+          input: H(Button, {
+            label: `Add Image ${images.length + 1}`,
+            onclick: () => {
+              const nextImage = images.length === 1
+                ? 'https://cdn.jsdelivr.net/gh/remojansen/logo.ts@master/ts.svg'
+                : '';
+              setLoadingState({ images: [...images, nextImage] })
+            }
+          }),
+        }),
+      )
+    ),
+        }),
+  H(Field, {
+    label: "Footer Image",
+    input: H(
+      "div",
+      H(Dropdown, {
+        options: imageOptions,
+        value: imageOptions[selectedFooterImageIndex].value,
+        onchange: (val: string) => {
+          const selected = imageOptions.map((o) => o.value).indexOf(val);
+          setLoadingState({
+            footerImage: val,
+            selectedFooterImageIndex: selected,
+          });
+        },
+      }),
+      H(
+        "div",
+        { className: "field-flex" },
+        H(Dropdown, {
+          options: widthOptions,
+          value: footerImageWidth,
+          small: true,
+          onchange: (val: string) => {
+            setLoadingState({ footerImageWidth: val });
+          },
+        }),
+        H(Dropdown, {
+          options: heightOptions,
+          value: footerImageHeight,
+          small: true,
+          onchange: (val: string) => {
+            setLoadingState({ footerImageHeight: val });
+          },
         })
       )
     ),
-    H(
-      "div",
-      { className: "pull-right" },
-      H(ImagePreview, {
-        src: overrideUrl ? overrideUrl.href : url.href,
-        loading: loading,
-        onload: () => setState({ loading: false }),
-        onerror: () => {
-          setState({
-            showToast: true,
-            messageToast: "Oops, an error occurred",
-          });
-          setTimeout(() => setState({ showToast: false }), 2000);
-        },
-        onclick: (e: Event) => {
-          e.preventDefault();
-          const success = copee.toClipboard(url.href);
-          if (success) {
-            setState({
-              showToast: true,
-              messageToast: "Copied image URL to clipboard",
-            });
-            setTimeout(() => setState({ showToast: false }), 3000);
-          } else {
-            window.open(url.href, "_blank");
-          }
-          return false;
-        },
-      })
+  })
+      )
     ),
-    H(Toast, {
-      message: messageToast,
-      show: showToast,
-    })
+H(
+  "div",
+  { className: "pull-right" },
+  H(ImagePreview, {
+    src: overrideUrl ? overrideUrl.href : url.href,
+    loading: loading,
+    onload: () => setState({ loading: false }),
+    onerror: () => {
+      setState({
+        showToast: true,
+        messageToast: "Oops, an error occurred",
+      });
+      setTimeout(() => setState({ showToast: false }), 2000);
+    },
+    onclick: (e: Event) => {
+      e.preventDefault();
+      const success = copee.toClipboard(url.href);
+      if (success) {
+        setState({
+          showToast: true,
+          messageToast: "Copied image URL to clipboard",
+        });
+        setTimeout(() => setState({ showToast: false }), 3000);
+      } else {
+        window.open(url.href, "_blank");
+      }
+      return false;
+    },
+  })
+),
+  H(Toast, {
+    message: messageToast,
+    show: showToast,
+  })
   );
 };
 
