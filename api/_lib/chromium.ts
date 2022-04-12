@@ -13,10 +13,11 @@ async function getPage(isDev: boolean) {
     return _page;
 }
 
-export async function getScreenshot(html: string, type: FileType, isDev: boolean) {
+export async function getScreenshot(url: string, type: FileType, width: number, height: number, isDev: boolean) {
     const page = await getPage(isDev);
-    await page.setViewport({ width: 2048, height: 1170 });
-    await page.setContent(html);
+    await page.setViewport({ width, height });
+    await page.goto(url);
+    await page.waitForTimeout(2000);
     const file = await page.screenshot({ type });
     return file;
 }

@@ -1,12 +1,18 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "regions": ["all"],
-  "functions": {
-    "api/**": {
-      "memory": 3008
-    }
-  },
   "rewrites": [
     { "source": "/(.+)", "destination": "/api" }
+  ],
+  "headers": [
+    {
+      "source": "/(.+)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
   ]
 }
