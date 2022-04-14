@@ -1,8 +1,12 @@
-export type FileType = 'png' | 'jpeg';
+export type ResponseFormat = 'json' | 'jpeg';
 
 export interface ParsedRequest {
-    fileType: FileType;
+    responseFormat: ResponseFormat;
     nodeID: string,
     width: number;
     height: number;
+}
+
+export interface JSONResponse {
+    screenshot: string
 }

@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'http';
-import { ParsedRequest } from './types';
+import { ParsedRequest, ResponseFormat } from './types';
 
 export function parseRequest(req: IncomingMessage) {
     if (!req.url) {
@@ -15,7 +15,7 @@ export function parseRequest(req: IncomingMessage) {
     const width = parseInt(searchParams.get("width") || '1200')
     const height = parseInt(searchParams.get("height") || '800')
     const nodeID = searchParams.get("node_id")
-
+    let responseFormatParam = searchParams.get("response_format") || 'jpeg'
 
     if (!nodeID) {
         throw new Error('node_id required')
@@ -27,8 +27,15 @@ export function parseRequest(req: IncomingMessage) {
         throw new Error('bad height')
     }
 
+    let responseFormat: ResponseFormat
+    if (responseFormatParam === 'jpeg' || responseFormatParam === 'json') {
+        responseFormat = <ResponseFormat> responseFormatParam
+    } else {
+        throw new Error('bad response format')
+    }
+
     const parsedRequest: ParsedRequest = {
-        fileType: 'png',
+        responseFormat,
         nodeID,
         width,
         height,

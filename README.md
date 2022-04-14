@@ -23,8 +23,9 @@ Deploy to the cloud by running `vercel` and you'll get a unique URL. You'll need
 You can make requests to `/api` with the following query string parameters:
 
 - `node_id` **required** - the id of the node you want to capture
-- `width` optional - the width in pixels for the capturing viewpoint and resulting image size (default 1200)
-- `height` optional - the height in pixels for the capturing viewpoint and resulting image size (default 800)
+- `width` optional - the width in pixels for the capturing viewpoint and resulting image size (default `1200`)
+- `height` optional - the height in pixels for the capturing viewpoint and resulting image size (default `800`)
+- `response_format` optional - the output format for the screenshot. Accepts values `png` or `json` (default `png`)
 
 ## Authors
 
