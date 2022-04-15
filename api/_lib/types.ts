@@ -1,8 +1,10 @@
 export type ResponseFormat = 'json' | 'jpeg';
+export type ItemType = 'project' | 'node';
 
 export interface ParsedRequest {
     responseFormat: ResponseFormat;
-    nodeID: string,
+    itemID: string;
+    itemType: ItemType;
     width: number;
     height: number;
 }

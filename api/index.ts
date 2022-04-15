@@ -9,9 +9,10 @@ const isDev = !process.env.AWS_REGION;
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
         const parsedReq = parseRequest(req);
-        const { responseFormat, width, height } = parsedReq;
+        const { responseFormat, width, height, itemID, itemType } = parsedReq;
 
-        const url = path.join(process.env.NAVATTIC_APP_URL || '', 'n', parsedReq.nodeID)
+        const url = path.join(process.env.NAVATTIC_CAPTURE_PLAYER_URL || '', itemType === 'node' ? 'n' : '', itemID)
+        console.log('requesting', url)
         // file will be a buffer (binary data) if responseFormat is jpeg and it will be a string if responseFormat is json
         const file = await getScreenshot(url, width, height, isDev, responseFormat);
         res.statusCode = 200;

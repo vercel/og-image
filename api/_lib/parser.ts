@@ -1,25 +1,40 @@
 import { IncomingMessage } from 'http';
-import { ParsedRequest, ResponseFormat } from './types';
+import { ItemType, ParsedRequest, ResponseFormat } from './types';
 
 export function parseRequest(req: IncomingMessage) {
+
     if (!req.url) {
         throw new Error('url not valid')
     }
 
-    const questionIndex = req.url.indexOf('?')
-    if (!questionIndex || questionIndex < 0) {
-        throw new Error('no parameters given')
+    if (req.headers.authorization !== process.env.AUTH_SHARED_KEY) {
+        throw new Error('unauthorized')
     }
 
-    const searchParams = new URLSearchParams(req.url.substring(questionIndex+1))
+    let itemType: ItemType
+    
+    if (req.url.startsWith('/api/p/')) {
+        itemType = 'project'
+    } else if (req.url.startsWith('/api/n/')) {
+        itemType = 'node'
+    } else {
+        throw new Error('unknown endpoint')
+    }
+
+    const itemID = req.url.slice(7)
+
+    const questionIndex = req.url.indexOf('?')
+    let searchParams: URLSearchParams
+    if (!questionIndex || questionIndex < 0) {
+        searchParams = new URLSearchParams()
+    } else {
+        searchParams = new URLSearchParams(req.url.substring(questionIndex+1))
+    }
+
     const width = parseInt(searchParams.get("width") || '1200')
     const height = parseInt(searchParams.get("height") || '800')
-    const nodeID = searchParams.get("node_id")
     let responseFormatParam = searchParams.get("response_format") || 'jpeg'
 
-    if (!nodeID) {
-        throw new Error('node_id required')
-    }
     if (isNaN(width)) {
         throw new Error('bad width')
     }
@@ -36,9 +51,10 @@ export function parseRequest(req: IncomingMessage) {
 
     const parsedRequest: ParsedRequest = {
         responseFormat,
-        nodeID,
+        itemType,
         width,
         height,
+        itemID
     };
     return parsedRequest;
 }
