@@ -12,8 +12,8 @@
 
 First make sure you have the vercel CLI installed via `npm install -g vercel`
 
-(Replace environment variables with your values)  
-`CHROME_PATH=/usr/bin/chromium NAVATTIC_CAPTURE_PLAYER_URL="http://localhost:8787" vercel dev -l 3001`
+(Replace environment variables with your values if needed)  
+`AUTH_SHARED_KEY=xyz NAVATTIC_CAPTURE_PLAYER_URL="http://localhost:8787" vercel dev -l 3001`
 
 Test by going to `http://localhost:3001/api?node_id={some node ID here}` in your browser. After a few seconds you should see a screenshot load on the page.
 
