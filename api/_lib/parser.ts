@@ -1,17 +1,40 @@
 import { IncomingMessage } from 'http';
 import { parse } from 'url';
+import fetch from 'node-fetch'
 import { ParsedRequest, Theme } from './types';
 
-export function parseRequest(req: IncomingMessage) {
+const gqlQuery = `query room($id: Int!) {
+    room(id: $id) {
+      id
+      title
+      description
+      start
+      end
+      type
+      creator {
+        id
+        firstName
+        lastName
+        username
+        avatar
+      }
+    }
+  }`;
+  
+
+export async function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
     const { pathname, query } = parse(req.url || '/', true);
-    const { fontSize, images, widths, heights, theme, md } = (query || {});
+    const { fontSize, images, widths, heights, theme, md, room, background } = (query || {});
 
     if (Array.isArray(fontSize)) {
         throw new Error('Expected a single fontSize');
     }
     if (Array.isArray(theme)) {
         throw new Error('Expected a single theme');
+    }
+    if (Array.isArray(background)) {
+        throw new Error('Expected a single background');
     }
     
     const arr = (pathname || '/').slice(1).split('.');
@@ -26,13 +49,30 @@ export function parseRequest(req: IncomingMessage) {
         text = arr.join('.');
     }
 
+    let json: any
+    if(room) {
+        const response = await fetch('https://api.getonmic.com/graphql', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              query: gqlQuery,
+              variables: { id: Number(room) },
+            })
+          })
+        json = await response.json()
+    }
+
     const parsedRequest: ParsedRequest = {
         fileType: extension === 'jpeg' ? extension : 'png',
-        text: decodeURIComponent(text),
+        text: json?.data?.room ? json?.data?.room?.title : decodeURIComponent(text),
         theme: theme === 'dark' ? 'dark' : 'light',
         md: md === '1' || md === 'true',
-        fontSize: fontSize || '96px',
-        images: getArray(images),
+        fontSize: fontSize || '75px',
+        background: background || 'https://static.getonmic.com/h4.png',
+        images: json?.data?.room ? [json?.data?.room?.creator?.avatar] : getArray(images),
         widths: getArray(widths),
         heights: getArray(heights),
     };
@@ -58,8 +98,8 @@ function getDefaultImages(images: string[], theme: Theme): string[] {
     if (!images || !images[0]) {
         return [defaultImage];
     }
-    if (!images[0].startsWith('https://assets.vercel.com/') && !images[0].startsWith('https://assets.zeit.co/')) {
-        images[0] = defaultImage;
-    }
+    // if (!images[0].startsWith('https://assets.vercel.com/') && !images[0].startsWith('https://assets.zeit.co/')) {
+    //     images[0] = defaultImage;
+    // }
     return images;
 }
