@@ -21,6 +21,13 @@ const gqlQuery = `query room($id: Int!) {
     }
   }`;
   
+function truncateString(str: string, num: number): string {
+    if (str.length > num) {
+        return str.slice(0, num) + "...";
+    } else {
+        return str;
+    }
+}
 
 export async function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
@@ -67,9 +74,9 @@ export async function parseRequest(req: IncomingMessage) {
 
     const parsedRequest: ParsedRequest = {
         fileType: extension === 'jpeg' ? extension : 'png',
-        text: json?.data?.room ? json?.data?.room?.title : decodeURIComponent(text),
+        text: json?.data?.room ? `**${truncateString(json?.data?.room?.title, 35)}**` : decodeURIComponent(text),
         theme: theme === 'dark' ? 'dark' : 'light',
-        md: md === '1' || md === 'true',
+        md: md === '1' || md === 'true' || !!json?.data?.room,
         fontSize: fontSize || '75px',
         background: background || 'https://static.getonmic.com/h4.png',
         images: json?.data?.room ? [json?.data?.room?.creator?.avatar] : getArray(images),
