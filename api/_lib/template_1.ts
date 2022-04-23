@@ -6,8 +6,8 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
+const rglr = readFileSync(`${__dirname}/../_fonts/Montserrat-Regular.woff2`).toString('base64');
+const bold = readFileSync(`${__dirname}/../_fonts/Montserrat-SemiBold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
 
 function getCss(theme: string, fontSize: string, backgroundImg: string) {
@@ -22,14 +22,14 @@ function getCss(theme: string, fontSize: string, backgroundImg: string) {
     }
     return `
     @font-face {
-        font-family: 'Inter';
+        font-family: 'Montserrat';
         font-style:  normal;
         font-weight: normal;
         src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
     }
 
     @font-face {
-        font-family: 'Inter';
+        font-family: 'Montserrat';
         font-style:  normal;
         font-weight: bold;
         src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
@@ -77,8 +77,6 @@ function getCss(theme: string, fontSize: string, backgroundImg: string) {
 
     .logo-wrapper img {
         border-radius: 50%;
-        width: 250px;
-        height: 250px;
     }
 
     .spacer {
@@ -93,7 +91,7 @@ function getCss(theme: string, fontSize: string, backgroundImg: string) {
     }
     
     .heading {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Montserrat', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
@@ -106,7 +104,7 @@ function getCss(theme: string, fontSize: string, backgroundImg: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, background } = parsedReq;
+    const { text, theme, md, fontSize, images, widths, heights, background } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -124,12 +122,18 @@ export function getHtml(parsedReq: ParsedRequest) {
             </div>
         </div>
         <div class="logo-wrapper">
-        <img
-            class="logo"
-            alt="Generated Image"
-            src="${sanitizeHtml(images[0])}"
-        />
+        ${getImage(images[0], widths[0], heights[0])}
         </div>
     </body>
 </html>`;
+}
+
+function getImage(src: string, width ='auto', height = '280') {
+    return `<img
+        class="logo"
+        alt="Generated Image"
+        src="${sanitizeHtml(src)}"
+        width="${sanitizeHtml(width)}"
+        height="${sanitizeHtml(height)}"
+    />`
 }
