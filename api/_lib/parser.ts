@@ -74,7 +74,7 @@ export async function parseRequest(req: IncomingMessage) {
 
     const parsedRequest: ParsedRequest = {
         fileType: extension === 'jpeg' ? extension : 'png',
-        text: json?.data?.room ? `**${truncateString(json?.data?.room?.title, 35)}**` : decodeURIComponent(text),
+        text: json?.data?.room ? `${truncateString(json?.data?.room?.title, 56)}` : decodeURIComponent(text),
         theme: theme === 'dark' ? 'dark' : 'light',
         md: md === '1' || md === 'true' || !!json?.data?.room,
         fontSize: fontSize || '75px',
