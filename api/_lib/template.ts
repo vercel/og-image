@@ -41,11 +41,6 @@ function getCss(theme: string, fontSize: string) {
         src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
       }
     body {
-        background: url("squad-meta-share.png") no-repeat center center fixed; 
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
         height: 100vh;
         display: flex;
         text-align: center;
@@ -92,6 +87,20 @@ function getCss(theme: string, fontSize: string) {
         margin: 0 .05em 0 .1em;
         vertical-align: -0.1em;
     }
+
+    .background-image {
+        position: absolute;
+        inset: 0;
+        object-fit: cover;
+        width: 100%;
+        height: 101%;
+        z-index: 0;
+    }
+
+    .content {
+        position: relative;
+        z-index: 1;
+    }
     
     .heading {
         font-family: "ABC Favorit", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -102,6 +111,7 @@ function getCss(theme: string, fontSize: string) {
         color: ${foreground};
         line-height: 1.8;
     }`;
+
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
@@ -115,7 +125,12 @@ export function getHtml(parsedReq: ParsedRequest) {
         ${getCss(theme, fontSize)}
     </style>
     <body>
-        <div>
+        <img
+        class="background-image"
+        alt="Prysm background"
+        src="https://nccmlpufieusnuqflhrr.supabase.co/storage/v1/object/public/squads-og-logos/squad-meta-share.png"
+        />
+        <div class="content">
             <div class="spacer">
             <div class="spacer">
             <div class="heading">${emojify(
