@@ -1,65 +1,63 @@
-import { IncomingMessage } from "http"
-import { parse } from "url"
-import { ParsedRequest } from "./types"
-import { readFileSync } from "fs"
-import path from "path"
+import { IncomingMessage } from 'http'
+import { parse } from 'url'
+import { ParsedRequest } from './types'
+import { readFileSync } from 'fs'
+import path from 'path'
 
-const TemplateValues = ["site", "blog", "learn", "docs"]
+const TemplateValues = ['site', 'blog', 'learn', 'docs']
 
 export function parseRequest(req: IncomingMessage) {
-  console.log("HTTP " + req.url)
-  const { pathname, query } = parse(req.url || "/", true)
+  console.log('HTTP ' + req.url)
+  const { pathname, query } = parse(req.url || '/', true)
   const {
-    template = "site",
+    template = 'site',
     fontSize,
     image,
     width,
     height,
     titleText,
-    subtitleText,
     breadcrumbsText,
   } = query || {}
-  const extension = pathname?.split("/")?.pop() ?? "png"
+  const extension = pathname?.split('/')?.pop() ?? 'png'
 
   if (Array.isArray(template)) {
-    throw new Error("Expected a single template")
+    throw new Error('Expected a single template')
   }
   if (Array.isArray(fontSize)) {
-    throw new Error("Expected a single fontSize")
+    throw new Error('Expected a single fontSize')
   }
 
   const parsedRequest: ParsedRequest = {
     templateImage: getTemplateB64Image(
-      TemplateValues.includes(template) ? template : "blog"
+      TemplateValues.includes(template) ? template : 'blog'
     ),
     template: template,
-    fileType: extension === "jpeg" ? extension : "png",
-    fontSize: fontSize || "96px",
-    image: !Array.isArray(image) && image ? image : "",
-    width: !Array.isArray(width) && width ? width : "",
-    height: !Array.isArray(height) && height ? height : "",
-    titleText: decodeURIComponent((titleText || "") as string),
-    subtitleText: decodeURIComponent((subtitleText || "") as string),
-    breadcrumbsText: decodeURIComponent((breadcrumbsText || "") as string),
+    fileType: extension === 'jpeg' ? extension : 'png',
+    fontSize: fontSize || '96px',
+    image: !Array.isArray(image) && image ? image : '',
+    width: !Array.isArray(width) && width ? width : '',
+    height: !Array.isArray(height) && height ? height : '',
+    titleText: decodeURIComponent((titleText || '') as string),
+    breadcrumbsText: decodeURIComponent((breadcrumbsText || '') as string),
   }
-  if (template === "blog" && !parsedRequest.image) {
+  if (template === 'blog' && !parsedRequest.image) {
     const fatRakun =
-      "data:image/svg+xml;base64," +
+      'data:image/svg+xml;base64,' +
       readFileSync(
-        path.join(process.cwd(), "api", "_imgs", "_fat-rakun.svg")
-      ).toString("base64")
+        path.join(process.cwd(), 'api', '_imgs', '_fat-rakun.svg')
+      ).toString('base64')
     parsedRequest.image = fatRakun
-    parsedRequest.width = "250"
-    parsedRequest.height = "250"
+    parsedRequest.width = '250'
+    parsedRequest.height = '250'
   }
   return parsedRequest
 }
 
 function getTemplateB64Image(template: string): string {
   return (
-    "data:image/svg+xml;base64," +
+    'data:image/svg+xml;base64,' +
     readFileSync(
-      path.join(process.cwd(), "api", "_imgs", `_template-${template}.svg`)
-    ).toString("base64")
+      path.join(process.cwd(), 'api', '_imgs', `_template-${template}.svg`)
+    ).toString('base64')
   )
 }

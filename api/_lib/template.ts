@@ -1,13 +1,21 @@
-import { readFileSync } from "fs"
-import { sanitizeHtml } from "./sanitizer"
-import { ParsedRequest } from "./types"
-const twemoji = require("twemoji")
-const twOptions = { folder: "svg", ext: ".svg" }
+import { readFileSync } from 'fs'
+import { sanitizeHtml } from './sanitizer'
+import { ParsedRequest } from './types'
+const twemoji = require('twemoji')
+const twOptions = { folder: 'svg', ext: '.svg' }
 const emojify = (text: string) => twemoji.parse(text, twOptions)
 
-const inter = readFileSync(`${__dirname}/../_fonts/Inter.var.woff2`).toString("base64")
+const inter = readFileSync(`${__dirname}/../_fonts/Inter.var.woff2`).toString(
+  'base64'
+)
 
-function getCss(templateImage: string, template: string, fontSize: string, width: string, height: string) {
+function getCss(
+  templateImage: string,
+  template: string,
+  fontSize: string,
+  width: string,
+  height: string
+) {
   return `
     p,
     body {
@@ -40,7 +48,7 @@ function getCss(templateImage: string, template: string, fontSize: string, width
 
     .container {
         height: 100vh;
-        padding: ${template === "site" ? "0" : "0 50px"};
+        padding: ${template === 'site' ? '0' : '0 50px'};
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -49,8 +57,8 @@ function getCss(templateImage: string, template: string, fontSize: string, width
     .text__wrapper {
       flex-basis: ${template === 'blog' ? '60%' : '75%'};
       display: flex;
-      ${template === 'site' ? 'align-items: center;': ''}
-      margin: ${template === "site" ? "0 auto" : "0"};
+      ${template === 'site' ? 'align-items: center;' : ''}
+      margin: ${template === 'site' ? '0 auto' : '0'};
       flex-direction: column;
     }
 
@@ -60,7 +68,7 @@ function getCss(templateImage: string, template: string, fontSize: string, width
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      margin: ${template === "site" ? "60px auto 0px auto" : "0"};
+      margin: ${template === 'site' ? '60px auto 0px auto' : '0'};
     }
 
     .text__breadcrumbs {
@@ -84,21 +92,8 @@ function getCss(templateImage: string, template: string, fontSize: string, width
         font-weight: 600;
         color: #1F2D3D;
         letter-spacing: 0.4px;
-        text-align: ${template === "site" ? "center" : "left"};
-        margin: ${template === "site" ? "0 auto" : "0"};
-
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-        overflow: hidden;
-    }
-
-    .text__titles--subtitle {
-        font-family: 'Inter', sans-serif;
-        color: #777;
-        margin-top: 10px;
-        font-size: 2rem;
-        text-align: ${template === "site" ? "center" : "left"};
+        text-align: ${template === 'site' ? 'center' : 'left'};
+        margin: ${template === 'site' ? '0 auto' : '0'};
 
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -114,7 +109,9 @@ function getCss(templateImage: string, template: string, fontSize: string, width
     }
 
     .blog__image > .logo {
-        border: ${(height === '250' && width === '250') ? 'none' : '1px solid #E0E6ED'};
+        border: ${
+          height === '250' && width === '250' ? 'none' : '1px solid #E0E6ED'
+        };
         box-sizing: border-box;
         border-radius: 3px;
     }`
@@ -129,7 +126,6 @@ export function getHtml(parsedReq: ParsedRequest) {
     width,
     height,
     titleText,
-    subtitleText,
     breadcrumbsText,
   } = parsedReq
   return `<!DOCTYPE html>
@@ -144,37 +140,33 @@ export function getHtml(parsedReq: ParsedRequest) {
       <div class="container">
         <div class="text__wrapper">
           <div class="text__breadcrumbs">
-          ${((template === "learn" || template === "docs") && breadcrumbsText) ? emojify(
-            sanitizeHtml(breadcrumbsText)
-          ) : ''} 
+          ${
+            (template === 'learn' || template === 'docs') && breadcrumbsText
+              ? emojify(sanitizeHtml(breadcrumbsText))
+              : ''
+          } 
           </div>
           <div class="text__titles">
-            <div class="text__titles--title">${emojify(sanitizeHtml(titleText))} </div>
-            <div class="text__titles--subtitle">
-              ${subtitleText && emojify(
-                sanitizeHtml(subtitleText)
-              )} 
-            </div>
+            <div class="text__titles--title">${emojify(
+              sanitizeHtml(titleText)
+            )} </div>
           </div>
         </div>
-        ${(template === "blog" &&
-          image) ?
-          `<div class="blog__image"> ${getImage(
-            image,
-            width,
-            height
-          )} </div>` : ''
+        ${
+          template === 'blog' && image
+            ? `<div class="blog__image"> ${getImage(
+                image,
+                width,
+                height
+              )} </div>`
+            : ''
         }
       </div>
     </body>
 </html>`
 }
 
-function getImage(
-  src: string,
-  width = "auto",
-  height = "240"
-) {
+function getImage(src: string, width = 'auto', height = '240') {
   return `<img
         class="logo"
         alt="Generated Image"

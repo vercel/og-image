@@ -1,5 +1,5 @@
-export type FileType = "png" | "jpeg"
-export type Template = "site" | "docs" | "learn" | "blog"
+export type FileType = 'png' | 'jpeg'
+export type Template = 'site' | 'docs' | 'learn' | 'blog'
 
 export interface ParsedRequest {
   template: Template | string
@@ -10,6 +10,5 @@ export interface ParsedRequest {
   width: string
   height: string
   titleText: string
-  subtitleText: string
   breadcrumbsText: string
 }
