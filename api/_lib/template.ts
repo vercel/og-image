@@ -72,15 +72,15 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .logo-wrapper {
-        display: none;
-    }
-
-    .logo {
         display: flex;
         align-items: center;
         align-content: center;
         justify-content: center;
         justify-items: center;
+    }
+
+    .logo {
+        margin: 0 75px;
     }
 
     .plus {
