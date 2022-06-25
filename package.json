@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "chrome-aws-lambda": "7.0.0",
+    "dotenv": "^16.0.1",
     "marked": "4.0.10",
     "puppeteer-core": "13.1.2",
     "twemoji": "13.0.1"
