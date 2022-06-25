@@ -51,9 +51,7 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
 }
 
 function getDefaultImages(images: string[], theme: Theme): string[] {
-    const defaultImage = theme === 'light'
-        ? 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg'
-        : 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg';
+    const defaultImage = 'https://raw.githubusercontent.com/yashikota/blog/master/data/logo.svg';
 
     if (!images || !images[0]) {
         return [defaultImage];

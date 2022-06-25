@@ -76,7 +76,11 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .logo {
-        margin: 0 75px;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        justify-items: center;
     }
 
     .plus {
