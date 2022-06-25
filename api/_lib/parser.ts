@@ -50,7 +50,7 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
     }
 }
 
-function getDefaultImages(images: string[], theme: Theme): string[] {
+function getDefaultImages(images: string[]): string[] {
     const defaultImage = 'https://raw.githubusercontent.com/yashikota/blog/master/data/logo.svg';
 
     if (!images || !images[0]) {
