@@ -12,10 +12,14 @@ interface Options {
 }
 
 export async function getOptions(isDev: boolean) {
+    const localArgs = ['--lang=ja', '--no-sandbox', '--disable-setuid-sandbox']
+    const productionArgs = ['--lang=ja']
+    const args = process.env.IS_LOCAL === "true" ? localArgs : productionArgs
+
     let options: Options;
     if (isDev) {
         options = {
-            args: [],
+            args: args,
             executablePath: exePath,
             headless: true
         };
