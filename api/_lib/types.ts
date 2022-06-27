@@ -12,4 +12,5 @@ export interface ParsedRequest {
     heights: string[];
     background: string;
     room?: number;
+    clipping?: boolean;
 }

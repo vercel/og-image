@@ -30,9 +30,9 @@ function truncateString(str: string, num: number): string {
 }
 
 export async function parseRequest(req: IncomingMessage) {
-    console.log('HTTP ' + req.url);
+    // console.log('HTTP ' + req.url);
     const { pathname, query } = parse(req.url || '/', true);
-    const { fontSize, images, widths, heights, theme, md, room, background } = (query || {});
+    const { fontSize, images, widths, heights, theme, md, room, background, clipping } = (query || {});
 
     if (Array.isArray(fontSize)) {
         throw new Error('Expected a single fontSize');
@@ -74,7 +74,7 @@ export async function parseRequest(req: IncomingMessage) {
 
     const parsedRequest: ParsedRequest = {
         fileType: extension === 'jpeg' ? extension : 'png',
-        text: json?.data?.room ? `${truncateString(json?.data?.room?.title, 56)}` : decodeURIComponent(text),
+        text: json?.data?.room ? `${truncateString(json?.data?.room?.title, 56)}` : truncateString(decodeURIComponent(text), 56),
         theme: theme === 'dark' ? 'dark' : 'light',
         md: md === '1' || md === 'true' || !!json?.data?.room,
         fontSize: fontSize || '75px',
@@ -82,6 +82,7 @@ export async function parseRequest(req: IncomingMessage) {
         images: json?.data?.room ? [json?.data?.room?.creator?.avatar] : getArray(images),
         widths: getArray(widths),
         heights: getArray(heights),
+        clipping: clipping === '1' || clipping === 'true',
     };
     parsedRequest.images = getDefaultImages(parsedRequest.images, parsedRequest.theme);
     return parsedRequest;

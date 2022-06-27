@@ -10,7 +10,7 @@ const rglr = readFileSync(`${__dirname}/../_fonts/Montserrat-Regular.woff2`).toS
 const bold = readFileSync(`${__dirname}/../_fonts/Montserrat-SemiBold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
 
-function getCss(theme: string, fontSize: string, backgroundImg: string) {
+function getCss(theme: string, fontSize: string, backgroundImg: string, clipping: boolean) {
     let background = 'white';
     let foreground = '#002251';
     // let radial = 'lightgray';
@@ -48,8 +48,8 @@ function getCss(theme: string, fontSize: string, backgroundImg: string) {
         background-image: url('${backgroundImg}');
         background-size: contain;
         background-repeat: no-repeat;
-        width: 1200px;
-        height: 630px;
+        width: ${clipping ? 800 : 1200}px;
+        height: ${clipping ? 800 : 630}px;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -83,6 +83,15 @@ function getCss(theme: string, fontSize: string, backgroundImg: string) {
         margin: 150px;
     }
 
+    .center-heading {
+        text-align: center;
+        width: 70%;
+        font-family: 'Montserrat', sans-serif;
+        font-size: ${sanitizeHtml(fontSize)};
+        font-style: normal;
+        color: ${foreground};
+    }
+
     .emoji {
         height: 1em;
         width: 1em;
@@ -103,27 +112,40 @@ function getCss(theme: string, fontSize: string, backgroundImg: string) {
     }`;
 }
 
-export function getHtml(parsedReq: ParsedRequest) {
+export function getHtml(parsedReq: ParsedRequest, clipping: boolean) {
     const { text, theme, md, fontSize, images, widths, heights, background } = parsedReq;
+    let body = `
+    <div class="title">
+        <div class="heading">
+        ${emojify(
+            md ? marked(text) : sanitizeHtml(text)
+        )}
+        </div>
+    </div>
+    <div class="logo-wrapper">
+    ${getImage(images[0], widths[0], heights[0])}
+    </div>
+    `
+    
+    if (clipping) {
+        body = `
+        <div class="center-heading">
+        <strong>${emojify(
+            md ? marked(text) : sanitizeHtml(text)
+        )}</strong>
+        </div>
+        `
+    }
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize, background)}
+        ${getCss(theme, fontSize, background, clipping)}
     </style>
     <body>
-        <div class="title">
-            <div class="heading">
-            ${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
-            </div>
-        </div>
-        <div class="logo-wrapper">
-        ${getImage(images[0], widths[0], heights[0])}
-        </div>
+    ${body}
     </body>
 </html>`;
 }
