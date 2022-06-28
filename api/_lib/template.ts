@@ -126,7 +126,6 @@ function getCss(theme: string, fontSize: string) {
         margin-top:-50px;
     }`
 
-    
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
