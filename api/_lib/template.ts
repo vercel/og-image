@@ -11,7 +11,7 @@ const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
 
-function getCss(theme: string, fontSize: string) {
+function getCss(theme: string) {
     let background = 'white';
     let foreground = 'black';
     let radial = 'lightgray';
@@ -48,10 +48,6 @@ function getCss(theme: string, fontSize: string) {
         background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
         background-size: 100px 100px;
         height: 100vh;
-        display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
     }
 
     code {
@@ -65,16 +61,16 @@ function getCss(theme: string, fontSize: string) {
         content: '\`';
     }
 
-    .logo-wrapper {
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
+    .header { 
+        display:flex;
+        align-items:center;
+        position:fixed;
+        left: 0;
+        top:0;
     }
 
     .logo {
-        margin: 0 75px;
+        margin: 50px
     }
 
     .plus {
@@ -93,38 +89,72 @@ function getCss(theme: string, fontSize: string) {
         margin: 0 .05em 0 .1em;
         vertical-align: -0.1em;
     }
-    
-    .heading {
+
+    .footer-logo {
+        display:flex;
+        align-items:center;
+        position:fixed;
+        right: 0;
+        bottom:0;
+    }
+
+    .title-wrapper {
+        display:flex;
+        flex-direction: column;
+        justify-content:center;
+    }
+
+    .title {
+        padding: 0px;
         font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
+        font-size: 100px;
         font-style: normal;
         color: ${foreground};
-        line-height: 1.8;
-    }`;
+        line-height: 0px;
+        margin:0px;
+        margin-top:-35px;
+    }
+    
+    .sub-title {
+        padding: 0px;
+        font-family: 'Inter', sans-serif;
+        font-size: 50px;
+        font-style: normal;
+        color: ${foreground};
+        line-height: 0px;
+        margin:0px;
+        margin-top:-50px;
+    }`
+
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { text, theme, md,  widths, heights } = parsedReq;
+    const covalentLogoMark = 'https://www.covalenthq.com/static/images/branding/logo-mark/logo-mark-black.svg';
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize)}
+        ${getCss(theme)}
     </style>
     <body>
         <div>
-            <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
-            </div>
-            <div class="spacer">
-            <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
+            <div class="header">
+                ${getImage(covalentLogoMark, widths[0], heights[0])}
+                <div class="title-wrapper">
+                    <div class="title">
+                        ${emojify(
+                            md ? marked(text) : sanitizeHtml(text)
+                        )}
+                    </div>
+                    <div class="sub-title">
+                    ${emojify(
+                        md ? marked(text) : sanitizeHtml(text)
+                    )}
+                    </div>
+                </div>
             </div>
         </div>
     </body>
@@ -141,6 +171,23 @@ function getImage(src: string, width ='auto', height = '225') {
     />`
 }
 
-function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
-}
+// function getPlusSign(i: number) {
+//     return i === 0 ? '' : '<div class="plus">+</div>';
+// }
+
+// ${covalentLogo.map((img, i) =>
+//     getPlusSign(i) + getImage(img, widths[i], heights[i])
+// ).join('')}
+
+// <div class="title-wrapper">
+// <div class="title">
+//     ${emojify(
+//         md ? marked(text) : sanitizeHtml(text)
+//     )}
+// </div>
+// <div class="sub-title">
+// ${emojify(
+//     md ? marked(text) : sanitizeHtml(text)
+// )}
+// </div>
+// </div>
