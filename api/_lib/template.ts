@@ -160,7 +160,6 @@ export function getHtml(parsedReq: ParsedRequest) {
                 </div>
             </div>
         </div>
-        <iframe height="420" width="680" src="https://facade-h1tgojgqp-covalenthq.vercel.app/platform/#/share/card_8a38351771cb4d28a0d6562293c/2"/>
     </body>
 </html>`;
 }

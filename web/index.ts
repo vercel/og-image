@@ -182,7 +182,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
         fileType = 'png',
         theme = 'light',
         md = true,
-        text = '**Hello** World',
+        text = '**Title**',
         images=[imageLightOptions[0].value],
         widths=[],
         heights=[],
@@ -191,14 +191,13 @@ const App = (_: any, state: AppState, setState: SetState) => {
         loading = true,
         selectedImageIndex = 0,
         overrideUrl = null,
-        subtitle = 'jellos',
+        subtitle = 'Subtitle',
     } = state;
 
     const mdValue = md ? '1' : '0';
     const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.origin);
     url.pathname = `${encodeURIComponent(text)}.${fileType}`;
-    console.log(url, "hey")
     url.searchParams.append('theme', theme);
     url.searchParams.append('md', mdValue);
     url.searchParams.append('subtitle', subtitle);
@@ -253,6 +252,16 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         oninput: (val: string) => {
                             console.log('oninput ' + val);
                             setLoadingState({ text: val, overrideUrl: url });
+                        }
+                    })
+                }),
+                H(Field, {
+                    label: 'Subtitle Input',
+                    input: H(TextInput, {
+                        value: subtitle,
+                        oninput: (val: string) => {
+                            console.log('oninput ' + val);
+                            setLoadingState({ subtitle: val, overrideUrl: url });
                         }
                     })
                 }),
