@@ -11,6 +11,7 @@ interface ImagePreviewProps {
 }
 
 const ImagePreview = ({ src, onclick, onload, onerror, loading }: ImagePreviewProps) => {
+    console.log(src)
     const style = {
         filter: loading ? 'blur(5px)' : '',
         opacity: loading ? 0.1 : 1,
@@ -92,6 +93,7 @@ interface FieldProps {
 }
 
 const Field = ({ label, input }: FieldProps) => {
+
     return H('div',
         { className: 'field' },
         H('label', 
@@ -184,7 +186,6 @@ const App = (_: any, state: AppState, setState: SetState) => {
     };
     const {
         fileType = 'png',
-        fontSize = '100px',
         theme = 'light',
         md = true,
         text = '**Hello** World',
@@ -196,15 +197,17 @@ const App = (_: any, state: AppState, setState: SetState) => {
         loading = true,
         selectedImageIndex = 0,
         overrideUrl = null,
+        subtitle = 'jellos',
     } = state;
 
     const mdValue = md ? '1' : '0';
     const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.origin);
     url.pathname = `${encodeURIComponent(text)}.${fileType}`;
+    console.log(url, "hey")
     url.searchParams.append('theme', theme);
     url.searchParams.append('md', mdValue);
-    url.searchParams.append('fontSize', fontSize);
+    url.searchParams.append('subtitle', subtitle);
     for (let image of images) {
         url.searchParams.append('images', image);
     }

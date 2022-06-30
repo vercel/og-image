@@ -5,10 +5,10 @@ import { ParsedRequest, Theme } from './types';
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
     const { pathname, query } = parse(req.url || '/', true);
-    const { fontSize, images, widths, heights, theme, md } = (query || {});
+    const { images, widths, heights, theme, md, subtitle } = (query || {});
 
-    if (Array.isArray(fontSize)) {
-        throw new Error('Expected a single fontSize');
+    if (Array.isArray(subtitle)) {
+        throw new Error('Expected a single subtitle');
     }
     if (Array.isArray(theme)) {
         throw new Error('Expected a single theme');
@@ -31,7 +31,7 @@ export function parseRequest(req: IncomingMessage) {
         text: decodeURIComponent(text),
         theme: theme === 'dark' ? 'dark' : 'light',
         md: md === '1' || md === 'true',
-        fontSize: fontSize || '96px',
+        subtitle: subtitle || 'subtitle',
         images: getArray(images),
         widths: getArray(widths),
         heights: getArray(heights),

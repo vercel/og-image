@@ -128,9 +128,12 @@ function getCss(theme: string) {
 
 }
 
+
+
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md,  widths, heights } = parsedReq;
+    const { text, theme, md,  widths, heights, subtitle } = parsedReq;
     const covalentLogoMark = 'https://www.covalenthq.com/static/images/branding/logo-mark/logo-mark-black.svg';
+    
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -151,12 +154,13 @@ export function getHtml(parsedReq: ParsedRequest) {
                     </div>
                     <div class="sub-title">
                     ${emojify(
-                        md ? marked(text) : sanitizeHtml(text)
+                        md ? marked(subtitle) : sanitizeHtml(subtitle)
                     )}
                     </div>
                 </div>
             </div>
         </div>
+        <iframe height="420" width="680" src="https://facade-h1tgojgqp-covalenthq.vercel.app/platform/#/share/card_8a38351771cb4d28a0d6562293c/2"/>
     </body>
 </html>`;
 }
