@@ -114,6 +114,11 @@ function getCss(theme: string) {
         margin:0px;
         margin-top:-35px;
     }
+
+    .image {
+        position:fixed;
+        top:500px;
+    }
     
     .sub-title {
         padding: 0px;
@@ -126,12 +131,13 @@ function getCss(theme: string) {
         margin-top:-50px;
     }`
 
+
 }
 
 
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md,  widths, heights, subtitle } = parsedReq;
+    const { text, theme, md,  widths, heights, subtitle, image } = parsedReq;
     const covalentLogoMark = 'https://www.covalenthq.com/static/images/branding/logo-mark/logo-mark-black.svg';
     
     return `<!DOCTYPE html>
@@ -159,6 +165,9 @@ export function getHtml(parsedReq: ParsedRequest) {
                     </div>
                 </div>
             </div>
+            <div class="image">
+            ${getImage(image, widths[0], heights[0])}
+            </div>
         </div>
     </body>
 </html>`;
@@ -173,10 +182,6 @@ function getImage(src: string, width ='auto', height = '225') {
         height="${sanitizeHtml(height)}"
     />`
 }
-
-// function getPlusSign(i: number) {
-//     return i === 0 ? '' : '<div class="plus">+</div>';
-// }
 
 // ${covalentLogo.map((img, i) =>
 //     getPlusSign(i) + getImage(img, widths[i], heights[i])

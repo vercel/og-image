@@ -162,6 +162,8 @@ interface AppState extends ParsedRequest {
     widths: string[];
     heights: string[];
     overrideUrl: URL | null;
+    image: string;
+    
 }
 
 type SetState = (state: Partial<AppState>) => void;
@@ -192,6 +194,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
         selectedImageIndex = 0,
         overrideUrl = null,
         subtitle = 'Subtitle',
+        image = '',
     } = state;
 
     const mdValue = md ? '1' : '0';
@@ -201,9 +204,10 @@ const App = (_: any, state: AppState, setState: SetState) => {
     url.searchParams.append('theme', theme);
     url.searchParams.append('md', mdValue);
     url.searchParams.append('subtitle', subtitle);
-    for (let image of images) {
-        url.searchParams.append('images', image);
-    }
+    url.searchParams.append('image', image);
+    // for (let image of images) {
+    //     url.searchParams.append('images', image);
+    // }
     for (let width of widths) {
         url.searchParams.append('widths', width);
     }
