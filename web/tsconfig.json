@@ -1,10 +1,8 @@
 {
-    "extends": "../api/tsconfig.json",
-    "compilerOptions": {
-        "module": "esnext",
-        "outDir": "../public/dist"
-    },
-    "include": [
-        "./"
-    ]
+  "extends": "../api/tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "outDir": "../public/dist"
+  },
+  "include": ["./"]
 }
