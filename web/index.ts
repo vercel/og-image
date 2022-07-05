@@ -89,6 +89,7 @@ const TextInput = ({
   )
 }
 
+/*
 interface ButtonProps {
   label: string
   onclick: () => void
@@ -97,6 +98,7 @@ interface ButtonProps {
 const Button = ({ label, onclick }: ButtonProps) => {
   return H('button', { onclick }, label)
 }
+*/
 
 interface FieldProps {
   label: string
@@ -223,7 +225,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
     theme = 'light',
     md = true,
     text = '**Hello** World',
-    images = [imageLightOptions[0].value],
+    images = [],
     widths = [],
     heights = [],
     showToast = false,
@@ -234,7 +236,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
   } = state
 
   const mdValue = md ? '1' : '0'
-  const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions
+  //   const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions
   const url = new URL(window.location.origin)
   url.pathname = `${encodeURIComponent(text)}.${fileType}`
   url.searchParams.append('theme', theme)
@@ -305,7 +307,8 @@ const App = (_: any, state: AppState, setState: SetState) => {
               setLoadingState({ text: val, overrideUrl: url })
             },
           }),
-        }),
+        })
+        /*
         H(Field, {
           label: 'Image 1',
           input: H(
@@ -423,6 +426,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
             },
           }),
         })
+        */
       )
     ),
     H(

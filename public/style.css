@@ -1,6 +1,36 @@
+@font-face {
+  font-family: 'Messina Sans';
+  src: url('https://watershed.com/fonts/MessinaSansWeb-SemiBold.woff2')
+      format('woff2'),
+    url('https://watershed.com/fonts/MessinaSansWeb-SemiBold.woff')
+      format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'Messina Sans';
+  src: url('https://watershed.com/fonts/MessinaSansWeb-Regular.woff2')
+      format('woff2'),
+    url('https://watershed.com/fonts/MessinaSansWeb-Regular.woff')
+      format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
+:root {
+  --color-new-day: hsl(40, 100%, 98%);
+  --color-midnight: hsl(225, 82%, 24%);
+  --color-cobalt: #265cff;
+}
+
 body {
-  font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
-    'Arial', sans-serif;
+  font-family: 'Messina Sans', system-ui, 'Helvetica Neue', 'Helvetica', 'Arial',
+    sans-serif;
+  background-color: var(--color-new-day);
+  color: var(--color-midnight);
   margin: 20px;
   overflow-x: hidden;
   padding: 0;
@@ -9,24 +39,24 @@ body {
 
 a {
   cursor: pointer;
-  color: #265cff;
+  color: var(--color-cobalt);
   text-decoration: none;
   transition: all 0.2s ease;
   border-bottom: 1px solid white;
 }
 
 a:hover {
-  border-bottom: 1px solid #265cff;
+  border-bottom: 1px solid var(--color-cobalt);
 }
 
-footer {
-  opacity: 0.5;
-  font-size: 0.8em;
-}
-
-.center,
-h1 {
+.center {
   text-align: center;
+}
+
+h1 {
+  font-size: 48px;
+  letter-spacing: -0.02em;
+  font-weight: normal;
 }
 
 .container {
@@ -36,13 +66,13 @@ h1 {
 }
 
 .split {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
   justify-content: center;
   width: 100%;
 }
 
 .pull-left {
-  min-width: 50%;
   display: flex;
   justify-content: flex-end;
 }
@@ -62,7 +92,7 @@ button {
   padding: 0 25px;
   outline: none;
   border: 1px solid #000;
-  font-size: 12px;
+  font: inherit;
   justify-content: center;
   text-transform: uppercase;
   cursor: pointer;
@@ -81,7 +111,7 @@ button {
   width: calc(100% + 2px);
   padding: 0 10px;
   font-size: 12px;
-  background: #fff;
+  background: var(--color-new-day);
   border: 1px solid #eaeaea;
   color: #666;
 }
@@ -89,7 +119,7 @@ button {
 button:hover {
   color: #000;
   border-color: #000;
-  background: #fff;
+  background: var(--color-new-day);
 }
 
 .input-outer-wrapper {
@@ -128,9 +158,7 @@ button:hover {
   box-shadow: none;
   box-sizing: border-box;
   display: block;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font: inherit;
   font-size: 14px;
   line-height: 27px;
   outline: 0;
@@ -189,7 +217,7 @@ button:hover {
 }
 
 .svg {
-  fill: #151513;
+  fill: var(--color-cobalt);
   color: #fff;
   position: absolute;
   top: 0;
