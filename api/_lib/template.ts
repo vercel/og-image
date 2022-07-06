@@ -48,7 +48,6 @@ const themes: Record<Theme, { background: string; foreground: string }> = {
 }
 
 function getCss(theme: Theme) {
-  console.log({ theme })
   const { background, foreground } = themes[theme]
 
   return `

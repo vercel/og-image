@@ -1,21 +1,18 @@
 {
   "private": true,
-  "engines": {
-    "node": "16.x"
-  },
   "scripts": {
     "build": "tsc -p web/tsconfig.json"
   },
   "dependencies": {
-    "chrome-aws-lambda": "7.0.0",
-    "marked": "4.0.10",
-    "puppeteer-core": "13.1.2",
-    "twemoji": "13.0.1"
+    "chrome-aws-lambda": "^8.0.2",
+    "marked": "4.0.17",
+    "puppeteer-core": "^8.0.0",
+    "twemoji": "14.0.2"
   },
   "devDependencies": {
-    "@types/marked": "4.0.1",
-    "@types/puppeteer": "5.4.4",
+    "@types/marked": "4.0.3",
+    "@types/puppeteer": "5.4.6",
     "@types/puppeteer-core": "5.4.0",
-    "typescript": "4.1.5"
+    "typescript": "4.7.4"
   }
 }
