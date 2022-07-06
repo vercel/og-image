@@ -1,8 +1,8 @@
 import type { ParsedRequest, Theme } from '../api/_lib/types'
-const { H, R, copee } = window as any
+const { H, R } = window as any
 let timeout = -1
 
-const THEMES: string[] = ['light', 'dark', 'graph', 'ice', 'rainbow']
+const THEMES: string[] = ['energize', 'rainbow', 'ice', 'graph', 'graph-dark']
 
 interface ImagePreviewProps {
   src: string
@@ -140,7 +140,7 @@ const Toast = ({ show, message }: ToastProps) => {
 const backgroundOptions: DropdownOption[] = THEMES.map((theme) => ({
   text:
     theme.substring(0, 1).toLocaleUpperCase() +
-    theme.substring(1, theme.length),
+    theme.substring(1, theme.length).replaceAll('-', ' '),
   value: theme,
 }))
 
@@ -409,20 +409,20 @@ const App = (_: any, state: AppState, setState: SetState) => {
           setState({ showToast: true, messageToast: 'Oops, an error occurred' })
           setTimeout(() => setState({ showToast: false }), 2000)
         },
-        onclick: (e: Event) => {
-          e.preventDefault()
-          const success = copee.toClipboard(url.href)
-          if (success) {
-            setState({
-              showToast: true,
-              messageToast: 'Copied image URL to clipboard',
-            })
-            setTimeout(() => setState({ showToast: false }), 3000)
-          } else {
-            window.open(url.href, '_blank')
-          }
-          return false
-        },
+        // onclick: (e: Event) => {
+        //   e.preventDefault()
+        //   const success = copee.toClipboard(url.href)
+        //   if (success) {
+        //     setState({
+        //       showToast: true,
+        //       messageToast: 'Copied image URL to clipboard',
+        //     })
+        //     setTimeout(() => setState({ showToast: false }), 3000)
+        //   } else {
+        //     window.open(url.href, '_blank')
+        //   }
+        //   return false
+        // },
       })
     ),
     H(Toast, {

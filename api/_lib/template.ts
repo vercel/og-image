@@ -16,29 +16,35 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
   'base64'
 )
 
+const energize = readFileSync(`${__dirname}/../_themes/energize.png`).toString(
+  'base64'
+)
 const ice = readFileSync(`${__dirname}/../_themes/ice.png`).toString('base64')
 const graph = readFileSync(`${__dirname}/../_themes/graph.png`).toString(
   'base64'
 )
+const graphDark = readFileSync(
+  `${__dirname}/../_themes/graph-dark.png`
+).toString('base64')
 const rainbow = readFileSync(`${__dirname}/../_themes/rainbow.png`).toString(
   'base64'
 )
 
 const themes: Record<Theme, { background: string; foreground: string }> = {
-  light: {
-    background: 'var(--color-new-day)',
+  graph: {
+    background: `url(data:image/png;base64,${graph})`,
     foreground: 'var(--color-midnight)',
   },
-  dark: {
-    background: 'var(--color-midnight)',
+  'graph-dark': {
+    background: `url(data:image/png;base64,${graphDark})`,
     foreground: 'var(--color-new-day)',
   },
   ice: {
     background: `url(data:image/png;base64,${ice})`,
     foreground: 'var(--color-midnight)',
   },
-  graph: {
-    background: `url(data:image/png;base64,${graph})`,
+  energize: {
+    background: `url(data:image/png;base64,${energize})`,
     foreground: 'var(--color-midnight)',
   },
   rainbow: {
