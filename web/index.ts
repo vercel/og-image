@@ -2,7 +2,7 @@ import type { ParsedRequest, Theme } from '../api/_lib/types'
 const { H, R, copee } = window as any
 let timeout = -1
 
-const THEMES: string[] = ['light', 'dark', 'ice', 'graph', 'rainbow']
+const THEMES: string[] = ['light', 'dark', 'graph', 'ice', 'rainbow']
 
 interface ImagePreviewProps {
   src: string

@@ -2,7 +2,7 @@
 
 A service that generates dynamic social media/Open Graph images for [Watershed](https://watershed.com/).
 
-Based heavily on [Vercel’s system](https://vercel.com/blog/social-og-image-cards-as-a-service).
+Adapted from [Vercel’s system](https://github.com/vercel/og-image).
 
 ## Adding a theme
 

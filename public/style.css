@@ -58,6 +58,7 @@ h1 {
   font-size: 48px;
   letter-spacing: -0.02em;
   font-weight: normal;
+  margin-bottom: 64px;
 }
 
 .container {
@@ -68,11 +69,16 @@ h1 {
 
 .split {
   display: grid;
-  grid-template-columns: 1fr 2fr;
   justify-content: center;
   align-items: start;
   gap: 64px;
   width: 100%;
+}
+
+@media (min-width: 500px) {
+  .split {
+    grid-template-columns: 1fr 2fr;
+  }
 }
 
 .pull-left {
@@ -312,23 +318,6 @@ img {
 .image-wrapper:hover {
   box-shadow: 0 1px 16px rgba(0, 0, 0, 0.1);
   border-color: #ddd;
-}
-
-@media (max-width: 1000px) {
-  .pull-left {
-    margin-left: 1.5em;
-  }
-}
-
-@media (max-width: 900px) {
-  .split {
-    flex-wrap: wrap;
-  }
-
-  .field-label {
-    width: 60px;
-    font-size: 13px;
-  }
 }
 
 .github-corner:hover .octo-arm {
