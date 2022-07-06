@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import { marked } from 'marked'
 import { sanitizeHtml } from './sanitizer'
-import { ParsedRequest } from './types'
+import { ParsedRequest, Theme } from './types'
 const twemoji = require('twemoji')
 const twOptions = { folder: 'svg', ext: '.svg' }
 const emojify = (text: string) => twemoji.parse(text, twOptions)
@@ -16,16 +16,41 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
   'base64'
 )
 
-function getCss(theme: string, fontSize: string) {
-  let background = 'white'
-  let foreground = 'black'
-  let radial = 'lightgray'
+const ice = readFileSync(`${__dirname}/../_themes/ice.png`).toString('base64')
+const graph = readFileSync(`${__dirname}/../_themes/graph.png`).toString(
+  'base64'
+)
+const rainbow = readFileSync(`${__dirname}/../_themes/rainbow.png`).toString(
+  'base64'
+)
 
-  if (theme === 'dark') {
-    background = 'black'
-    foreground = 'white'
-    radial = 'dimgray'
-  }
+const themes: Record<Theme, { background: string; foreground: string }> = {
+  light: {
+    background: 'var(--color-new-day)',
+    foreground: 'var(--color-midnight)',
+  },
+  dark: {
+    background: 'var(--color-midnight)',
+    foreground: 'var(--color-new-day)',
+  },
+  ice: {
+    background: `url(data:image/png;base64,${ice})`,
+    foreground: 'var(--color-midnight)',
+  },
+  graph: {
+    background: `url(data:image/png;base64,${graph})`,
+    foreground: 'var(--color-midnight)',
+  },
+  rainbow: {
+    background: `url(data:image/png;base64,${rainbow})`,
+    foreground: 'var(--color-new-day)',
+  },
+}
+
+function getCss(theme: Theme) {
+  console.log({ theme })
+  const { background, foreground } = themes[theme]
+
   return `
     @font-face {
         font-family: 'MessinaSans';
@@ -48,10 +73,15 @@ function getCss(theme: string, fontSize: string) {
         src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
       }
 
+    :root {
+      --color-new-day: hsl(40, 100%, 98%);
+      --color-midnight: hsl(225, 82%, 24%);
+      --color-cobalt: #265cff;
+    }
+
     body {
         background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
+        background-size: auto 100vh;
         height: 100vh;
         display: flex;
         text-align: center;
@@ -70,24 +100,6 @@ function getCss(theme: string, fontSize: string) {
         content: '\`';
     }
 
-    .logo-wrapper {
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
-    }
-
-    .logo {
-        margin: 0 75px;
-    }
-
-    .plus {
-        color: #BBB;
-        font-family: Times New Roman, Verdana;
-        font-size: 100px;
-    }
-
     .spacer {
         margin: 150px;
     }
@@ -98,59 +110,53 @@ function getCss(theme: string, fontSize: string) {
         margin: 0 .05em 0 .1em;
         vertical-align: -0.1em;
     }
+
+    .eyebrow {
+        font-family: 'MessinaSans', sans-serif;
+        font-size: 70px;
+        font-style: normal;
+        color: ${foreground};
+        line-height: 78px;
+        margin-bottom: 30px;
+    }
     
     .heading {
         font-family: 'MessinaSans', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
+        font-size: 175px;
         font-style: normal;
         color: ${foreground};
-        line-height: 1.8;
-    }`
+        line-height: 212px;
+    }
+    
+    p {
+        margin: 0;
+    }
+    `
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-  const { text, theme, md, fontSize, images, widths, heights } = parsedReq
+  const { largeText, smallText, theme, md } = parsedReq
   return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize)}
+        ${getCss(theme)}
     </style>
     <body>
         <div>
             <div class="spacer">
-            <!--
-            <div class="logo-wrapper">
-                ${images
-                  .map(
-                    (img, i) =>
-                      getPlusSign(i) + getImage(img, widths[i], heights[i])
-                  )
-                  .join('')}
-            </div>
-            -->
             <div class="spacer">
+            <div class="eyebrow">${emojify(
+              md ? marked(smallText) : sanitizeHtml(smallText)
+            )}
+            </div>
             <div class="heading">${emojify(
-              md ? marked(text) : sanitizeHtml(text)
+              md ? marked(largeText) : sanitizeHtml(largeText)
             )}
             </div>
         </div>
     </body>
 </html>`
-}
-
-function getImage(src: string, width = 'auto', height = '225') {
-  return `<img
-    class="logo"
-    alt="Generated Image"
-    src="${sanitizeHtml(src)}"
-    width="${sanitizeHtml(width)}"
-    height="${sanitizeHtml(height)}"
-  />`
-}
-
-function getPlusSign(i: number) {
-  return i === 0 ? '' : '<div class="plus">+</div>'
 }

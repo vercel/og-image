@@ -49,6 +49,7 @@ a:hover {
   border-bottom: 1px solid var(--color-cobalt);
 }
 
+h1,
 .center {
   text-align: center;
 }
@@ -69,16 +70,21 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 2fr;
   justify-content: center;
+  align-items: start;
+  gap: 64px;
   width: 100%;
 }
 
 .pull-left {
-  display: flex;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: 24px;
 }
 
-.pull-right {
-  min-width: 50%;
+.field,
+.field > label {
+  display: contents;
 }
 
 button {
@@ -122,7 +128,7 @@ button:hover {
   background: var(--color-new-day);
 }
 
-.input-outer-wrapper {
+.input-wrapper {
   align-items: center;
   border-radius: 5px;
   border: 1px solid #e1e1e1;
@@ -133,33 +139,26 @@ button:hover {
   vertical-align: middle;
   width: 100%;
 }
-.input-outer-wrapper.small {
+.input-wrapper.small {
   height: 24px;
   min-width: 100px;
   width: 100px;
 }
 
-.input-outer-wrapper:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+.input-wrapper:hover {
   border-color: #ddd;
 }
 
-.input-inner-wrapper {
-  display: block;
-  margin: 4px 10px;
-  position: relative;
-  width: 100%;
-}
-
-.input-inner-wrapper input {
+.input-wrapper input {
   background-color: transparent;
   border-radius: 0;
   border: none;
   box-shadow: none;
   box-sizing: border-box;
+  padding: 0 12px;
   display: block;
   font: inherit;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 27px;
   outline: 0;
   width: 100%;
@@ -176,7 +175,6 @@ button:hover {
   font-size: 12px;
   text-transform: uppercase;
   user-select: none;
-  font-weight: 100;
   position: relative;
   overflow: hidden;
   transition: border 0.2s, background 0.2s, color 0.2s ease-out,
@@ -230,34 +228,18 @@ select {
   box-shadow: none;
   background: transparent;
   background-image: none;
-  color: #000;
+  color: inherit;
+  font: inherit;
   line-height: 40px;
-  font-size: 14px;
+  font-size: 16px;
   margin-right: -20px;
   width: calc(100% + 20px);
   padding: 0 0 0 16px;
   text-transform: none;
 }
 
-.field-flex {
-  display: flex;
-  margin-top: 10px;
-}
-
-.field-value {
-  margin: 10px 80px;
-}
-
 .field-label {
-  display: inline-block;
-  width: 100px;
-  margin-right: 20px;
   text-align: right;
-}
-
-.field-value {
-  width: 200px;
-  display: inline-block;
 }
 
 label {
@@ -321,10 +303,10 @@ img {
   text-decoration: none;
   background: #fff;
   box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-  border-radius: 5px;
   margin-bottom: 50px;
   transition: all 0.2s ease;
   max-width: 100%;
+  line-height: 0;
 }
 
 .image-wrapper:hover {
@@ -333,9 +315,6 @@ img {
 }
 
 @media (max-width: 1000px) {
-  .field {
-    margin: 20px 10px;
-  }
   .pull-left {
     margin-left: 1.5em;
   }
