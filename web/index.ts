@@ -285,7 +285,26 @@ const App = (_: any, state: AppState, setState: SetState) => {
             setLoadingState({ largeText: val, overrideUrl: url })
           },
         }),
-      })
+      }),
+      H(
+        'div',
+        {
+          style: {
+            gridColumn: 'span 2',
+            textAlign: 'right',
+            marginTop: -12,
+          },
+        },
+        H(
+          'small',
+          {
+            style: {
+              opacity: 0.5,
+            },
+          },
+          'Wrap text with ** on either side to make it bold.'
+        )
+      )
       /*
     H(Field, {
         label: 'Image 1',
