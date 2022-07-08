@@ -1,7 +1,13 @@
 export type FileType = 'png' | 'jpeg'
 
 // Copy to web/index
-const THEMES: string[] = ['energize', 'rainbow', 'ice', 'graph', 'graph-dark']
+const THEMES: string[] = [
+  'energize',
+  'finance-ice',
+  'finance-midnight',
+  'og-downward',
+  'og-drift',
+]
 export type Theme = typeof THEMES[number]
 
 export interface ParsedRequest {

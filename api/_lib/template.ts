@@ -17,25 +17,25 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
 )
 
 const themes: Record<Theme, { background: string; foreground: string }> = {
-  graph: {
-    background: `url(https://social-cards-watershedclimate.vercel.app/_themes/graph.png)`,
-    foreground: 'var(--color-midnight)',
-  },
-  'graph-dark': {
-    background: `url(https://social-cards-watershedclimate.vercel.app/_themes/graph-dark.png)`,
+  'finance-midnight': {
+    background: `url(https://social-cards-watershedclimate.vercel.app/_themes/finance-midnight.png)`,
     foreground: 'var(--color-new-day)',
   },
-  ice: {
-    background: `url(https://social-cards-watershedclimate.vercel.app/_themes/ice.png)`,
+  'finance-ice': {
+    background: `url(https://social-cards-watershedclimate.vercel.app/_themes/finance-ice.png)`,
     foreground: 'var(--color-midnight)',
+  },
+  'og-drift': {
+    background: `url(https://social-cards-watershedclimate.vercel.app/_themes/og-drift.png)`,
+    foreground: 'var(--color-new-day)',
+  },
+  'og-downward': {
+    background: `url(https://social-cards-watershedclimate.vercel.app/_themes/og-downward.png)`,
+    foreground: 'var(--color-new-day)',
   },
   energize: {
     background: `url(https://social-cards-watershedclimate.vercel.app/_themes/energize.png)`,
     foreground: 'var(--color-midnight)',
-  },
-  rainbow: {
-    background: `url(https://social-cards-watershedclimate.vercel.app/_themes/rainbow.png)`,
-    foreground: 'var(--color-new-day)',
   },
 }
 

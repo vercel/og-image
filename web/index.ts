@@ -2,7 +2,13 @@ import type { ParsedRequest, Theme } from '../api/_lib/types'
 const { H, R } = window as any
 let timeout = -1
 
-const THEMES: string[] = ['energize', 'rainbow', 'ice', 'graph', 'graph-dark']
+const THEMES: string[] = [
+  'energize',
+  'finance-ice',
+  'finance-midnight',
+  'og-downward',
+  'og-drift',
+]
 
 interface ImagePreviewProps {
   src: string
@@ -138,9 +144,11 @@ const Toast = ({ show, message }: ToastProps) => {
 }
 
 const backgroundOptions: DropdownOption[] = THEMES.map((theme) => ({
-  text:
-    theme.substring(0, 1).toLocaleUpperCase() +
-    theme.substring(1, theme.length).replaceAll('-', ' '),
+  text: theme
+    .split('-')
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join(' ')
+    .replace('Og', 'OG'),
   value: theme,
 }))
 
