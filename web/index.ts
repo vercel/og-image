@@ -4,6 +4,7 @@ let timeout = -1
 
 const THEMES: string[] = [
   'energize',
+  'finance-new-day',
   'finance-ice',
   'finance-midnight',
   'og-downward',

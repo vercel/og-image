@@ -25,6 +25,10 @@ const themes: Record<Theme, { background: string; foreground: string }> = {
     background: `url(https://social-cards-watershedclimate.vercel.app/_themes/finance-ice.png)`,
     foreground: 'var(--color-midnight)',
   },
+  'finance-new-day': {
+    background: `url(https://social-cards-watershedclimate.vercel.app/_themes/finance-new-day.png)`,
+    foreground: 'var(--color-midnight)',
+  },
   'og-drift': {
     background: `url(https://social-cards-watershedclimate.vercel.app/_themes/og-drift.png)`,
     foreground: 'var(--color-new-day)',

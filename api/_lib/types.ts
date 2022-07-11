@@ -5,6 +5,7 @@ const THEMES: string[] = [
   'energize',
   'finance-ice',
   'finance-midnight',
+  'finance-new-day',
   'og-downward',
   'og-drift',
 ]
