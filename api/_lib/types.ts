@@ -10,4 +10,9 @@ export interface ParsedRequest {
     images: string[];
     widths: string[];
     heights: string[];
+    contractName: string;
+    releaser: string;
+    version: string;
+    description: string;
+    license: string;
 }
