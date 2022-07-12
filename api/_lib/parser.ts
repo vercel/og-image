@@ -22,7 +22,7 @@ export function parseRequest(req: IncomingMessage) {
     } else if (arr.length === 1) {
         text = arr[0];
     } else {
-        extension = arr.pop() as string;
+        extension = [...arr].pop() as string;
         text = arr.join('.');
     }
 
