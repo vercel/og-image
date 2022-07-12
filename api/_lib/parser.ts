@@ -35,6 +35,11 @@ export function parseRequest(req: IncomingMessage) {
         images: getArray(images),
         widths: getArray(widths),
         heights: getArray(heights),
+        contractName: decodeURIComponent(text),
+        license: decodeURIComponent(text),
+        version: decodeURIComponent(text),
+        releaser: decodeURIComponent(text),
+        description: decodeURIComponent(text),
     };
     parsedRequest.images = getDefaultImages(parsedRequest.images, parsedRequest.theme);
     return parsedRequest;
