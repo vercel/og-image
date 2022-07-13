@@ -1,7 +1,7 @@
 {
   "private": true,
   "engines": {
-    "node": "14.20.0"
+    "node": "14.x"
   },
   "scripts": {
     "build": "tsc -p web/tsconfig.json"
