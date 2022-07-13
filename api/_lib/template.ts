@@ -69,24 +69,6 @@ function getCss(theme: string) {
         content: '\`';
     }
 
-    .logo-wrapper {
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
-    }
-
-    .logo {
-        margin: 0 75px;
-    }
-
-    .plus {
-        color: #BBB;
-        font-family: Times New Roman, Verdana;
-        font-size: 100px;
-    }
-
     .spacer {
         margin: 150px;
     }
@@ -116,7 +98,16 @@ function getCss(theme: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-  const { theme, contractName, version, description } = parsedReq;
+  let { theme, images, contractName, version, description } =
+    parsedReq;
+
+  contractName = contractName === 'undefined' ? 'Contract' : contractName;
+  description =
+    description === 'undefined'
+      ? 'Deploy this contract in one click'
+      : description;
+  version = version === 'undefined' ? '' : version;
+
   return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -127,23 +118,22 @@ export function getHtml(parsedReq: ParsedRequest) {
     </style>
     <body>
         <div>
-            <div class="heading">${emojify(
-              sanitizeHtml(contractName),
-            )} ${emojify(sanitizeHtml(version))}
-            </div>
-            <div class="description">${emojify(sanitizeHtml(description))}
-            </div>
+            <div class="logo-wrapper">
+            <img
+                class="logo"
+                alt="Generated Image"
+                src="${sanitizeHtml(images[0])}"
+                width="${sanitizeHtml('auto')}"
+                height="${sanitizeHtml('150')}"
+            />
+        </div>
+        <div class="heading">${emojify(sanitizeHtml(contractName))} ${emojify(
+    sanitizeHtml(version),
+  )}
+        </div>
+        <div class="description">${emojify(sanitizeHtml(description))}
+        </div>
         </div>
     </body>
 </html>`;
 }
-
-/* function getImage(src: string, width ='auto', height = '225') {
-    return `<img
-        class="logo"
-        alt="Generated Image"
-        src="${sanitizeHtml(src)}"
-        width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
-    />`
-} */

@@ -56,7 +56,7 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
 }
 
 function getDefaultImages(images: string[]): string[] {
-    const defaultImage = "https://thirdweb.com/brand/thirdweb-icon.svg";
+    const defaultImage = "https://thirdweb.com/brand/thirdweb-icon.png";
 
     if (!images || !images[0]) {
         return [defaultImage];
