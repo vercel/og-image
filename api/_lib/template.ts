@@ -103,11 +103,11 @@ function getCss() {
     .bottom-section-container {
       display: flex;
       justify-content: space-between;
-      margin-top: 420px;
+      margin-top: 400px;
     }
 
     .bottom-section {
-      margin-top: 30px;
+      margin-top: 40px;
     }
 
     .avatar {
@@ -176,7 +176,7 @@ function getCss() {
   }
 
     .logo-wrapper {
-      margin-top: 60px;
+      margin-top: 80px;
     }
     `
     ;
