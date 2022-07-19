@@ -97,7 +97,6 @@ function getCss() {
     }
 
     .right-side {
-      margin-right: 60px;
       margin-left: 60px;
     }
 
@@ -111,9 +110,8 @@ function getCss() {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 60px;
+      margin-top: 40px;
       margin-bottom: 40px;
-
     }
 
     .avatar-image { 
@@ -174,7 +172,6 @@ function getCss() {
   }
 
     .logo-wrapper {
-      margin-right: 60px;
       margin-bottom: 20px;
     }
     `
