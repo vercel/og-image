@@ -15,6 +15,10 @@ const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
   'base64',
 );
 
+const ibmPlexMono = readFileSync(`${__dirname}/../_fonts/IBMPlexMono-Medium.ttf`).toString(
+  'base64',
+);
+
 function getCss() {
 
   return `
@@ -37,6 +41,11 @@ function getCss() {
         font-style: normal;
         font-weight: normal;
         src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
+      }
+
+    @font-face {
+        font-family: 'IBMPlexMono';
+        src: url(data:font/ttf;charset=utf-8;base64,${ibmPlexMono})  format("ttf");
       }
 
     body {
@@ -145,7 +154,8 @@ function getCss() {
         font-size: 60px;
         font-style: normal;
         color: white;
-        opacity: 50%
+        opacity: 50%;
+        line-height: 1.5;
     }
 
     .releaser {
@@ -156,7 +166,7 @@ function getCss() {
     }
 
     .list-text {
-      font-family: 'Inter', sans-serif;
+      font-family: 'IBMPlexMono', sans-serif;
       font-size: 50px;
       font-style: normal;
       color: white;
