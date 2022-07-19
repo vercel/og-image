@@ -121,8 +121,9 @@ function getCss(theme: Theme) {
         font-style: normal;
         color: ${foreground};
         line-height: 212px;
+        letter-spacing: -0.03em;
     }
-    
+
     p {
         margin: 0;
     }

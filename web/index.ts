@@ -198,7 +198,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
     fileType = 'png',
     theme = THEMES[0],
     md = true,
-    largeText = '**Hello** World',
+    largeText = 'Hello from Watershed',
     smallText = 'Now Hiring',
     // images = [],
     // widths = [],
