@@ -107,7 +107,7 @@ function getCss() {
     }
 
     .bottom-section {
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     .avatar {
@@ -265,7 +265,7 @@ export function getHtml(parsedReq: ParsedRequest) {
           </div>
           <div class="bottom-section">
             <div class="list-container">
-              ${extensions.length > 0 && (
+              ${extensions.length > 0 ? (
                 `
                   <div class="list">
                   <svg class="icon" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -277,8 +277,8 @@ export function getHtml(parsedReq: ParsedRequest) {
                   </div>
                   </div>
                 `
-                )}
-              ${licenses.length > 0 && (
+                ) : null}
+              ${licenses.length > 0 ? (
                 `
                   <div class="list">
                     <svg class="icon" width="20" height="26" viewBox="0 0 20 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -290,7 +290,7 @@ export function getHtml(parsedReq: ParsedRequest) {
                     </div>
                   </div>
                   `
-                )}
+                ) : null}
             </div>
           </div>
         </div>
