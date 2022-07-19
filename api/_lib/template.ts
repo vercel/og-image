@@ -166,7 +166,7 @@ function getCss() {
     }
 
     .list-text {
-      font-family: 'IBMPlexMono', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 50px;
       font-style: normal;
       color: white;
