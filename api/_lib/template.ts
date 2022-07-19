@@ -196,6 +196,8 @@ export function getHtml(parsedReq: ParsedRequest) {
       ? 'Deploy this contract in one click'
       : description;
   version = version === 'undefined' ? '' : version;
+  licenses = licenses.filter(license => license !== "undefined")
+  extensions = extensions.filter(extension => extension !== "undefined")
 
   return `<!DOCTYPE html>
 <html>
