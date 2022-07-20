@@ -69,9 +69,9 @@ function getCss() {
     }
 
     .icon {
-      width: 60px;
-      height: 60px;
-      margin-right: 22px;
+      width: 80px;
+      height: 80px;
+      margin-right: 25px;
       margin-top: 4px;
     }
 
@@ -94,6 +94,7 @@ function getCss() {
       display: flex;
       flex-direction: row;
       margin-right: 40px;
+      margin-bottom: 30px
     }
 
     .right-side {
@@ -101,9 +102,10 @@ function getCss() {
     }
 
     .bottom-section-container {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 400px;
+      position: absolute;
+      bottom: 80px;
+      left: 80px;
+      width: 80vw;
     }
 
     .bottom-section {
@@ -115,7 +117,7 @@ function getCss() {
       justify-content: center;
       align-items: center;
       margin-top: 40px;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
 
     .avatar-image { 
@@ -147,36 +149,39 @@ function getCss() {
     }
     
     .description {
-        margin-top: 20px;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        font-family: 'Inter', sans-serif;
-        font-size: 60px;
-        font-style: normal;
-        color: white;
-        opacity: 50%;
-        line-height: 1.5;
+      margin-top: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      max-width: 1200px;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      font-size: 70px;
+      font-style: normal;
+      color: white;
+      opacity: 70%;
+      line-height: 1.5;
     }
 
     .releaser {
       font-family: 'Inter', sans-serif;
-      font-size: 50px;
+      font-size: 70px;
       font-style: normal;
       color: white;
     }
 
     .list-text {
       font-family: 'Inter', sans-serif;
-      font-size: 50px;
+      font-size: 70px;
       font-style: normal;
       color: white;
       margin-top: 4px
   }
 
     .logo-wrapper {
-      margin-top: 80px;
+      position: absolute;
+      bottom: 100px;
+      right: 100px;
     }
     `
     ;
@@ -189,7 +194,7 @@ export function shortenString(str: string, extraShort?: true) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-  let { contractName, version, description, releaser, extensions, licenses } = parsedReq;
+  let { contractName, version, description, releaser, extensions } = parsedReq;
 
   contractName = contractName === 'undefined' ? 'Contract' : contractName;
   description =
@@ -197,7 +202,6 @@ export function getHtml(parsedReq: ParsedRequest) {
       ? 'Deploy this contract in one click'
       : description;
   version = version === 'undefined' ? '' : version;
-  licenses = licenses.filter(license => license !== "undefined")
   extensions = extensions.filter(extension => extension !== "undefined")
 
   return `<!DOCTYPE html>
@@ -241,7 +245,7 @@ export function getHtml(parsedReq: ParsedRequest) {
               alt="Generated Image"
               src="https://source.boringavatars.com/marble/120/${releaser}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51"
               width="auto"
-              height="60px"
+              height="80px"
             />
            
           </div>
@@ -252,7 +256,6 @@ export function getHtml(parsedReq: ParsedRequest) {
         </div>
       </div>
       <div class="bottom-section-container">
-        <div>
           <div class="list-container">
             <div class="list">
               <svg class="icon" width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -263,48 +266,31 @@ export function getHtml(parsedReq: ParsedRequest) {
               </div>
             </div>
           </div>
-          <div class="bottom-section">
-            <div class="list-container">
-              ${extensions.length > 0 ? (
-                `
-                  <div class="list">
-                  <svg class="icon" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16 24.5H18.6667V21.8333H16V24.5ZM21.3333 24.5H24V21.8333H21.3333V24.5ZM5.33333 24.5H8V21.8333H5.33333V24.5ZM10.6667 24.5H13.3333V21.8333H10.6667V24.5ZM21.3333 19.1667H24V16.5H21.3333V19.1667ZM21.3333 13.8333H24V11.1667H21.3333V13.8333ZM0 0.5V24.5H2.66667V3.16667H24V0.5H0ZM21.3333 8.5H24V5.83333H21.3333V8.5Z" fill="white" fill-opacity="0.5"/>
-                  </svg>
-          
-                  <div class="list-text">
-                  ${extensions.splice(0,2).map(extension => `${emojify(sanitizeHtml(extension))}`).join(", ")}
-                  </div>
-                  </div>
-                `
-                ) : null}
-              ${licenses.length > 0 ? (
-                `
-                  <div class="list">
-                    <svg class="icon" width="20" height="26" viewBox="0 0 20 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4.49219 25.043H16.3281C17.5312 25.043 18.4414 24.7305 19.0586 24.1055C19.6836 23.4805 19.9961 22.5625 19.9961 21.3516V11.2969C19.9961 10.7656 19.9648 10.3125 19.9023 9.9375C19.8398 9.5625 19.7227 9.22266 19.5508 8.91797C19.3789 8.61328 19.125 8.28906 18.7891 7.94531L13.0938 2.16797C12.6094 1.67578 12.1328 1.35156 11.6641 1.19531C11.1953 1.03125 10.5977 0.949219 9.87109 0.949219H4.49219C3.29688 0.949219 2.38672 1.26562 1.76172 1.89844C1.13672 2.52344 0.824219 3.44531 0.824219 4.66406V21.3516C0.824219 22.5625 1.13672 23.4805 1.76172 24.1055C2.38672 24.7305 3.29688 25.043 4.49219 25.043ZM4.71484 22.6992C4.19922 22.6992 3.8125 22.5664 3.55469 22.3008C3.30469 22.043 3.17969 21.6641 3.17969 21.1641V4.83984C3.17969 4.34766 3.30469 3.96875 3.55469 3.70312C3.8125 3.4375 4.20312 3.30469 4.72656 3.30469H9.35547V9.21094C9.35547 10.0469 9.55859 10.6719 9.96484 11.0859C10.3789 11.4922 11 11.6953 11.8281 11.6953H17.6523V21.1641C17.6523 21.6641 17.5234 22.043 17.2656 22.3008C17.0078 22.5664 16.6172 22.6992 16.0938 22.6992H4.71484ZM12.0391 9.66797C11.8047 9.66797 11.6328 9.61328 11.5234 9.50391C11.4219 9.39453 11.3711 9.22656 11.3711 9V3.58594L17.3711 9.66797H12.0391Z" fill="white" fill-opacity="0.5"/>
-                    </svg>
-          
-                    <div class="list-text">
-                      ${licenses.splice(0,2).map(license => `${emojify(sanitizeHtml(license))}`).join(", ")}
-                    </div>
-                  </div>
-                  `
-                ) : null}
-            </div>
-          </div>
+          ${extensions.length > 0 ? (
+            `
+              <div class="list">
+              <svg class="icon" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 24.5H18.6667V21.8333H16V24.5ZM21.3333 24.5H24V21.8333H21.3333V24.5ZM5.33333 24.5H8V21.8333H5.33333V24.5ZM10.6667 24.5H13.3333V21.8333H10.6667V24.5ZM21.3333 19.1667H24V16.5H21.3333V19.1667ZM21.3333 13.8333H24V11.1667H21.3333V13.8333ZM0 0.5V24.5H2.66667V3.16667H24V0.5H0ZM21.3333 8.5H24V5.83333H21.3333V8.5Z" fill="white" fill-opacity="0.5"/>
+              </svg>
+      
+              <div class="list-text">
+              ${extensions.splice(0,3).map(extension => `${emojify(sanitizeHtml(extension))}`).join(", ")}
+              </div>
+              </div>
+            `
+            ) : ''}
         </div>
-        <div class="logo-wrapper">
-          <img
-              class="logo"
-              alt="Generated Image"
-              src="https://thirdweb.com/brand/thirdweb-grey.png"
-              width="auto"
-              height="80px"
-          />
-        </div>
-      </div>
+
     </div>
+    <div class="logo-wrapper">
+    <img
+        class="logo"
+        alt="Generated Image"
+        src="https://thirdweb.com/brand/thirdweb-icon.png"
+        width="auto"
+        height="100px"
+    />
+  </div>
   </body>
 </html>`;
 }
