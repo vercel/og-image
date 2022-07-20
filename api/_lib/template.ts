@@ -153,7 +153,7 @@ function getCss() {
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      max-width: 1200px;
+      max-width: 1300px;
       overflow: hidden;
       font-family: 'Inter', sans-serif;
       font-size: 70px;
@@ -180,8 +180,8 @@ function getCss() {
 
     .logo-wrapper {
       position: absolute;
-      bottom: 100px;
-      right: 100px;
+      bottom: 120px;
+      right: 120px;
     }
     `
     ;
@@ -189,7 +189,7 @@ function getCss() {
 
 export function shortenString(str: string, extraShort?: true) {
   return `${str.substring(0, extraShort ? 4 : 6)}...${str.substring(
-    str.length - (extraShort ? 3 : 4),
+    str.length - 4,
   )}`;
 }
 
@@ -251,7 +251,7 @@ export function getHtml(parsedReq: ParsedRequest) {
           </div>
         
           <div class="releaser">
-            ${emojify(sanitizeHtml(releaser.startsWith("0x") ? shortenString(releaser) : releaser))}
+            ${emojify(sanitizeHtml(releaser.startsWith("0x") ? shortenString(releaser, true) : releaser))}
           </div>
         </div>
       </div>
