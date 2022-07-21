@@ -202,6 +202,7 @@ export function getHtml(parsedReq: ParsedRequest) {
       ? 'Deploy this contract in one click'
       : description;
   version = version === 'undefined' ? '' : version;
+  avatar = avatar === 'undefined' ? '' : avatar;
   extensions = extensions.filter(extension => extension !== "undefined")
 
   return `<!DOCTYPE html>
