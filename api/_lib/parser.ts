@@ -5,7 +5,7 @@ import { ParsedRequest } from './types';
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
     const { pathname, query } = parse(req.url || '/', true);
-    const { fontSize, images, widths, heights, theme, md, contractName, license, description, version, releaser, extensions, licenses } = (query || {});
+    const { fontSize, images, widths, heights, theme, md, contractName, license, description, version, releaser, extensions, licenses, avatar } = (query || {});
 
     if (Array.isArray(fontSize)) {
         throw new Error('Expected a single fontSize');
@@ -42,6 +42,7 @@ export function parseRequest(req: IncomingMessage) {
         description: decodeURIComponent(description as string),
         extensions: getArray(extensions),
         licenses: getArray(licenses),
+        avatar: decodeURIComponent(avatar as string),
     };
     parsedRequest.images = getDefaultImages(parsedRequest.images);
     return parsedRequest;

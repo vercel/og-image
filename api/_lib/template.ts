@@ -194,7 +194,7 @@ export function shortenString(str: string, extraShort?: true) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-  let { contractName, version, description, releaser, extensions } = parsedReq;
+  let { contractName, version, description, releaser, extensions, avatar } = parsedReq;
 
   contractName = contractName === 'undefined' ? 'Contract' : contractName;
   description =
@@ -243,7 +243,7 @@ export function getHtml(parsedReq: ParsedRequest) {
             <img
               class="avatar-image"
               alt="Generated Image"
-              src="https://source.boringavatars.com/marble/120/${releaser}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51"
+              src="${avatar ? avatar : `https://source.boringavatars.com/marble/120/${releaser}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}"
               width="auto"
               height="80px"
             />

@@ -17,4 +17,5 @@ export interface ParsedRequest {
     license: string;
     extensions: string[];
     licenses: string[];
+    avatar: string;
 }
