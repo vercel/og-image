@@ -1,9 +1,10 @@
 # Contributing
 
-There are two pieces to `og-image` that are worth noting before you begin development.
+There are three pieces to `og-image` that are worth noting before you begin development.
 
 1. The backend image generator located in [/api/index.ts](https://github.com/vercel/og-image/blob/main/api/index.ts)
-2. The frontend inputs located in [/web/index.ts](https://github.com/vercel/og-image/blob/main/web/index.ts)
+2. The html/css template used to generate the image is located in [/_lib/template.ts](https://github.com/vercel/og-image/blob/main/api/_lib/template.ts)
+3. The frontend inputs located in [/web/index.ts](https://github.com/vercel/og-image/blob/main/web/index.ts)
 
 Vercel handles [routing](https://github.com/vercel/og-image/blob/main/vercel.json#L6) in an elegant way for us so deployment is easy.
 

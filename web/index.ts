@@ -1,4 +1,4 @@
-import { ParsedRequest, Theme, FileType } from '../api/_lib/types';
+import type { ParsedRequest, Theme, FileType } from '../api/_lib/types';
 const { H, R, copee } = (window as any);
 let timeout = -1;
 
@@ -60,15 +60,18 @@ const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
 interface TextInputProps {
     value: string;
     oninput: (val: string) => void;
+    small: boolean;
+    placeholder?: string;
+    type?: string
 }
 
-const TextInput = ({ value, oninput }: TextInputProps) => {
+const TextInput = ({ value, oninput, small, type = 'text', placeholder = '' }: TextInputProps) => {
     return H('div',
-        { className: 'input-outer-wrapper' },
+        { className: 'input-outer-wrapper' + (small ? ' small' : '') },
         H('div',
             { className: 'input-inner-wrapper' },
             H('input',
-                { type: 'text', value, oninput: (e: any) => oninput(e.target.value) }
+                { type, value, placeholder, oninput: (e: any) => oninput(e.target.value) }
             )
         )
     );
@@ -151,27 +154,6 @@ const imageDarkOptions: DropdownOption[] = [
     { text: 'Stockora (Black)', value: 'https://og-image.stockora.com/stockora-black.svg' },
 ];
 
-const widthOptions = [
-    { text: 'width', value: 'auto' },
-    { text: '50', value: '50' },
-    { text: '100', value: '100' },
-    { text: '150', value: '150' },
-    { text: '200', value: '200' },
-    { text: '250', value: '250' },
-    { text: '300', value: '300' },
-    { text: '350', value: '350' },
-];
-
-const heightOptions = [
-    { text: 'height', value: 'auto' },
-    { text: '50', value: '50' },
-    { text: '100', value: '100' },
-    { text: '150', value: '150' },
-    { text: '200', value: '200' },
-    { text: '250', value: '250' },
-    { text: '300', value: '300' },
-    { text: '350', value: '350' },
-];
 
 interface AppState extends ParsedRequest {
     loading: boolean;
@@ -212,6 +194,7 @@ const App = (_: any, state: AppState, setState: SetState) => {
         selectedImageIndex = 0,
         overrideUrl = null,
     } = state;
+
     const mdValue = md ? '1' : '0';
     const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
     const url = new URL(window.location.origin);
@@ -296,21 +279,23 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         }),
                         H('div',
                             { className: 'field-flex' },
-                            H(Dropdown, {
-                                options: widthOptions,
+                            H(TextInput, {
                                 value: widths[0],
+                                type: 'number',
+                                placeholder: 'width',
                                 small: true,
-                                onchange: (val: string) =>  {
+                                oninput: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[0] = val;
                                     setLoadingState({ widths: clone });
                                 }
                             }),
-                            H(Dropdown, {
-                                options: heightOptions,
+                            H(TextInput, {
                                 value: heights[0],
+                                type: 'number',
+                                placeholder: 'height',
                                 small: true,
-                                onchange: (val: string) =>  {
+                                oninput: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[0] = val;
                                     setLoadingState({ heights: clone });
@@ -332,21 +317,23 @@ const App = (_: any, state: AppState, setState: SetState) => {
                         }),
                         H('div',
                             { className: 'field-flex' },
-                            H(Dropdown, {
-                                options: widthOptions,
+                            H(TextInput, {
                                 value: widths[i + 1],
+                                type: 'number',
+                                placeholder: 'width',
                                 small: true,
-                                onchange: (val: string) =>  {
+                                oninput: (val: string) =>  {
                                     let clone = [...widths];
                                     clone[i + 1] = val;
                                     setLoadingState({ widths: clone });
                                 }
                             }),
-                            H(Dropdown, {
-                                options: heightOptions,
+                            H(TextInput, {
                                 value: heights[i + 1],
+                                type: 'number',
+                                placeholder: 'height',
                                 small: true,
-                                onchange: (val: string) =>  {
+                                oninput: (val: string) =>  {
                                     let clone = [...heights];
                                     clone[i + 1] = val;
                                     setLoadingState({ heights: clone });

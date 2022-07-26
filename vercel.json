@@ -1,5 +1,6 @@
 {
-  "regions": ["iad1"],
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "regions": ["all"],
   "functions": {
     "api/**": {
       "memory": 3008
