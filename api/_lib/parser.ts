@@ -48,7 +48,7 @@ export function parseRequest(req: IncomingMessage) {
 
     if(params.get("type") == "company") {
         const data = getCompanyInfo(req.url ? req.url : "/")
-        const _parsedRequest: ParsedRequest = {
+        const _parsedRequest: Company = {
             ...parsedRequest,
             ...data
         }
@@ -92,4 +92,10 @@ function getCompanyInfo(url: string){
         sharePrice: params.get("sharePrice"),
         marketCap: params.get("marketCap")
     }
+}
+
+interface Company extends ParsedRequest{
+    companyName: string | null,
+    sharePrice: string | null,
+    marketCap: string | null,
 }
