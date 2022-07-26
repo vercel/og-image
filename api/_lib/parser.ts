@@ -48,10 +48,13 @@ export function parseRequest(req: IncomingMessage) {
 
     if(params.get("type") == "company") {
         const data = getCompanyInfo(req.url ? req.url : "/")
+
         const _parsedRequest: ParsedRequest = {
             ...parsedRequest,
-            ...data
+            ...data,
+            companyName:data.companyName.replace("-"," ")
         }
+
         return _parsedRequest
     }
 

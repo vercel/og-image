@@ -145,6 +145,7 @@ function getCss(theme: string, fontSize: string) {
     `;
 }
 
+
 export function getRNSHtmlTemplate(parsedReq: ParsedRequest) {
     const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
     return `<!DOCTYPE html>
@@ -193,7 +194,6 @@ export function getCompanyHtmlTemplate(parsedReq: ParsedRequest) {
                         }
                     </div>
                     <div class="spacer">
-                    <div class="heading--small">Company Announcement</div>
                     <div class="heading">${emojify(md ? marked(<string>companyName) : sanitizeHtml(<string>companyName))}
                     <div class="info-wrapper"> 
                       <div>
