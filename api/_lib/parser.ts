@@ -2,8 +2,11 @@ import { IncomingMessage } from 'http';
 import { parse } from 'url';
 import { ParsedRequest, Theme } from './types';
 
+
+
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
+
     const { pathname, query } = parse(req.url || '/', true);
     const { fontSize, images, widths, heights, theme, md } = (query || {});
 
@@ -36,7 +39,22 @@ export function parseRequest(req: IncomingMessage) {
         widths: getArray(widths),
         heights: getArray(heights),
     };
+
+
     parsedRequest.images = getDefaultImages(parsedRequest.images, parsedRequest.theme);
+
+    const urlParams =  req.url ?  req.url.split("/")[1] : "/"
+    const params = new URLSearchParams(urlParams.split("?")[1])
+
+    if(params.get("type") == "company") {
+        const data = getCompanyInfo(req.url ? req.url : "/")
+        const _parsedRequest: ParsedRequest = {
+            ...parsedRequest,
+            ...data
+        }
+        return _parsedRequest
+    }
+
     return parsedRequest;
 }
 
@@ -62,4 +80,16 @@ function getDefaultImages(images: string[], theme: Theme): string[] {
         images[0] = defaultImage;
     }
     return images;
+}
+
+function getCompanyInfo(url: string){
+    const urlParams = url.split("/")[1]
+    const params = new URLSearchParams(urlParams.split("?")[1])
+
+    return{
+        type: "company",
+        companyName: urlParams.split("?")[0],
+        sharePrice: params.get("sharePrice"),
+        marketCap: params.get("marketCap")
+    }
 }
