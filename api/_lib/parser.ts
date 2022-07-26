@@ -52,7 +52,6 @@ export function parseRequest(req: IncomingMessage) {
         const _parsedRequest: ParsedRequest = {
             ...parsedRequest,
             ...data,
-            companyName:data.companyName.replace("-"," ")
         }
 
         return _parsedRequest

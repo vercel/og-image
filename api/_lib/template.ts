@@ -176,7 +176,7 @@ export function getRNSHtmlTemplate(parsedReq: ParsedRequest) {
 }
 
 export function getCompanyHtmlTemplate(parsedReq: ParsedRequest) {
-    const {  theme, md, fontSize, images, widths, heights, companyName, sharePrice, marketCap } = parsedReq;
+    const {  theme, md, fontSize, images, widths, heights, text, sharePrice, marketCap } = parsedReq;
     return `<!DOCTYPE html>
     <html>
         <meta charset="utf-8">
@@ -194,7 +194,7 @@ export function getCompanyHtmlTemplate(parsedReq: ParsedRequest) {
                         }
                     </div>
                     <div class="spacer">
-                    <div class="heading">${emojify(md ? marked(<string>companyName) : sanitizeHtml(<string>companyName))}
+                    <div class="heading">${emojify(md ? marked(text) : sanitizeHtml(text))}
                     <div class="info-wrapper"> 
                       <div>
                           <p class="info-title">Share price</p>
