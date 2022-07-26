@@ -60,7 +60,7 @@ You'll want to fork this repository and deploy your own image generator.
 7. Deploy to the cloud by running `vercel` and you'll get a unique URL
 8. Connect [Vercel for GitHub](https://vercel.com/github) to automatically deploy each time you `git push` 🚀
 
-## Authors
+## Stokora Links
 
-- Steven ([@styfle](https://twitter.com/styfle)) - [Vercel](https://vercel.com)
-- Evil Rabbit ([@evilrabbit](https://twitter.com/evilrabbit_)) - [Vercel](https://vercel.com)
+- RNS: http://localhost:3000/{company name}
+- Companies: http://localhost:3000/{company name}?type=company&sharePrice={share price}&marketCap={market cap}

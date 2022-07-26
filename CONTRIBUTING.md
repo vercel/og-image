@@ -19,6 +19,3 @@ To start hacking, do the following:
 Now you're ready to start local development!
 
 You can set an environment variable to assist with debugging `export OG_HTML_DEBUG=1`. This will render the image as HTML so you can play around with your browser's dev tools before committing changes to the template.
-
-### urls 
-companies: http://localhost:3000/{company name}?type=company&sharePrice={share price}&marketCap={market cap}
