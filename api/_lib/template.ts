@@ -122,10 +122,30 @@ function getCss(theme: string, fontSize: string) {
         font-style: normal;
         color: ${foreground};
         line-height: 1.3;
-    }`;
+    }
+   
+    .info-title {
+      font-size: 2.6rem;
+      font-weight: 300;
+    }
+    
+    .info {
+      font-size: 3rem;
+      margin-top: -0.8em;
+    }
+    
+    .info-wrapper{
+      width: 40%;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;    
+    }
+    `;
 }
 
-export function getHtml(parsedReq: ParsedRequest) {
+export function getRNSHtmlTemplate(parsedReq: ParsedRequest) {
     const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
     return `<!DOCTYPE html>
 <html>
@@ -152,6 +172,43 @@ export function getHtml(parsedReq: ParsedRequest) {
         </div>
     </body>
 </html>`;
+}
+
+export function getCompanyHtmlTemplate(parsedReq: ParsedRequest) {
+    const {  theme, md, fontSize, images, widths, heights, companyName, sharePrice, marketCap } = parsedReq;
+    return `<!DOCTYPE html>
+    <html>
+        <meta charset="utf-8">
+        <title>Generated Image</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            ${getCss(theme, fontSize)}
+        </style>
+        <body>
+            <div>
+                <div class="spacer--small">
+                    <div class="logo-wrapper">
+                        ${images.map((img, i) =>
+                              getPlusSign(i) + getImage(img, widths[i], heights[i])).join('')
+                        }
+                    </div>
+                    <div class="spacer">
+                    <div class="heading--small">Company Announcement</div>
+                    <div class="heading">${emojify(md ? marked(<string>companyName) : sanitizeHtml(<string>companyName))}
+                    <div class="info-wrapper"> 
+                      <div>
+                          <p class="info-title">Share price</p>
+                          <p class="info">${sharePrice}</p>
+                      </div>
+                      <div>
+                          <p class="info-title">Market cap</p>
+                          <p class="info">${marketCap}</p>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>`;
 }
 
 function getImage(src: string, width ='auto', height = '225') {

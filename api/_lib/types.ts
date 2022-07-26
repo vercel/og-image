@@ -3,7 +3,7 @@ export type Theme = 'light' | 'dark';
 
 export interface ParsedRequest {
     type?: string;
-    companyName?: string | null,
+    companyName?: string,
     sharePrice?: string | null,
     marketCap?: string | null,
     fileType: FileType;
