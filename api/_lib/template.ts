@@ -133,6 +133,7 @@ function getCss(avatarSrc: string) {
     .avatar-image::before {
       content: "";
       display: block;
+      margin: auto 0;
       padding-top: 86.6%;
       background: url("${avatarSrc}");
       background-size: cover;
