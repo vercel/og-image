@@ -1,26 +1,25 @@
-import { readFileSync } from 'fs';
-import { sanitizeHtml } from './sanitizer';
-import { ParsedRequest } from './types';
-const twemoji = require('twemoji');
-const twOptions = { folder: 'svg', ext: '.svg' };
+import { readFileSync } from "fs";
+import { sanitizeHtml } from "./sanitizer";
+import { ParsedRequest } from "./types";
+const twemoji = require("twemoji");
+const twOptions = { folder: "svg", ext: ".svg" };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 const rglr = readFileSync(
-  `${__dirname}/../_fonts/Inter-Regular.woff2`,
-).toString('base64');
+  `${__dirname}/../_fonts/Inter-Regular.woff2`
+).toString("base64");
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString(
-  'base64',
+  "base64"
 );
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
-  'base64',
+  "base64"
 );
 
-const ibmPlexMono = readFileSync(`${__dirname}/../_fonts/IBMPlexMono-Medium.ttf`).toString(
-  'base64',
-);
+const ibmPlexMono = readFileSync(
+  `${__dirname}/../_fonts/IBMPlexMono-Medium.ttf`
+).toString("base64");
 
-function getCss() {
-
+function getCss(avatarSrc: string) {
   return `
     @font-face {
         font-family: 'Inter';
@@ -99,6 +98,9 @@ function getCss() {
 
     .right-side {
       margin-left: 60px;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
     }
 
     .bottom-section-container {
@@ -117,12 +119,27 @@ function getCss() {
       justify-content: center;
       align-items: center;
       margin-top: 40px;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
+      flex-direction: column;
     }
 
-    .avatar-image { 
+    .avatar-image {
       width: 200px;
       height: 200px;
+      filter: url(#round);
+      display: grid;
+    }
+
+    .avatar-image::before {
+      content: "";
+      display: block;
+      margin: auto 0;
+      padding-top: 86.6%;
+      background: url("${avatarSrc}");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     }
 
     .container {
@@ -182,28 +199,27 @@ function getCss() {
       position: absolute;
       bottom: 120px;
       right: 120px;
-    }
-    `
-    ;
+    }`;
 }
 
 export function shortenString(str: string, extraShort?: true) {
   return `${str.substring(0, extraShort ? 4 : 6)}...${str.substring(
-    str.length - 4,
+    str.length - 4
   )}`;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-  let { contractName, version, description, releaser, extensions, avatar } = parsedReq;
+  let { contractName, version, description, releaser, extensions, avatar } =
+    parsedReq;
 
-  contractName = contractName === 'undefined' ? 'Contract' : contractName;
+  contractName = contractName === "undefined" ? "Contract" : contractName;
   description =
-    description === 'undefined'
-      ? 'Deploy this contract in one click'
+    description === "undefined"
+      ? "Deploy this contract in one click"
       : description;
-  version = version === 'undefined' ? '' : version;
-  avatar = avatar === 'undefined' ? '' : avatar;
-  extensions = extensions.filter(extension => extension !== "undefined")
+  version = version === "undefined" ? "" : version;
+  avatar = avatar === "undefined" ? "" : avatar;
+  extensions = extensions.filter((extension) => extension !== "undefined");
 
   return `<!DOCTYPE html>
 <html>
@@ -211,7 +227,11 @@ export function getHtml(parsedReq: ParsedRequest) {
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss()}
+        ${getCss(
+          avatar
+            ? avatar
+            : `https://source.boringavatars.com/marble/120/${releaser}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51?square`
+        )}
     </style>
     <body>
       <img
@@ -224,6 +244,26 @@ export function getHtml(parsedReq: ParsedRequest) {
         alt="Generated Image"
         src="https://thirdweb.com/assets/og-image/blue-gradient.png"
       />
+      <svg
+        style="visibility: hidden; position: absolute;"
+        width="0"
+        height="0"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+    >
+      <defs>
+        <filter id="round">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+            result="goo"
+          />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+    </svg>
     <div>
       <div class="container">
         <div>
@@ -241,18 +281,19 @@ export function getHtml(parsedReq: ParsedRequest) {
         </div>
         <div class="right-side">
           <div class="avatar">
-            <img
-              class="avatar-image"
-              alt="Generated Image"
-              src="${avatar ? avatar : `https://source.boringavatars.com/marble/120/${releaser}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}"
-              width="auto"
-              height="80px"
-            />
-           
+            <div class="avatar-image" />
           </div>
+           
+          
         
           <div class="releaser">
-            ${emojify(sanitizeHtml(releaser.startsWith("0x") ? shortenString(releaser, true) : releaser))}
+            ${emojify(
+              sanitizeHtml(
+                releaser.startsWith("0x")
+                  ? shortenString(releaser, true)
+                  : releaser
+              )
+            )}
           </div>
         </div>
       </div>
@@ -267,19 +308,24 @@ export function getHtml(parsedReq: ParsedRequest) {
               </div>
             </div>
           </div>
-          ${extensions.length > 0 ? (
-            `
+          ${
+            extensions.length > 0
+              ? `
               <div class="list">
               <svg class="icon" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M16 24.5H18.6667V21.8333H16V24.5ZM21.3333 24.5H24V21.8333H21.3333V24.5ZM5.33333 24.5H8V21.8333H5.33333V24.5ZM10.6667 24.5H13.3333V21.8333H10.6667V24.5ZM21.3333 19.1667H24V16.5H21.3333V19.1667ZM21.3333 13.8333H24V11.1667H21.3333V13.8333ZM0 0.5V24.5H2.66667V3.16667H24V0.5H0ZM21.3333 8.5H24V5.83333H21.3333V8.5Z" fill="white" fill-opacity="0.5"/>
               </svg>
       
               <div class="list-text">
-              ${extensions.splice(0,3).map(extension => `${emojify(sanitizeHtml(extension))}`).join(", ")}
+              ${extensions
+                .splice(0, 3)
+                .map((extension) => `${emojify(sanitizeHtml(extension))}`)
+                .join(", ")}
               </div>
               </div>
             `
-            ) : ''}
+              : ""
+          }
         </div>
 
     </div>
