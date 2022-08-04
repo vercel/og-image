@@ -98,6 +98,9 @@ function getCss(avatarSrc: string) {
 
     .right-side {
       margin-left: 60px;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
     }
 
     .bottom-section-container {
@@ -117,6 +120,7 @@ function getCss(avatarSrc: string) {
       align-items: center;
       margin-top: 40px;
       margin-bottom: 50px;
+      flex-direction: column;
     }
 
     .avatar-image {
