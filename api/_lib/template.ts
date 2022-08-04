@@ -119,23 +119,23 @@ function getCss(avatarSrc: string) {
       margin-bottom: 50px;
     }
 
-    .avatar-image { 
+    .avatar-image {
       width: 200px;
       height: 200px;
-      filter: "url(#round)";
-      display: "grid";
+      filter: url(#round);
+      display: grid;
     }
 
-    .avatar-image::before{
+    .avatar-image::before {
       content: "";
-          display: "block";
-          margin: "auto" 0;
-          padding-top: "86.6%";
-          background: url(${avatarSrc});
-          background-size: "cover";
-          background-repeat: "no-repeat";
-          background-position: "center";
-          clip-path: "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)";
+      display: block;
+      margin: auto 0;
+      padding-top: 86.6%;
+      background: url("${avatarSrc}");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     }
 
     .container {
@@ -195,10 +195,7 @@ function getCss(avatarSrc: string) {
       position: absolute;
       bottom: 120px;
       right: 120px;
-    }
-
-
-    `;
+    }`;
 }
 
 export function shortenString(str: string, extraShort?: true) {
@@ -279,7 +276,9 @@ export function getHtml(parsedReq: ParsedRequest) {
           </div>
         </div>
         <div class="right-side">
-          <div class="avatar" />
+          <div class="avatar">
+            <div class="avatar-image" />
+          </div>
            
           
         
