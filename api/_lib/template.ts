@@ -119,7 +119,7 @@ function getCss(avatarSrc: string) {
       justify-content: center;
       align-items: center;
       margin-top: 40px;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
       flex-direction: column;
     }
 
@@ -133,7 +133,6 @@ function getCss(avatarSrc: string) {
     .avatar-image::before {
       content: "";
       display: block;
-      margin: auto 0;
       padding-top: 86.6%;
       background: url("${avatarSrc}");
       background-size: cover;
