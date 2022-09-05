@@ -11,7 +11,7 @@
     "@types/puppeteer-core": "2.0.0",
     "@vercel/node": "2.5.13",
     "chrome-aws-lambda": "10.1.0",
-    "puppeteer-core": "17.1.0"
+    "puppeteer-core": "10.1.0"
   },
   "devDependencies": {
     "typescript": "^4.1.5"
