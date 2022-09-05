@@ -10,8 +10,8 @@
     "@types/node": "18.7.14",
     "@types/puppeteer-core": "2.0.0",
     "@vercel/node": "2.5.13",
-    "chrome-aws-lambda": "10.1.0",
-    "puppeteer-core": "5.5.0"
+    "chrome-aws-lambda": "7.0.0",
+    "puppeteer-core": "13.1.2"
   },
   "devDependencies": {
     "typescript": "^4.1.5"
