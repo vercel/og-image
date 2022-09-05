@@ -1,5 +1,5 @@
 import chromium from "chrome-aws-lambda";
-import puppeteer from "puppeteer-core";
+import playwright from "playwright-core";
 
 const isDev = !process.env.AWS_REGION;
 
@@ -17,19 +17,22 @@ export default async function screenshot(url: string) {
   let browser;
 
   if (isDev) {
-    browser = await puppeteer.launch(devOptions);
+    browser = await playwright.chromium.launch({ ...devOptions });
   } else {
-    browser = await chromium.puppeteer.launch({
+    browser = await playwright.chromium.launch({
       args: chromium.args,
       executablePath: await chromium.executablePath,
       headless: chromium.headless,
     });
   }
 
-  const page = await browser.newPage();
   // og image is supposed to be 1.9:1 (1200x630)
   // twitter image is supposed to be 2:1 (1200x600), but works fine with 1200x630, too
-  await page.setViewport({ width: 1200, height: 630, deviceScaleFactor: 2 });
-  await page.goto(url, { waitUntil: "networkidle0" });
+  const page = await browser.newPage({
+    viewport: { width: 1200, height: 630 },
+    deviceScaleFactor: 2,
+  });
+
+  await page.goto(url, { waitUntil: "networkidle" });
   return await page.screenshot({ type: "png" });
 }
