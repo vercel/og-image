@@ -1,18 +1,14 @@
 {
   "private": true,
-  "engines": {
-    "node": "^14"
-  },
   "scripts": {
     "build": "tsc -p api/tsconfig.json"
   },
   "dependencies": {
-    "@types/node": "18.7.14",
-    "@vercel/node": "2.5.13",
-    "chrome-aws-lambda": "10.1.0",
-    "playwright-core": "1.25.1"
+    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer-core": "^17.1.0"
   },
   "devDependencies": {
+    "@vercel/node": "2.5.13",
     "typescript": "^4.1.5"
   }
 }
