@@ -21,7 +21,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     // check if the hostname is prod or preview
     if (
       // prod
-      hostname === "https://thirdweb.com" ||
+      hostname.endsWith("thirdweb.com") ||
       // preview
       (hostname.endsWith("-thirdweb.vercel.app") &&
         origin.startsWith("https://thirdweb-"))
