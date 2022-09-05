@@ -12,7 +12,13 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     return res.status(400).json({ error: "missing url" });
   }
 
-  const parsedUrl = new URL(url);
+  let parsedUrl;
+
+  try {
+    parsedUrl = new URL(url);
+  } catch (err) {
+    return res.status(400).json({ error: "unable to parse url" });
+  }
 
   const { hostname, origin } = parsedUrl;
 
