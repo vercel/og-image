@@ -8,9 +8,10 @@ interface ImagePreviewProps {
     onload: () => void;
     onerror: () => void;
     loading: boolean;
+    decoding?: 'async' | 'sync' | 'auto';
 }
 
-const ImagePreview = ({ src, onclick, onload, onerror, loading }: ImagePreviewProps) => {
+const ImagePreview = ({ src, onclick, onload, onerror, loading , decoding="async" }: ImagePreviewProps) => {
     const style = {
         filter: loading ? 'blur(5px)' : '',
         opacity: loading ? 0.1 : 1,
@@ -19,7 +20,7 @@ const ImagePreview = ({ src, onclick, onload, onerror, loading }: ImagePreviewPr
     return H('a',
         { className: 'image-wrapper', href: src, onclick },
         H('img',
-            { src, onload, onerror, style, title }
+            { src, onload, onerror, style, title, decoding }
         )
     );
 }
