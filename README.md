@@ -1,3 +1,7 @@
+> **Update 2022:** We have released a new library called [Vercel OG](https://vercel.com/blog/introducing-vercel-og-image-generation-fast-dynamic-social-card-images) to generate dynamic social card images. This repository is currently not yet using it.
+
+---
+
 <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fog-image&demo-title=OG%20Image%20Generator&demo-description=A%20service%20that%20generates%20dynamic%20Open%20Graph%20images&demo-url=https%3A%2F%2Fog-image.vercel.app%2F&demo-image=https%3A%2F%2Fog-image.vercel.app%2FOpen%2520Graph%2520Image%2520as%2520a%2520Service.png%3Ftheme%3Dlight%26md%3D1%26fontSize%3D95px%26images%3Dhttps%253A%252F%252Fassets.vercel.com%252Fimage%252Fupload%252Ffront%252Fassets%252Fdesign%252Fzeit-black-triangle.svg"><img src="https://vercel.com/button" alt="Deploy with Vercel" align="right" width="128"/></a>
 
 # [Open Graph Image as a Service](https://og-image.vercel.app)
