@@ -1,21 +1,27 @@
 {
   "private": true,
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "scripts": {
-    "build": "tsc -p web/tsconfig.json"
+    "dev": "next dev",
+    "build": "next build"
   },
   "dependencies": {
+    "@vercel/og": "0.0.21",
     "chrome-aws-lambda": "7.0.0",
     "marked": "4.0.10",
+    "next": "13.0.6",
     "puppeteer-core": "13.1.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "twemoji": "13.0.1"
   },
   "devDependencies": {
     "@types/marked": "4.0.1",
     "@types/puppeteer": "5.4.4",
     "@types/puppeteer-core": "5.4.0",
-    "typescript": "4.1.5"
+    "@types/react": "18.0.26",
+    "typescript": "4.9.4"
   }
 }

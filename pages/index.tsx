@@ -1,5 +1,10 @@
+import React from 'react';
+export default function Home() {
+    return <h1>TODO</h1>
+}
+/*
 import type { ParsedRequest, Theme, FileType } from '../api/_lib/types';
-const { H, R, copee } = (window as any);
+
 let timeout = -1;
 
 interface ImagePreviewProps {
@@ -16,12 +21,9 @@ const ImagePreview = ({ src, onclick, onload, onerror, loading }: ImagePreviewPr
         opacity: loading ? 0.1 : 1,
     };
     const title = 'Click to copy image URL to clipboard';
-    return H('a',
-        { className: 'image-wrapper', href: src, onclick },
-        H('img',
-            { src, onload, onerror, style, title }
-        )
-    );
+    return <a className="image-wrapper" href={src} onClick={onclick}>
+        <img src onload onerror style title />
+    </a>
 }
 
 interface DropdownOption {
@@ -403,4 +405,4 @@ const App = (_: any, state: AppState, setState: SetState) => {
     );
 };
 
-R(H(App), document.getElementById('app'));
+*/

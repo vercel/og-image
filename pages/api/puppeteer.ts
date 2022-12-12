@@ -7,6 +7,7 @@ const isDev = !process.env.AWS_REGION;
 const isHtmlDebug = process.env.OG_HTML_DEBUG === '1';
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
+    console.log('testing func')
     try {
         const parsedReq = parseRequest(req);
         const html = getHtml(parsedReq);
