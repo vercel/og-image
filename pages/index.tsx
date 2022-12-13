@@ -1,189 +1,209 @@
-import React from 'react';
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from 'react'
+import Dropdown, { DropdownOption } from '../components/Dropdown'
+import Field from '../components/Field'
+import ImagePreview from '../components/ImagePreview'
+import TextInput from '../components/TextInput'
+
+const themeOptions: DropdownOption[] = [
+  { text: 'Light', value: 'light' },
+  { text: 'Dark', value: 'dark' },
+]
+
+const imageOptions: DropdownOption[] = [
+  {
+    text: 'Vercel',
+    value:
+      'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg',
+  },
+  {
+    text: 'Next.js',
+    value:
+      'https://assets.vercel.com/image/upload/front/assets/design/nextjs-black-logo.svg',
+  },
+  {
+    text: 'Hyper',
+    value:
+      'https://assets.vercel.com/image/upload/front/assets/design/hyper-color-logo.svg',
+  },
+]
+
+const fileTypeOptions: DropdownOption[] = [
+  { text: 'PNG', value: 'png' },
+  { text: 'JPEG', value: 'jpeg' },
+]
+
+const fontSizeOptions: DropdownOption[] = Array.from({ length: 10 })
+  .map((_, i) => i * 25)
+  .filter((n) => n > 0)
+  .map((n) => ({ text: n + 'px', value: n + 'px' }))
+
+const markdownOptions: DropdownOption[] = [
+  { text: 'Plain Text', value: '0' },
+  { text: 'Markdown', value: '1' },
+]
+
+// TODO: FIELDS object to map over
+
 export default function Home() {
-    return <h1>TODO</h1>
+  const [loading, setLoading] = useState(true)
+  const [showToast, setShowToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
+  const [theme, setTheme] = useState('light')
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [widths, setWidths] = useState([])
+  const [heights, setHeights] = useState([])
+  const [overrideUrl, setOverrideUrl] = useState(null)
+  const [url, setUrl] = useState(new URL(window.location.origin))
+  const [fileType, setFileType] = useState('png')
+  const [fontSize, setFontSize] = useState('100px')
+  const [images, setImages] = useState([imageOptions[0].value])
+
+  const [textSettings, setTextSettings] = useState({
+    fontSize: '100px',
+    isMarkdown: true,
+    text: '**Hello** World',
+  })
+
+  //   const setLoadingState = (newState: Partial<AppState>) => {
+  //     window.clearTimeout(timeout)
+  //     if (state.overrideUrl && state.overrideUrl !== newState.overrideUrl) {
+  //       newState.overrideUrl = state.overrideUrl
+  //     }
+  //     if (newState.overrideUrl) {
+  //       timeout = window.setTimeout(() => setState({ overrideUrl: null }), 200)
+  //     }
+
+  //     setState({ ...newState, loading: true })
+  //   }
+
+  // TODO: Add texts array to add in N text nodes
+
+  useEffect(() => {
+    const tempUrl = url
+    tempUrl.pathname = `${encodeURIComponent(textSettings.text)}.${fileType}`
+    tempUrl.searchParams.append('theme', theme)
+    tempUrl.searchParams.append('md', textSettings.isMarkdown ? '1' : '0')
+    tempUrl.searchParams.append('fontSize', fontSize)
+
+    for (const image of images) {
+      tempUrl.searchParams.append('images', image)
+    }
+
+    for (let width of widths) {
+      tempUrl.searchParams.append('widths', width)
+    }
+    for (let height of heights) {
+      tempUrl.searchParams.append('heights', height)
+    }
+  }, [])
+
+  const onThemeChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const selectedTheme = e.currentTarget.value
+    setTheme(selectedTheme)
+  }
+
+  const onFileTypeChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const selectedFileType = e.currentTarget.value
+    setFileType(selectedFileType)
+  }
+
+  const onTextFontSizeChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const selectedFontSize = e.currentTarget.value
+    setTextSettings((prev) => ({ ...prev, fontSize: selectedFontSize }))
+  }
+
+  const onTextTypeChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const isMarkdown = e.currentTarget.value === '1'
+    setTextSettings((prev) => ({ ...prev, isMarkdown }))
+  }
+
+  const onTextInputChange: FormEventHandler<HTMLInputElement> = (e) => {
+    const textInput = e.currentTarget.value
+    setTextSettings((prev) => ({ ...prev, text: textInput }))
+  }
+
+  return (
+    <div className='split'>
+      <div className='pull-left'>
+        <div>
+          <Field
+            label='Theme'
+            input={
+              <Dropdown
+                options={themeOptions}
+                value={theme}
+                onChange={onThemeChange}
+              />
+            }
+          />
+          <Field
+            label='File Type'
+            input={
+              <Dropdown
+                options={fileTypeOptions}
+                value={fileType}
+                onChange={onFileTypeChange}
+              />
+            }
+          />
+          <Field
+            label='Font Size'
+            input={
+              <Dropdown
+                options={fontSizeOptions}
+                value={textSettings.fontSize}
+                onChange={onTextFontSizeChange}
+              />
+            }
+          />
+          <Field
+            label='Text Type'
+            input={
+              <Dropdown
+                options={markdownOptions}
+                value={textSettings.isMarkdown ? '1' : '0'}
+                onChange={onTextTypeChange}
+              />
+            }
+          />
+          <Field
+            label='Text Input'
+            input={
+              <TextInput
+                value={textSettings.text}
+                onInput={onTextInputChange}
+              />
+            }
+          />
+        </div>
+      </div>
+      <div className='pull-right'>
+        <ImagePreview
+          src={overrideUrl ? overrideUrl.href : url.href}
+          loading={loading}
+          onLoad={() => setLoading(false)}
+          onError={() => {
+            setShowToast(true)
+            setToastMessage('Oops, an error occurred.')
+          }}
+          onClick={() => console.log('Copied to clipboard.')}
+        />
+      </div>
+    </div>
+  )
 }
 /*
 import type { ParsedRequest, Theme, FileType } from '../api/_lib/types';
 
 let timeout = -1;
 
-interface ImagePreviewProps {
-    src: string;
-    onclick: () => void;
-    onload: () => void;
-    onerror: () => void;
-    loading: boolean;
-}
-
-const ImagePreview = ({ src, onclick, onload, onerror, loading }: ImagePreviewProps) => {
-    const style = {
-        filter: loading ? 'blur(5px)' : '',
-        opacity: loading ? 0.1 : 1,
-    };
-    const title = 'Click to copy image URL to clipboard';
-    return <a className="image-wrapper" href={src} onClick={onclick}>
-        <img src onload onerror style title />
-    </a>
-}
-
-interface DropdownOption {
-    text: string;
-    value: string;
-}
-
-interface DropdownProps {
-    options: DropdownOption[];
-    value: string;
-    onchange: (val: string) => void;
-    small: boolean;
-}
-
-const Dropdown = ({ options, value, onchange, small }: DropdownProps) => {
-    const wrapper = small ? 'select-wrapper small' : 'select-wrapper';
-    const arrow = small ? 'select-arrow small' : 'select-arrow';
-    return H('div',
-        { className: wrapper },
-        H('select',
-            { onchange: (e: any) => onchange(e.target.value) },
-            options.map(o =>
-                H('option',
-                    { value: o.value, selected: value === o.value },
-                    o.text
-                )
-            )
-        ),
-        H('div',
-            { className: arrow },
-            '▼'
-        )
-    );
-}
-
-interface TextInputProps {
-    value: string;
-    oninput: (val: string) => void;
-    small: boolean;
-    placeholder?: string;
-    type?: string
-}
-
-const TextInput = ({ value, oninput, small, type = 'text', placeholder = '' }: TextInputProps) => {
-    return H('div',
-        { className: 'input-outer-wrapper' + (small ? ' small' : '') },
-        H('div',
-            { className: 'input-inner-wrapper' },
-            H('input',
-                { type, value, placeholder, oninput: (e: any) => oninput(e.target.value) }
-            )
-        )
-    );
-}
-
-interface ButtonProps {
-    label: string;
-    onclick: () => void;
-}
-
-const Button = ({ label, onclick }: ButtonProps) => {
-    return H('button', { onclick }, label);
-}
-
-interface FieldProps {
-    label: string;
-    input: any;
-}
-
-const Field = ({ label, input }: FieldProps) => {
-    return H('div',
-        { className: 'field' },
-        H('label', 
-            H('div', {className: 'field-label'}, label),
-            H('div', { className: 'field-value' }, input),
-        ),
-    );
-}
-
-interface ToastProps {
-    show: boolean;
-    message: string;
-}
-
-const Toast = ({ show, message }: ToastProps) => {
-    const style = { transform:  show ? 'translate3d(0,-0px,-0px) scale(1)' : '' };
-    return H('div',
-        { className: 'toast-area' },
-        H('div',
-            { className: 'toast-outer', style },
-            H('div',
-                { className: 'toast-inner' },
-                H('div',
-                    { className: 'toast-message'},
-                    message
-                )
-            )
-        ),
-    );
-}
-
-const themeOptions: DropdownOption[] = [
-    { text: 'Light', value: 'light' },
-    { text: 'Dark', value: 'dark' },
-];
-
-const fileTypeOptions: DropdownOption[] = [
-    { text: 'PNG', value: 'png' },
-    { text: 'JPEG', value: 'jpeg' },
-];
-
-const fontSizeOptions: DropdownOption[] = Array
-    .from({ length: 10 })
-    .map((_, i) => i * 25)
-    .filter(n => n > 0)
-    .map(n => ({ text: n + 'px', value: n + 'px' }));
-
-const markdownOptions: DropdownOption[] = [
-    { text: 'Plain Text', value: '0' },
-    { text: 'Markdown', value: '1' },
-];
-
-const imageLightOptions: DropdownOption[] = [
-    { text: 'Vercel', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-black.svg' },
-    { text: 'Next.js', value: 'https://assets.vercel.com/image/upload/front/assets/design/nextjs-black-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-color-logo.svg' },
-];
-
-const imageDarkOptions: DropdownOption[] = [
-
-    { text: 'Vercel', value: 'https://assets.vercel.com/image/upload/front/assets/design/vercel-triangle-white.svg' },
-    { text: 'Next.js', value: 'https://assets.vercel.com/image/upload/front/assets/design/nextjs-white-logo.svg' },
-    { text: 'Hyper', value: 'https://assets.vercel.com/image/upload/front/assets/design/hyper-bw-logo.svg' },
-];
-
-
-interface AppState extends ParsedRequest {
-    loading: boolean;
-    showToast: boolean;
-    messageToast: string;
-    selectedImageIndex: number;
-    widths: string[];
-    heights: string[];
-    overrideUrl: URL | null;
-}
-
-type SetState = (state: Partial<AppState>) => void;
-
 const App = (_: any, state: AppState, setState: SetState) => {
-    const setLoadingState = (newState: Partial<AppState>) => {
-        window.clearTimeout(timeout);
-        if (state.overrideUrl && state.overrideUrl !== newState.overrideUrl) {
-            newState.overrideUrl = state.overrideUrl;
-        }
-        if (newState.overrideUrl) {
-            timeout = window.setTimeout(() => setState({ overrideUrl: null }), 200);
-        }
-
-        setState({ ...newState, loading: true });
-    };
+    
     const {
         fileType = 'png',
         fontSize = '100px',
@@ -200,75 +220,12 @@ const App = (_: any, state: AppState, setState: SetState) => {
         overrideUrl = null,
     } = state;
 
-    const mdValue = md ? '1' : '0';
-    const imageOptions = theme === 'light' ? imageLightOptions : imageDarkOptions;
-    const url = new URL(window.location.origin);
-    url.pathname = `${encodeURIComponent(text)}.${fileType}`;
-    url.searchParams.append('theme', theme);
-    url.searchParams.append('md', mdValue);
-    url.searchParams.append('fontSize', fontSize);
-    for (let image of images) {
-        url.searchParams.append('images', image);
-    }
-    for (let width of widths) {
-        url.searchParams.append('widths', width);
-    }
-    for (let height of heights) {
-        url.searchParams.append('heights', height);
-    }
-
     return H('div',
         { className: 'split' },
         H('div',
             { className: 'pull-left' },
             H('div',
-                H(Field, {
-                    label: 'Theme',
-                    input: H(Dropdown, {
-                        options: themeOptions,
-                        value: theme,
-                        onchange: (val: Theme) => {
-                            const options = val === 'light' ? imageLightOptions : imageDarkOptions
-                            let clone = [...images];
-                            clone[0] = options[selectedImageIndex].value;
-                            setLoadingState({ theme: val, images: clone });
-                        }
-                    })
-                }),
-                H(Field, {
-                    label: 'File Type',
-                    input: H(Dropdown, {
-                        options: fileTypeOptions,
-                        value: fileType,
-                        onchange: (val: FileType) => setLoadingState({ fileType: val })
-                    })
-                }),
-                H(Field, {
-                    label: 'Font Size',
-                    input: H(Dropdown, {
-                        options: fontSizeOptions,
-                        value: fontSize,
-                        onchange: (val: string) => setLoadingState({ fontSize: val })
-                    })
-                }),
-                H(Field, {
-                    label: 'Text Type',
-                    input: H(Dropdown, {
-                        options: markdownOptions,
-                        value: mdValue,
-                        onchange: (val: string) => setLoadingState({ md: val === '1' })
-                    })
-                }),
-                H(Field, {
-                    label: 'Text Input',
-                    input: H(TextInput, {
-                        value: text,
-                        oninput: (val: string) => {
-                            console.log('oninput ' + val);
-                            setLoadingState({ text: val, overrideUrl: url });
-                        }
-                    })
-                }),
+                
                 H(Field, {
                     label: 'Image 1',
                     input: H('div',
