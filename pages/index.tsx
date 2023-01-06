@@ -2,12 +2,18 @@ import {
   ChangeEventHandler,
   FormEventHandler,
   useEffect,
+  useRef,
   useState,
 } from 'react'
 import Dropdown, { DropdownOption } from '../components/Dropdown'
 import Field from '../components/Field'
 import ImagePreview from '../components/ImagePreview'
 import TextInput from '../components/TextInput'
+
+/**
+ * Notes:
+ * - Latest version supports conversion to PNG only, not JPEG.
+ */
 
 const themeOptions: DropdownOption[] = [
   { text: 'Light', value: 'light' },
@@ -32,11 +38,6 @@ const imageOptions: DropdownOption[] = [
   },
 ]
 
-const fileTypeOptions: DropdownOption[] = [
-  { text: 'PNG', value: 'png' },
-  { text: 'JPEG', value: 'jpeg' },
-]
-
 const fontSizeOptions: DropdownOption[] = Array.from({ length: 10 })
   .map((_, i) => i * 25)
   .filter((n) => n > 0)
@@ -47,148 +48,162 @@ const markdownOptions: DropdownOption[] = [
   { text: 'Markdown', value: '1' },
 ]
 
-// TODO: FIELDS object to map over
+interface OGImageData {
+  theme: string
+  text: string
+  md: boolean
+  fontSize: string
+  selectedImageIndex: number
+  images: string[]
+  widths: string[]
+  heights: string[]
+}
+
+const DEFAULT_DATA = {
+  theme: 'light',
+  text: 'Hello World',
+  md: false,
+  fontSize: '100px',
+  selectedImageIndex: 0,
+  images: [imageOptions[0].value],
+  widths: [],
+  heights: [],
+}
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
-  const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
-  const [theme, setTheme] = useState('light')
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
-  const [widths, setWidths] = useState([])
-  const [heights, setHeights] = useState([])
-  const [overrideUrl, setOverrideUrl] = useState(null)
-  const [url, setUrl] = useState(new URL(window.location.origin))
-  const [fileType, setFileType] = useState('png')
-  const [fontSize, setFontSize] = useState('100px')
-  const [images, setImages] = useState([imageOptions[0].value])
-
-  const [textSettings, setTextSettings] = useState({
-    fontSize: '100px',
-    isMarkdown: true,
-    text: '**Hello** World',
-  })
-
-  //   const setLoadingState = (newState: Partial<AppState>) => {
-  //     window.clearTimeout(timeout)
-  //     if (state.overrideUrl && state.overrideUrl !== newState.overrideUrl) {
-  //       newState.overrideUrl = state.overrideUrl
-  //     }
-  //     if (newState.overrideUrl) {
-  //       timeout = window.setTimeout(() => setState({ overrideUrl: null }), 200)
-  //     }
-
-  //     setState({ ...newState, loading: true })
-  //   }
-
-  // TODO: Add texts array to add in N text nodes
+  const [imageData, setImageData] = useState<OGImageData>(DEFAULT_DATA)
+  const [url, setUrl] = useState(null)
+  const timeoutRef = useRef(null)
 
   useEffect(() => {
-    const tempUrl = url
-    tempUrl.pathname = `${encodeURIComponent(textSettings.text)}.${fileType}`
-    tempUrl.searchParams.append('theme', theme)
-    tempUrl.searchParams.append('md', textSettings.isMarkdown ? '1' : '0')
-    tempUrl.searchParams.append('fontSize', fontSize)
-
-    for (const image of images) {
-      tempUrl.searchParams.append('images', image)
-    }
-
-    for (let width of widths) {
-      tempUrl.searchParams.append('widths', width)
-    }
-    for (let height of heights) {
-      tempUrl.searchParams.append('heights', height)
-    }
+    setUrl(new URL(window.location.origin))
   }, [])
+
+  useEffect(() => {
+    window.clearTimeout(timeoutRef?.current)
+
+    const generateUrl = () => {
+      const tempUrl = new URL(window.location.origin)
+      tempUrl.pathname = `/api/${encodeURIComponent(imageData.text)}`
+      tempUrl.searchParams.append('theme', imageData.theme)
+      tempUrl.searchParams.append('md', imageData.md ? '1' : '0')
+      tempUrl.searchParams.append('fontSize', imageData.fontSize)
+
+      for (const image of imageData.images) {
+        tempUrl.searchParams.append('images', image)
+      }
+
+      for (let width of imageData.widths) {
+        tempUrl.searchParams.append('widths', width)
+      }
+
+      for (let height of imageData.heights) {
+        tempUrl.searchParams.append('heights', height)
+      }
+
+      return tempUrl
+    }
+
+    const tempUrl = generateUrl()
+
+    if (tempUrl && tempUrl !== url) {
+      timeoutRef.current = window.setTimeout(() => {
+        setLoading(true)
+        setUrl(tempUrl)
+      }, 500)
+    }
+  }, [imageData])
 
   const onThemeChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     const selectedTheme = e.currentTarget.value
-    setTheme(selectedTheme)
-  }
-
-  const onFileTypeChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    const selectedFileType = e.currentTarget.value
-    setFileType(selectedFileType)
+    setImageData((prev) => ({ ...prev, theme: selectedTheme }))
   }
 
   const onTextFontSizeChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     const selectedFontSize = e.currentTarget.value
-    setTextSettings((prev) => ({ ...prev, fontSize: selectedFontSize }))
+    setImageData((prev) => ({ ...prev, fontSize: selectedFontSize }))
   }
 
   const onTextTypeChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     const isMarkdown = e.currentTarget.value === '1'
-    setTextSettings((prev) => ({ ...prev, isMarkdown }))
+    setImageData((prev) => ({ ...prev, md: isMarkdown }))
   }
 
   const onTextInputChange: FormEventHandler<HTMLInputElement> = (e) => {
     const textInput = e.currentTarget.value
-    setTextSettings((prev) => ({ ...prev, text: textInput }))
+    setImageData((prev) => ({ ...prev, text: textInput }))
+  }
+
+  const onImageChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    const selectedImage = e.currentTarget.value
+    const clone = [...imageData.images]
+    clone[0] = selectedImage
+    const selected = imageOptions.map((o) => o.value).indexOf(selectedImage)
+    setImageData((prev) => ({
+      ...prev,
+      images: clone,
+      selectedImageIndex: selected,
+    }))
   }
 
   return (
     <div className='split'>
       <div className='pull-left'>
-        <div>
-          <Field
-            label='Theme'
-            input={
-              <Dropdown
-                options={themeOptions}
-                value={theme}
-                onChange={onThemeChange}
-              />
-            }
-          />
-          <Field
-            label='File Type'
-            input={
-              <Dropdown
-                options={fileTypeOptions}
-                value={fileType}
-                onChange={onFileTypeChange}
-              />
-            }
-          />
-          <Field
-            label='Font Size'
-            input={
-              <Dropdown
-                options={fontSizeOptions}
-                value={textSettings.fontSize}
-                onChange={onTextFontSizeChange}
-              />
-            }
-          />
-          <Field
-            label='Text Type'
-            input={
-              <Dropdown
-                options={markdownOptions}
-                value={textSettings.isMarkdown ? '1' : '0'}
-                onChange={onTextTypeChange}
-              />
-            }
-          />
-          <Field
-            label='Text Input'
-            input={
-              <TextInput
-                value={textSettings.text}
-                onInput={onTextInputChange}
-              />
-            }
-          />
-        </div>
+        <Field
+          label='Theme'
+          input={
+            <Dropdown
+              options={themeOptions}
+              value={imageData.theme}
+              onChange={onThemeChange}
+            />
+          }
+        />
+        <Field
+          label='Font Size'
+          input={
+            <Dropdown
+              options={fontSizeOptions}
+              value={imageData.fontSize}
+              onChange={onTextFontSizeChange}
+            />
+          }
+        />
+        <Field
+          label='Text Type'
+          input={
+            <Dropdown
+              options={markdownOptions}
+              value={imageData.md ? '1' : '0'}
+              onChange={onTextTypeChange}
+            />
+          }
+        />
+        <Field
+          label='Text Input'
+          input={
+            <TextInput value={imageData.text} onInput={onTextInputChange} />
+          }
+        />
+        <Field
+          label='Image 1'
+          input={
+            <Dropdown
+              options={imageOptions}
+              value={imageOptions[imageData.selectedImageIndex].value}
+              onChange={onImageChange}
+            />
+          }
+        />
       </div>
       <div className='pull-right'>
         <ImagePreview
-          src={overrideUrl ? overrideUrl.href : url.href}
+          src={url?.href || undefined}
           loading={loading}
           onLoad={() => setLoading(false)}
           onError={() => {
-            setShowToast(true)
             setToastMessage('Oops, an error occurred.')
           }}
           onClick={() => console.log('Copied to clipboard.')}
@@ -203,22 +218,6 @@ import type { ParsedRequest, Theme, FileType } from '../api/_lib/types';
 let timeout = -1;
 
 const App = (_: any, state: AppState, setState: SetState) => {
-    
-    const {
-        fileType = 'png',
-        fontSize = '100px',
-        theme = 'light',
-        md = true,
-        text = '**Hello** World',
-        images=[imageLightOptions[0].value],
-        widths=[],
-        heights=[],
-        showToast = false,
-        messageToast = '',
-        loading = true,
-        selectedImageIndex = 0,
-        overrideUrl = null,
-    } = state;
 
     return H('div',
         { className: 'split' },

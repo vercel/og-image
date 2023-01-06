@@ -1,27 +1,50 @@
 import { ImageResponse } from '@vercel/og'
+// import { marked } from 'marked'
 import type { NextRequest } from 'next/server'
+import { Fragment } from 'react'
 
 export const config = {
   runtime: 'experimental-edge',
 }
 
-// Potentially added features:
-// Customize background = color picker, gradients
-// Different "templates"
+/**
+ * Encrypted Example:
+ * https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
+ */
 
-// Encrypted example = https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
+// TODO: Markdown conversion.
+
+function generateImage(
+  src: string,
+  idx: number,
+  width = 'auto',
+  height = '225'
+) {
+  return (
+    <img
+      key={src}
+      src={src}
+      style={{ margin: '0 75px' }}
+      alt='Generated Image'
+      width={width}
+      height={height}
+    />
+  )
+}
 
 export default function (req: NextRequest) {
   const { searchParams } = new URL(req.url)
 
   const theme = searchParams.get('theme')
   const text = searchParams.get('text')
-  const isMarkdown = searchParams.get('md')
+  // const isMarkdown = searchParams.get('md') === '1'
   const fontSize = searchParams.get('fontSize')
 
   const images = searchParams.getAll('images')
   const widths = searchParams.getAll('widths')
   const heights = searchParams.getAll('heights')
+
+  console.log(generateImage(images[0], 0))
 
   return new ImageResponse(
     (
@@ -39,7 +62,7 @@ export default function (req: NextRequest) {
           backgroundImage:
             'radial-gradient(circle at 25px 25px, lightgray 2%, transparent 0%), radial-gradient(circle at 75px 75px, lightgray 2%, transparent 0%)',
           backgroundSize: '100px 100px',
-          filter: theme === 'dark' && 'invert(1)',
+          filter: theme === 'dark' ? 'invert(1)' : 'none',
         }}
       >
         <div
@@ -47,21 +70,24 @@ export default function (req: NextRequest) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            alignContent: 'center',
+            justifyItems: 'center',
           }}
         >
-          <svg
+          {/* <svg
             height={80}
             viewBox='0 0 75 65'
             fill='black'
             style={{ margin: '0 75px' }}
           >
             <path d='M37.59.25l36.95 64H.64l36.95-64z'></path>
-          </svg>
+          </svg> */}
+          {images.map((src, i) => generateImage(src, i, widths[i], heights[i]))}
         </div>
         <div
           style={{
             display: 'flex',
-            fontSize: 40,
+            fontSize,
             fontStyle: 'normal',
             color: 'black',
             marginTop: 30,
@@ -69,13 +95,9 @@ export default function (req: NextRequest) {
             whiteSpace: 'pre-wrap',
           }}
         >
-          <b>{text}</b>
+          {text}
         </div>
       </div>
-    ),
-    {
-      width: 1200,
-      height: 600,
-    }
+    )
   )
 }

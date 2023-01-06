@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }) {
       <Head>
         <title>react-md with next.js</title>
         <meta charSet='utf-8' />
-        <meta http-equiv='x-ua-compatible' content='ie=edge' />
+        <meta httpEquiv='x-ua-compatible' content='ie=edge' />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:site' content='@vercel' />
         <meta property='og:site_name' content='Open Graph Image as a Service' />

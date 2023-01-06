@@ -23,9 +23,13 @@ const Dropdown = ({
 
   return (
     <div className={wrapper}>
-      <select onChange={onChange}>
+      <select onChange={onChange} value={value}>
         {options.map((option) => (
-          <option value={option.value} selected={value === option.value}>
+          <option
+            key={option.text}
+            value={option.value}
+            // selected={value === option.value}
+          >
             {option.text}
           </option>
         ))}

@@ -1,7 +1,7 @@
 body {
   font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
     'Arial', sans-serif;
-  margin: 50px;
+  margin: 20px;
   overflow-x: hidden;
   padding: 0;
   box-sizing: border-box;
@@ -45,7 +45,8 @@ h1 {
 .pull-left {
   min-width: 50%;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .pull-right {
@@ -219,13 +220,12 @@ select {
 }
 
 .field-value {
-  margin: 10px 80px;
+  margin: 10px;
 }
 
 .field-label {
   display: inline-block;
   width: 100px;
-  margin-right: 20px;
   text-align: right;
 }
 
@@ -237,6 +237,8 @@ select {
 label {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
 }
 
 .toast-area {
@@ -291,6 +293,7 @@ img {
 
 .image-wrapper {
   display: block;
+  position: relative;
   cursor: pointer;
   text-decoration: none;
   background: #fff;
@@ -306,24 +309,27 @@ img {
   border-color: #ddd;
 }
 
-@media (max-width: 1000px) {
-  .field {
-    margin: 20px 10px;
-  }
-  .pull-left {
-    margin-left: 1.5em;
-  }
-}
-
 @media (max-width: 900px) {
   .split {
     flex-wrap: wrap;
+  }
+
+  .pull-right {
+    width: 100%;
+  }
+
+  label {
+    justify-content: center;
   }
 
   .field-label {
     width: 60px;
     font-size: 13px;
   }
+}
+
+.github-corner {
+  width: fit-content;
 }
 
 .github-corner:hover .octo-arm {
@@ -346,6 +352,16 @@ img {
 }
 
 @media (max-width: 500px) {
+  .pull-left {
+    min-width: 300px;
+    gap: 0;
+  }
+  label {
+    gap: 10px;
+  }
+  .field {
+    margin: 10px;
+  }
   .github-corner:hover .octo-arm {
     animation: none;
   }
@@ -353,18 +369,10 @@ img {
     animation: octocat-wave 560ms ease-in-out;
   }
   .container {
-    margin: 19%;
+    margin: 0;
   }
   .svg {
     right: -33%;
-  }
-}
-@media (max-width: 360px) {
-  .container {
-    margin: 29.5%;
-  }
-  .svg {
-    right: -52%;
   }
 }
 
