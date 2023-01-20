@@ -1,11 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "regions": ["all"],
-  "functions": {
-    "api/**": {
-      "memory": 3008
-    }
-  },
+  "redirects": [
+    { "source": "/", "destination": "https://og-playground.vercel.app" }
+  ],
   "rewrites": [
     { "source": "/(.+)", "destination": "/api" }
   ]
