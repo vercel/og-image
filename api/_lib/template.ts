@@ -1,6 +1,5 @@
 
 import { readFileSync } from 'fs';
-import { marked } from 'marked';
 import { sanitizeHtml } from './sanitizer';
 import { ParsedRequest } from './types';
 const twemoji = require('twemoji');
@@ -105,6 +104,13 @@ function getCss(theme: string, fontSize: string) {
 
 export function getHtml(parsedReq: ParsedRequest) {
     const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    let html = sanitizeHtml(text);
+    if (md) {
+        html = html.replace(/\*\*(.+)\*\*/g, (_, match) => `<b>${match}</b>`)
+        html = html.replace(/__(.+)__/g, (_, match) => `<b>${match}</b>`)
+        html = html.replace(/\*(.+)\*/g, (_, match) => `<i>${match}</i>`)
+        html = html.replace(/_(.+)_/g, (_, match) => `<i>${match}</i>`)
+    }
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -122,9 +128,7 @@ export function getHtml(parsedReq: ParsedRequest) {
                 ).join('')}
             </div>
             <div class="spacer">
-            <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
+            <div class="heading">${emojify(html)}
             </div>
         </div>
     </body>
