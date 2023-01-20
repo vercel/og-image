@@ -1,7 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/", "destination": "https://og-playground.vercel.app" }
+  ],
   "rewrites": [
-    { "source": "/", "destination": "https://og-playground.vercel.app" },
     { "source": "/(.+)", "destination": "/api" }
   ]
 }
